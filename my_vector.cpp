@@ -1,0 +1,66 @@
+#include "my_vector.hpp"
+
+#include <iostream>
+
+using namespace std;
+
+#define DEBUG 0
+
+my_vector::my_vector(unsigned int dimentions){
+  #if DEBUG
+  cout<<"Constructing "<<dimentions<<"d vector"<<'\n';
+  #endif
+  coordinates=new int[dimentions];
+
+  // for(unsigned int i=0;i<get_dimentions();i++)
+  //   coordinates[i]=0.0;
+}
+
+my_vector::~my_vector(){
+  #if DEBUG
+  cout<<"Destructing "<<sizeof(coordinates)/sizeof(*coordinates)<<"d vector"<<'\n';
+  #endif
+  delete[] coordinates;
+}
+
+my_vector& my_vector::operator=(const my_vector &other){
+  if(get_dimentions()!=other.get_dimentions()){
+    cout<<"\n\n!! ERROR my_vector coppy construstor !!\n\n";
+    exit(1);
+  }
+
+  for(unsigned int i=0;i<get_dimentions();i++)
+    coordinates[i]=other.coordinates[i];
+  id=other.id;
+
+  return *this;
+}
+
+my_vector::my_vector(const my_vector &p2){
+  #if DEBUG
+  cout<<"Copy Constructing "<<p2.get_dimentions()<<"d vector"<<'\n';
+  #endif
+  coordinates=new int[p2.get_dimentions()];
+
+  // for(unsigned int i=0;i<p2.get_dimentions();i++)
+  //   coordinates[i]=0.0;
+
+  *this=p2;
+}
+
+unsigned int my_vector::get_dimentions() const{
+  return 128;//sizeof(coordinates)/sizeof(*coordinates);
+}
+
+void my_vector::print_vec(unsigned int until){
+  cout<<get_dimentions()<<"d vector "<<id<<" = ";
+  if(until>get_dimentions()){
+    cout<<"!! ERROR print_vec";
+    return;
+  }
+  if(until==0)
+    until=get_dimentions();
+  for(unsigned int i=0;i<until;i++)
+    cout<<coordinates[i]<<", ";
+  cout<<endl;
+}
