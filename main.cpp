@@ -6,79 +6,51 @@
 
 #include "my_vector.hpp"
 #include "util.hpp"
+#include "lsh.hpp"
 
 #define DEBUG 0
+#define DIMENTIONS 128
 
 using namespace std;
-using namespace std::chrono;
 
 float brute_NN(list <my_vector> *data, my_vector query);
 void run_brute_force();
-unsigned int h(my_vector x, my_vector s, float w=4000, int k=4, unsigned int m=pow(2,32)-5);
 
 int main(){
 
   //run_brute_force();
 
-  float w=4000;
-  int k=4;
-  unsigned int m=pow(2,32)-5;
+  // float w=4000;
+  // int k=4;
+  // unsigned int m=pow(2,32)-5;
 
-  list <my_vector> *data=read_vector_file("input_small_id");
-  list <my_vector> *queries=read_vector_file("query_small_id");
-  // list <my_vector> *data=read_vector_file("input_b_id");
-  // list <my_vector> *queries=read_vector_file("query_b_id");
+  list <my_vector> *data=read_vector_file("./.atomignore/input_small_id");
+  list <my_vector> *queries=read_vector_file("./.atomignore/query_small_id");
+  // list <my_vector> *data=read_vector_file("./.atomignore/input_b_id");
+  // list <my_vector> *queries=read_vector_file("./.atomignore/query_b_id");
   // list <my_vector> *data=read_vector_file("my_input.txt");
   // list <my_vector> *queries=read_vector_file("my_queries.txt");
 
-  default_random_engine generator;
-  uniform_real_distribution<double> distribution(0.0,w);//!! den 3ero an mpori na dosi ta akra
-  my_vector s(128);
+  lsh model(DIMENTIONS);
 
-  for(unsigned int i=0;i<s.get_dimentions();i++)
-    s.coordinates[i]=distribution(generator);
+  int i=1;
+  model.train(data);
+  for(list <my_vector>::iterator it = queries->begin(); it != queries->end(); ++it)
+    cout<<i++<<"\t"/*<<brute_NN(data, *it)*/<<"\t"<<model.find_NN(*it)<<endl;
 
-  for(list <my_vector>::iterator it = data->begin(); it != data->end(); ++it){
-    cout<<h(*it,s,w,k,m)<<endl;
-  }
-
+  data->clear();
+  queries->clear();
+  delete data;
+  delete queries;
 
   return 0;
-}
-
-template <typename T>
-T modpow(T base, T exp, T modulus) {
-  base %= modulus;
-  T result = 1;
-  while (exp > 0) {
-    if (exp & 1) result = (result * base) % modulus;
-    base = (base * base) % modulus;
-    exp >>= 1;
-  }
-  return result;
-}
-
-unsigned int h(my_vector x, my_vector s, float w, int k, unsigned int m){
-  unsigned int d=x.get_dimentions();
-  int a_i=0;
-  unsigned int M=pow(2,32/k);
-  unsigned int ans=0.0;
-  unsigned int a_small,m_small;
-
-  for(unsigned int i=0;i<d;i++){
-    a_i=(int)(floor((x.coordinates[i]-s.coordinates[i])/w));
-    a_small=a_i%M;
-    m_small=modpow(m, d-(i+1), M);
-    ans+=(m_small*a_small)%M;
-  }
-
-  return ans;
 }
 
 void run_brute_force(){
   // #if DEBUG
   // cout<<"Destructing "<<sizeof(coordinates)/sizeof(*coordinates)<<"d vector"<<'\n';
   // #endif
+  using namespace std::chrono;
 
   list <my_vector> *data=read_vector_file("input_small_id");
   list <my_vector> *queries=read_vector_file("query_small_id");
@@ -119,8 +91,7 @@ float brute_NN(list <my_vector> *data, my_vector query){
 
   for(list <my_vector> :: iterator it = data->begin(); it != data->end(); ++it){
     tmp=manhattan_distance(query, *it);
-    if(ans>tmp)
-      ans=tmp;
+    ans=min(ans,tmp);
   }
 
   return ans;

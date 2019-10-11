@@ -18,14 +18,14 @@ my_vector::my_vector(unsigned int dimentions){
 
 my_vector::~my_vector(){
   #if DEBUG
-  cout<<"Destructing "<<sizeof(coordinates)/sizeof(*coordinates)<<"d vector"<<'\n';
+  cout<<"Destructing "<<get_dimentions()<<"d vector"<<'\n';
   #endif
   delete[] coordinates;
 }
 
 my_vector& my_vector::operator=(const my_vector &other){
   if(get_dimentions()!=other.get_dimentions()){
-    cout<<"\n\n!! ERROR my_vector coppy construstor !!\n\n";
+    cerr<<"\n\n!! ERROR my_vector coppy construstor !!\n\n";
     exit(1);
   }
 
@@ -50,12 +50,13 @@ my_vector::my_vector(const my_vector &p2){
 
 unsigned int my_vector::get_dimentions() const{
   return 128;//sizeof(coordinates)/sizeof(*coordinates);
+  //TODO
 }
 
 void my_vector::print_vec(unsigned int until){
   cout<<get_dimentions()<<"d vector "<<id<<" = ";
   if(until>get_dimentions()){
-    cout<<"!! ERROR print_vec";
+    cerr<<"!! ERROR print_vec";
     return;
   }
   if(until==0)

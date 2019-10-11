@@ -6,7 +6,9 @@
 
 #include "my_vector.hpp"
 
-int manhattan_distance(my_vector a, my_vector b);
-std::list <my_vector>* read_vector_file(std::string name);
+extern int manhattan_distance(my_vector a, my_vector b);
+extern std::list <my_vector>* read_vector_file(std::string name);
+template <typename T>
+extern T modpow(T base, T exp, T modulus);
 
 #endif
