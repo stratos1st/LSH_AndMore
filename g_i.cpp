@@ -13,7 +13,6 @@ g_i::g_i(unsigned int dimentions, const float _w,
   #endif
 
   table_h_i=new h_i*[k];
-
   for(unsigned int i=0;i<k;i++)
     table_h_i[i]=new h_i(dimentions,w,k,m);
 }

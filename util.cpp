@@ -3,6 +3,7 @@
 #include <iterator>
 #include <fstream>
 #include <sstream>
+#include <bits/stdc++.h>
 
 #include "util.hpp"
 
@@ -73,3 +74,39 @@ T modpow(T base, T exp, T modulus){
 }
 template int modpow<int>(int, int, int);
 template unsigned int modpow<unsigned int>(unsigned int, unsigned int, unsigned int);
+
+short int hammingDistance(short int n1, short int n2){
+    int x = n1 ^ n2;
+    int setBits = 0;
+
+    while (x > 0) {
+        setBits += x & 1;
+        x >>= 1;
+    }
+
+    return setBits;
+}
+
+int* get_hamming_distance_01(int x, unsigned int ans_size){
+  int *ans=new int[ans_size];
+  int mask = 1;
+
+  ans[0]=x;
+  for(unsigned int i=1;i<ans_size;i++){
+    ans[i]=x^mask;
+    mask=mask<<1;
+  }
+
+  return ans;
+}
+
+int brute_NN(list <my_vector> *data, my_vector query){
+  float ans=INT_MAX,tmp;
+
+  for(list <my_vector> :: iterator it = data->begin(); it != data->end(); ++it){
+    tmp=manhattan_distance(query, *it);
+    ans=min(ans,tmp);
+  }
+
+  return ans;
+}

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <bits/stdc++.h>
+#include <iterator>
+#include <algorithm>
 
 #include "lsh.hpp"
 #include "g_i.hpp"

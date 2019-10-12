@@ -3,9 +3,7 @@
 
 #include <math.h>
 #include <unordered_map>
-#include <algorithm>
 #include <list>
-#include <iterator>
 
 #include "my_vector.hpp"
 #include "g_i.hpp"
