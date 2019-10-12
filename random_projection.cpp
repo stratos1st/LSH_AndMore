@@ -66,7 +66,7 @@ int random_projection::find_NN(my_vector query){
       for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it)
         {ans=min(ans,manhattan_distance(query, it->second));cnt++;}
     }
-    delete search_hash_numbers;
+    delete[] search_hash_numbers;
   }
   cout<<" cnt= "<<cnt<<"\t";
   return ans;

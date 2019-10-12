@@ -30,4 +30,4 @@ random_projection.o: random_projection.cpp random_projection.hpp
 
 .PHONY: clean
 clean:
-	rm -f main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o
+	rm -f my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o

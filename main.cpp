@@ -11,6 +11,10 @@
 
 using namespace std;
 
+//TODO % negative
+//TODO referances
+//TODO hash table init size
+
 int main(){
   // float w=4000;
   // int k=4;
@@ -23,9 +27,9 @@ int main(){
   // list <my_vector> *data=read_vector_file("my_input.txt");
   // list <my_vector> *queries=read_vector_file("my_queries.txt");
 
-  lsh lsh_model(DIMENTIONS);
-  lsh_model.train(data);
-  cout<<" lsh training done!!\n";
+  // lsh lsh_model(DIMENTIONS);
+  // lsh_model.train(data);
+  // cout<<" lsh training done!!\n";
 
   random_projection model;
   model.train(data);
@@ -33,7 +37,7 @@ int main(){
 
   int i=1;
   for(list <my_vector>::iterator it = queries->begin(); it != queries->end(); ++it)
-    cout<<i++<<"\t"<<brute_NN(data, *it)<<"\t"<<model.find_NN(*it)<<"\t"<<lsh_model.find_NN(*it)<<endl;
+    cout<<i++<<"\t"<<brute_NN(data, *it)<<"\t"<<model.find_NN(*it)/*<<"\t"<<lsh_model.find_NN(*it)*/<<endl;
 
 
 
