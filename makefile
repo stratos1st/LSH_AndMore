@@ -1,8 +1,22 @@
 CC= g++
 CGLAG=  -ggdb -lm -g -m64 -O0
 
+all: main lsh_main cube
+
 main: main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o
 	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o
+
+lsh_main: lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o
+	$(CC) $(CFLAG) -o lsh_main lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o
+
+cube: random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o
+	$(CC) $(CFLAG) -o cube random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o
+
+random_projection_main.o: random_projection_main.cpp
+	$(CC) -c random_projection_main.cpp
+
+lsh_main.o: lsh_main.cpp
+	$(CC) -c lsh_main.cpp
 
 main.o: main.cpp
 	$(CC) -c main.cpp
@@ -30,4 +44,4 @@ random_projection.o: random_projection.cpp random_projection.hpp
 
 .PHONY: clean
 clean:
-	rm -f main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o
+	rm -f cube random_projection_main.o lsh_main lsh_main.o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o

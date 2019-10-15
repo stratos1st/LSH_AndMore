@@ -11,7 +11,8 @@
 using namespace std;
 
 random_projection::random_projection(const unsigned int _l, const float _w,
-          const unsigned int _k, const unsigned int _m):w(_w),k(_k),m(_m),l(_l){
+          const unsigned int _k, const unsigned int _new_d, const unsigned int _m)
+          :w(_w),k(_k),m(_m),l(_l),new_d(_new_d){
   #if DEBUG
   cout<<"Constructing random_projection"<<'\n';
   #endif
@@ -19,8 +20,7 @@ random_projection::random_projection(const unsigned int _l, const float _w,
   hash_table=new unordered_map<int, my_vector>*[l];
   for(unsigned int i=0;i<l;i++)
     hash_table[i]=new unordered_map<int, my_vector>;
-
-  new_d=0;
+  table_f_i=NULL;
 }
 
 random_projection::~random_projection(){
@@ -32,7 +32,7 @@ random_projection::~random_projection(){
     delete hash_table[i];
   }
   delete[] hash_table;
-  if(new_d!=0){
+  if(table_f_i!=0){//if training was done
     for(unsigned int i=0;i<l;i++){
       for(unsigned int j=0;j<new_d;j++)
         delete table_f_i[i][j];
@@ -43,8 +43,6 @@ random_projection::~random_projection(){
 }
 
 void random_projection::train(list <my_vector> *train_data_set){
-  new_d=log2(train_data_set->size());
-
   table_f_i=new f_i**[l];
   for(unsigned int i=0;i<l;i++){
     table_f_i[i]=new f_i*[new_d];
@@ -57,26 +55,31 @@ void random_projection::train(list <my_vector> *train_data_set){
         hash_table[i]->insert({hash_function(*it,i),*it});
 }
 
-int random_projection::find_NN(my_vector query){
-  int ans=INT_MAX,cnt=0;
+pair<my_vector*, int> random_projection::find_NN(my_vector &query){
+  my_vector *ans;
+  int minn=INT_MAX;
   for(unsigned int i=0;i<l;i++){
     int* search_hash_numbers=get_hamming_distance_01(hash_function(query,i),new_d+1);
     for(unsigned int j=0;j<new_d+1;j++){
       auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
-      for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it)
-        {ans=min(ans,manhattan_distance(query, it->second));cnt++;}
+      for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it){
+        int tmp=manhattan_distance(query, *&it->second);
+        if(minn>tmp){
+          minn=tmp;
+          ans=&it->second;
+        }
+      }
     }
     delete[] search_hash_numbers;
   }
-  cout<<" cnt= "<<cnt<<"\t";
-  return ans;
+  return make_pair(ans,minn);
 }
 
-void random_projection::find_rNN(my_vector query){
+pair<my_vector*, int> random_projection::find_rNN(my_vector &query){
 
 }
 
-int random_projection::hash_function(my_vector x, unsigned int iteration){
+int random_projection::hash_function(my_vector &x, unsigned int &iteration){
   int ans=0;
   for(unsigned int i=0;i<new_d;i++){
       ans=ans^table_f_i[iteration][i]->get_f_i(x);

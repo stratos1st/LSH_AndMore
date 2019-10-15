@@ -7,7 +7,6 @@
 #include "random_projection.hpp"
 
 #define DEBUG 0
-#define DIMENTIONS 128
 
 using namespace std;
 
@@ -20,10 +19,10 @@ int main(){
   // int k=4;
   // unsigned int m=pow(2,32)-5;
 
-  list <my_vector> *data=read_vector_file("./.atomignore/input_small_id");
-  list <my_vector> *queries=read_vector_file("./.atomignore/query_small_id");
-  // list <my_vector> *data=read_vector_file("./.atomignore/input_b_id");
-  // list <my_vector> *queries=read_vector_file("./.atomignore/query_b_id");
+  // list <my_vector> *data=read_vector_file("./.atomignore/input_small_id");
+  // list <my_vector> *queries=read_vector_file("./.atomignore/query_small_id");
+  list <my_vector> *data=read_vector_file("./.atomignore/input_b_id");
+  list <my_vector> *queries=read_vector_file("./.atomignore/query_b_id");
   // list <my_vector> *data=read_vector_file("my_input.txt");
   // list <my_vector> *queries=read_vector_file("my_queries.txt");
 
@@ -31,13 +30,13 @@ int main(){
   // lsh_model.train(data);
   // cout<<" lsh training done!!\n";
 
-  random_projection model;
-  model.train(data);
-  cout<<"random_projection training done!!\n";
+  // random_projection model;
+  // model.train(data);
+  // cout<<"random_projection training done!!\n";
 
-  int i=1;
-  for(list <my_vector>::iterator it = queries->begin(); it != queries->end(); ++it)
-    cout<<i++<<"\t"<<brute_NN(data, *it)<<"\t"<<model.find_NN(*it)/*<<"\t"<<lsh_model.find_NN(*it)*/<<endl;
+  // int i=1;
+  // for(list <my_vector>::iterator it = queries->begin(); it != queries->end(); ++it)
+  //   cout<<i++<<"\t"<<brute_NN(data, *it)/*<<"\t"<<model.find_NN(*it)<<"\t"<<lsh_model.find_NN(*it)*/<<endl;
 
 
 

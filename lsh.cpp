@@ -44,17 +44,22 @@ void lsh::train(list <my_vector> *train_data_set){
       hash_table[i]->insert({table_g_i[i]->get_g_x(*it),*it});
 }
 
-int lsh::find_NN(my_vector query){
-  int ans=INT_MAX,cnt=0;
+pair<my_vector*, int> lsh::find_NN(my_vector &query){
+  my_vector *ans;
+  int minn=INT_MAX;
   for(unsigned int i=0;i<l;i++){
     auto range = hash_table[i]->equal_range(table_g_i[i]->get_g_x(query));
-    for(unordered_multimap<long int, my_vector>::iterator it = range.first; it != range.second; ++it)
-      {ans=min(ans,manhattan_distance(query, it->second));cnt++;}
+    for(unordered_multimap<long int, my_vector>::iterator it = range.first; it != range.second; ++it){
+      int tmp=manhattan_distance(query, *&it->second);
+      if(minn>tmp){
+        minn=tmp;
+        ans=&it->second;
+      }
+    }
   }
-  cout<<" cnt= "<<cnt<<"\t";
-  return ans;
+  return make_pair(ans,minn);
 }
 
-void lsh::find_rNN(my_vector query){
+pair<my_vector*, int> lsh::find_rNN(my_vector &query){
 
 }

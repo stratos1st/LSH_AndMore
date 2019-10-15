@@ -30,7 +30,7 @@ f_i::~f_i(){
   delete my_g_i;
 }
 
-bool f_i::get_f_i(my_vector x){
+bool f_i::get_f_i(my_vector &x){
   unordered_map<long int, bool>::iterator pos;
   if((pos=dictionary.find(my_g_i->get_g_x(x)))!=dictionary.end())
     return pos->second;

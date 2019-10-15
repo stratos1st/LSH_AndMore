@@ -19,8 +19,8 @@ class lsh{
               const unsigned int _k=4, const unsigned int _m=pow(2,32)-5);
     ~lsh();
     void train(std::list <my_vector> *train_data_set);
-    int find_NN(my_vector query);
-    void find_rNN(my_vector query);
+    std::pair<my_vector*, int> find_NN(my_vector &query);
+    std::pair<my_vector*, int> find_rNN(my_vector &query);
 };
 
 

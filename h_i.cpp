@@ -33,7 +33,7 @@ h_i::~h_i(){
   delete s;
 }
 
-int h_i::get_h_x(my_vector x){
+int h_i::get_h_x(my_vector &x){
   if(x.get_dimentions()!=s->get_dimentions()){
     cerr<<"\n\n!! get_h_x dimentions ERROR!!\n\n";
     exit(1);
