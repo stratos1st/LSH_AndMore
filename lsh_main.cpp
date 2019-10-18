@@ -65,6 +65,7 @@ int main(int argc, char *argv[]){
   //------------------------------------read input files
   list <my_vector> *data=read_vector_file(input_file_data);
   list <my_vector> *queries=read_vector_file(input_file_queries);
+  cout<<"read files\n";
 
   //------------------------------------create and train model
   lsh lsh_model(data->front().get_dimentions(), l, w, k);
@@ -77,12 +78,12 @@ int main(int argc, char *argv[]){
     auto start = high_resolution_clock::now();
     pair<my_vector*,int> nn_brute=brute_NN(data,*it);
     auto stop = high_resolution_clock::now();
-    auto duration_brute = duration_cast<milliseconds>(stop - start);
+    auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
     start = high_resolution_clock::now();
     pair<my_vector*,int> nn_lsh=lsh_model.find_NN(*it);
     stop = high_resolution_clock::now();
-    auto duration_lsh = duration_cast<milliseconds>(stop - start);
+    auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 
     ofile<<"Query: "<<it->id<<endl;
     ofile<<"Nearest neighbor: "<<nn_lsh.first->id<<endl;

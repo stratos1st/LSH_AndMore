@@ -3,6 +3,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <string.h>
+#include <math.h>
 
 #include "my_vector.hpp"
 #include "util.hpp"
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]){
   //l is the number of times random projection will be executed (num of
   //hash tables) like l in lsh
   //w is the window in h
-  int k=4,new_d=3, l=1,w=4000,max_points=10,p=2;//w not needed by project. w should be float
+  int k=4,new_d=-1, l=1,w=4000,max_points=10,p=2;//w not needed by project. w should be float
   char input_file_data[100]("./.atomignore/input_small_id");
   char input_file_queries[100]("./.atomignore/query_small_id");
   char out_file[100]("cube_out");
@@ -76,8 +77,13 @@ int main(int argc, char *argv[]){
   //------------------------------------read input files
   list <my_vector> *data=read_vector_file(input_file_data);
   list <my_vector> *queries=read_vector_file(input_file_queries);
+  cout<<"read files\n";
 
   //------------------------------------create and train model
+  if(new_d==-1){
+    new_d=log2(data->size());
+    cout<<"default d'= "<<new_d<<endl;
+  }
   random_projection model(l, w, k, new_d);
   model.train(data);
   cout<<"lsh training done!!\n";
@@ -88,12 +94,12 @@ int main(int argc, char *argv[]){
     auto start = high_resolution_clock::now();
     pair<my_vector*,int> nn_brute=brute_NN(data,*it);
     auto stop = high_resolution_clock::now();
-    auto duration_brute = duration_cast<milliseconds>(stop - start);
+    auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
     start = high_resolution_clock::now();
     pair<my_vector*,int> nn_lsh=model.find_NN(*it);
     stop = high_resolution_clock::now();
-    auto duration_lsh = duration_cast<milliseconds>(stop - start);
+    auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 
     ofile<<"Query: "<<it->id<<endl;
     ofile<<"Nearest neighbor: "<<nn_lsh.first->id<<endl;
