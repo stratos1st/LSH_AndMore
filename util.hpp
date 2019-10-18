@@ -7,12 +7,8 @@
 #include "my_vector.hpp"
 #include "my_curves.hpp"
 
-<<<<<<< HEAD
 float Dtw( my_curve& x, my_curve& y);
 extern int manhattan_distance(my_vector a, my_vector b);
-=======
-extern int manhattan_distance(my_vector &a, my_vector &b);
->>>>>>> master
 extern std::list <my_vector>* read_vector_file(std::string name);
 template <typename T>
 extern T modpow(T base, T exp, T modulus);
