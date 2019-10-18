@@ -49,8 +49,7 @@ my_vector::my_vector(const my_vector &p2){
 }
 
 unsigned int my_vector::get_dimentions() const{
-  return 128;//sizeof(coordinates)/sizeof(*coordinates);
-  //TODO
+  return 128;//sizeof(coordinates)/sizeof(coordinates[0]);
 }
 
 void my_vector::print_vec(unsigned int until){

@@ -4,11 +4,11 @@
 #include <fstream>
 #include <sstream>
 #include <bits/stdc++.h>
+#include <omp.h>
 
 #include "util.hpp"
 
 #define DEBUG 0
-#define DIMENTIONS 128
 
 using namespace std;
 
@@ -58,7 +58,7 @@ list <my_vector>* read_vector_file(string name){
   if (infile.good()){
     while(getline(infile, str)){
       istringstream ss(str);
-      my_vector vec(DIMENTIONS);
+      my_vector vec(count(str.begin(),str.end(),' ')-1);
       ss >> i;
       vec.id=i;
       i=0;
@@ -76,7 +76,9 @@ list <my_vector>* read_vector_file(string name){
     exit(1);
   }
 
+  #if DEBUG
   cout<<"Total input_N= "<<input_N<<endl;
+  #endif
 
   infile.close();
   return data;
@@ -121,15 +123,20 @@ int* get_hamming_distance_01(int x, unsigned int ans_size){
   return ans;
 }
 
-int brute_NN(list <my_vector> *data, my_vector query){
-  float ans=INT_MAX,tmp;
+pair<my_vector*,int> brute_NN(list <my_vector> *data, my_vector &query){
+  my_vector *ans;
+  int minn=INT_MAX,tmp;
 
   for(list <my_vector> :: iterator it = data->begin(); it != data->end(); ++it){
     tmp=manhattan_distance(query, *it);
-    ans=min(ans,tmp);
+    if(minn>tmp){
+      minn=tmp;
+      ans=&*it;
+    }
+
   }
 
-  return ans;
+  return make_pair(ans,minn);
 }
 
 float brute_NC(list <my_curve> *data, my_curve query){

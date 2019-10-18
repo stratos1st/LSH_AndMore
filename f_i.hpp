@@ -19,7 +19,7 @@ class f_i{
     f_i(unsigned int dimentions, unsigned int number_of_train_data, const float _w=4000,
               const unsigned int _k=4, const unsigned int _m=pow(2,32)-5);
     ~f_i();
-    bool get_f_i(my_vector x);
+    bool get_f_i(my_vector &x);//one bit
 };
 
 

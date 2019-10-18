@@ -26,7 +26,7 @@ g_i::~g_i(){
   delete[] table_h_i;
 }
 
-long int g_i::get_g_x(my_vector x){
+long int g_i::get_g_x(my_vector &x){
   long int ans=0;
   for(unsigned int i=0;i<k;i++){
     ans=ans^table_h_i[i]->get_h_x(x);
