@@ -86,7 +86,7 @@ int main(int argc, char *argv[]){
   }
   random_projection model(l, w, k, new_d);
   model.train(data);
-  cout<<"lsh training done!!\n";
+  cout<<"cube training done!!\n";
 
   //------------------------------------fill out file, running bruteNN and cubeNN
   using namespace std::chrono;

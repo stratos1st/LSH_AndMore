@@ -3,7 +3,7 @@
 
 class my_vector{
  public:
-  int *coordinates;
+  double *coordinates;
   unsigned int id;
 
   my_vector(unsigned int dimentions);

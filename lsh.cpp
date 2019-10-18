@@ -44,13 +44,13 @@ void lsh::train(list <my_vector> *train_data_set){
       hash_table[i]->insert({table_g_i[i]->get_g_x(*it),*it});
 }
 
-pair<my_vector*, int> lsh::find_NN(my_vector &query){
+pair<my_vector*, double> lsh::find_NN(my_vector &query){
   my_vector *ans;
-  int minn=INT_MAX;
+  double minn=DBL_MAX;
   for(unsigned int i=0;i<l;i++){
     auto range = hash_table[i]->equal_range(table_g_i[i]->get_g_x(query));
     for(unordered_multimap<long int, my_vector>::iterator it = range.first; it != range.second; ++it){
-      int tmp=manhattan_distance(query, *&it->second);
+      double tmp=manhattan_distance(query, *&it->second);
       if(minn>tmp){
         minn=tmp;
         ans=&it->second;
@@ -60,6 +60,6 @@ pair<my_vector*, int> lsh::find_NN(my_vector &query){
   return make_pair(ans,minn);
 }
 
-pair<my_vector*, int> lsh::find_rNN(my_vector &query){
+pair<my_vector*, double> lsh::find_rNN(my_vector &query){
 
 }

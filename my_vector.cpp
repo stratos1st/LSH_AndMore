@@ -10,7 +10,7 @@ my_vector::my_vector(unsigned int dimentions){
   #if DEBUG
   cout<<"Constructing "<<dimentions<<"d vector"<<'\n';
   #endif
-  coordinates=new int[dimentions];
+  coordinates=new double[dimentions];
 
   // for(unsigned int i=0;i<get_dimentions();i++)
   //   coordinates[i]=0.0;
@@ -40,7 +40,7 @@ my_vector::my_vector(const my_vector &p2){
   #if DEBUG
   cout<<"Copy Constructing "<<p2.get_dimentions()<<"d vector"<<'\n';
   #endif
-  coordinates=new int[p2.get_dimentions()];
+  coordinates=new double[p2.get_dimentions()];
 
   // for(unsigned int i=0;i<p2.get_dimentions();i++)
   //   coordinates[i]=0.0;

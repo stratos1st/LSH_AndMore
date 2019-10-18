@@ -23,8 +23,8 @@ class random_projection{
               const unsigned int _m=pow(2,32)-5);
     ~random_projection();
     void train(std::list <my_vector> *train_data_set);
-    std::pair<my_vector*, int> find_NN(my_vector &query);
-    std::pair<my_vector*, int> find_rNN(my_vector &query);
+    std::pair<my_vector*, double> find_NN(my_vector &query);
+    std::pair<my_vector*, double> find_rNN(my_vector &query);
 };
 
 

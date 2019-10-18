@@ -55,15 +55,15 @@ void random_projection::train(list <my_vector> *train_data_set){
         hash_table[i]->insert({hash_function(*it,i),*it});
 }
 
-pair<my_vector*, int> random_projection::find_NN(my_vector &query){
+pair<my_vector*, double> random_projection::find_NN(my_vector &query){
   my_vector *ans;
-  int minn=INT_MAX;
+  double minn=DBL_MAX;
   for(unsigned int i=0;i<l;i++){
     int* search_hash_numbers=get_hamming_distance_01(hash_function(query,i),new_d+1);
     for(unsigned int j=0;j<new_d+1;j++){
       auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
       for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it){
-        int tmp=manhattan_distance(query, *&it->second);
+        double tmp=manhattan_distance(query, *&it->second);
         if(minn>tmp){
           minn=tmp;
           ans=&it->second;
@@ -75,7 +75,7 @@ pair<my_vector*, int> random_projection::find_NN(my_vector &query){
   return make_pair(ans,minn);
 }
 
-pair<my_vector*, int> random_projection::find_rNN(my_vector &query){
+pair<my_vector*, double> random_projection::find_rNN(my_vector &query){
 
 }
 
