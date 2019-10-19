@@ -3,14 +3,14 @@ CGLAG=  -ggdb -lm -g -m64 -O0
 
 all: main lsh cube
 
-main: main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o
-	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o
+main: main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o  my_curves.o
+	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curves.o
 
-lsh: lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o
-	$(CC) $(CFLAG) -o lsh lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o
+lsh: lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curves.o
+	$(CC) $(CFLAG) -o lsh lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curves.o
 
-cube: random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o
-	$(CC) $(CFLAG) -o cube random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o
+cube: random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curves.o
+	$(CC) $(CFLAG) -o cube random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curves.o
 
 random_projection_main.o: random_projection_main.cpp
 	$(CC) -c random_projection_main.cpp
@@ -23,6 +23,9 @@ main.o: main.cpp
 
 my_vector.o: my_vector.cpp my_vector.hpp
 	$(CC) -c my_vector.cpp
+
+my_curves.o: my_curves.cpp my_curves.hpp my_vector.hpp
+	$(CC) -c my_curves.cpp
 
 util.o: util.cpp util.hpp
 	$(CC) -c util.cpp
@@ -44,4 +47,4 @@ random_projection.o: random_projection.cpp random_projection.hpp
 
 .PHONY: clean
 clean:
-	rm -f cube random_projection_main.o lsh lsh_main.o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o
+	rm -f cube random_projection_main.o lsh lsh_main.o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curves.o

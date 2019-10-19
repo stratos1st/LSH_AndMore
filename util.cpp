@@ -5,33 +5,34 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <omp.h>
+#include <limits>
+
 
 #include "util.hpp"
 
-#define DEBUG 0
+#define DEBUG 1
 
 using namespace std;
 
 
-// float Dtw( my_curve& x, my_curve& y)
-// {
-//   unsigned int n=x.numofvectors,m=y.numofvectors;
-//   float OptValue [n+1][m+1];  // where the value of Dtw will be stored
-//
-//   // initializing outer shells of OptValue with infinity
-//   OptValue[0][0]=0;
-//   for(unsigned int i=1;i<=n;i++)
-//     OptValue[i][0]=numeric_limits<float>::infinity();
-//   for(unsigned int i=1;i<=m;i++)
-//     OptValue[0][i]=numeric_limits<float>::infinity();
-//   //implementing the iterative algorithm to fill OptValue
-//   for(unsigned int i=1;i<=n;i++)
-//     for(unsigned int j=1;j<=m;j++)
-//       OptValue[i][j]=min(min(OptValue[i][j-1],OptValue[i-1][j]),OptValue[i-1][j-1])+manhattan_distance(x.get_vector(i), y.get_vector(j));
-//   //manhattan_distance is iterchangable with other norms
-//   //TODO return 1 opt solution
-//   return OptValue[n][m];
-// }
+double Dtw( my_curve& x, my_curve& y){
+  unsigned int n=x.numofvectors,m=y.numofvectors;
+  double OptValue [n+1][m+1];  // where the value of Dtw will be stored
+
+  // initializing outer shells of OptValue with infinity
+  OptValue[0][0]=0;
+  for(unsigned int i=1;i<=n;i++)
+    OptValue[i][0]=numeric_limits<float>::infinity();
+  for(unsigned int i=1;i<=m;i++)
+    OptValue[0][i]=numeric_limits<float>::infinity();
+  //implementing the iterative algorithm to fill OptValue
+  for(unsigned int i=1;i<=n;i++)
+    for(unsigned int j=1;j<=m;j++)
+      OptValue[i][j]=min(min(OptValue[i][j-1],OptValue[i-1][j]),OptValue[i-1][j-1])+manhattan_distance(x.get_vector(i), y.get_vector(j));
+  //manhattan_distance is iterchangable with other norms
+  //TODO return 1 opt solution
+  return OptValue[n][m];
+}
 
 double manhattan_distance(my_vector a, my_vector b){
   double ans=0.0;
@@ -123,7 +124,7 @@ int* get_hamming_distance_01(int x, unsigned int ans_size){
   return ans;
 }
 
-pair<my_vector*,int> brute_NN(list <my_vector> *data, my_vector &query){
+pair<my_vector*,double> brute_NN(list <my_vector> *data, my_vector &query){
   my_vector *ans;
   double minn=DBL_MAX,tmp;
 
@@ -139,12 +140,60 @@ pair<my_vector*,int> brute_NN(list <my_vector> *data, my_vector &query){
   return make_pair(ans,minn);
 }
 
-// float brute_NC(list <my_curve> *data, my_curve query){
-//   float ans=INT_MAX,tmp;
-//
-//   for(list <my_curve> :: iterator it = data->begin(); it != data->end(); ++it){
-//     tmp=Dtw(query, *it);
-//     ans=min(ans,tmp);
-//   }
-//   return ans;
-// }
+pair<my_curve*,double> brute_NN_curve(list <my_curve> *data, my_curve &query){
+  my_curve *ans;
+  double minn=DBL_MAX,tmp;
+
+  for(list <my_curve> :: iterator it = data->begin(); it != data->end(); ++it){
+    tmp=Dtw(query, *it);
+    if(minn>tmp){
+      minn=tmp;
+      ans=&*it;
+    }
+  }
+  return make_pair(ans,minn);
+}
+
+
+list <my_curve>* read_curve_file(string name){
+  list <my_curve> *data=new list <my_curve>;
+  ifstream infile(name);
+  double num,num2;
+  string str;
+  unsigned int i=0,input_N=0,vecnum=0;
+
+  if (infile.good()){
+    while(getline(infile, str)){
+      istringstream ss(str);
+      ss >> i;
+      ss >> vecnum;
+      my_curve curve(vecnum,2);
+      curve.id=i;
+      curve.numofvectors=vecnum;
+      i=0;
+      #if DEBUG
+      cout << "trying to read vector with (id,vecnum)"<<curve.id<<","<<curve.numofvectors << '\n';
+      #endif
+      while(ss >> num){
+        ss>>num2;
+        cout<<i<<" "<<num<<" "<<num2<<endl;
+        curve.vectors[i]->coordinates[0]=num;
+        curve.vectors[i++]->coordinates[1]=num2;
+      }
+      std::cout << vecnum<< '\n';
+      data->push_back(curve);
+      input_N++;
+    }
+  }
+  else{
+    cerr << "\n\n!! INPUT FILE ERROR !!\n\n";
+    exit(1);
+  }
+
+  #if DEBUG
+  cout<<"Total input_N= "<<input_N<<endl;
+  #endif
+
+  infile.close();
+  return data;
+}
