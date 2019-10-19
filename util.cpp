@@ -10,12 +10,12 @@
 
 #include "util.hpp"
 
-#define DEBUG 1
+#define DEBUG 0
 
 using namespace std;
 
 
-double Dtw( my_curve& x, my_curve& y){
+double Dtw( my_curve& x, my_curve& y){//TODO use arg function for euclid distance
   unsigned int n=x.numofvectors,m=y.numofvectors;
   double OptValue [n+1][m+1];  // where the value of Dtw will be stored
 
@@ -28,13 +28,13 @@ double Dtw( my_curve& x, my_curve& y){
   //implementing the iterative algorithm to fill OptValue
   for(unsigned int i=1;i<=n;i++)
     for(unsigned int j=1;j<=m;j++)
-      OptValue[i][j]=min(min(OptValue[i][j-1],OptValue[i-1][j]),OptValue[i-1][j-1])+manhattan_distance(x.get_vector(i), y.get_vector(j));
+      OptValue[i][j]=min(min(OptValue[i][j-1],OptValue[i-1][j]),OptValue[i-1][j-1])+manhattan_distance(x.get_vector(i-1), y.get_vector(j-1));
   //manhattan_distance is iterchangable with other norms
   //TODO return 1 opt solution
   return OptValue[n][m];
 }
 
-double manhattan_distance(my_vector a, my_vector b){
+double manhattan_distance(my_vector& a, my_vector& b){
   double ans=0.0;
   if(a.get_dimentions()!=b.get_dimentions()){
     cerr<<"\n\n!!manhattan_distance dimentions ERROR!!\n\n";
@@ -143,7 +143,6 @@ pair<my_vector*,double> brute_NN(list <my_vector> *data, my_vector &query){
 pair<my_curve*,double> brute_NN_curve(list <my_curve> *data, my_curve &query){
   my_curve *ans;
   double minn=DBL_MAX,tmp;
-
   for(list <my_curve> :: iterator it = data->begin(); it != data->end(); ++it){
     tmp=Dtw(query, *it);
     if(minn>tmp){
@@ -151,6 +150,7 @@ pair<my_curve*,double> brute_NN_curve(list <my_curve> *data, my_curve &query){
       ans=&*it;
     }
   }
+  std::cout << "solution " <<tmp<<" id "<<ans->id<< '\n';
   return make_pair(ans,minn);
 }
 
@@ -160,27 +160,35 @@ list <my_curve>* read_curve_file(string name){
   ifstream infile(name);
   double num,num2;
   string str;
+  char parenthesis; //used to remove parenthesis
   unsigned int i=0,input_N=0,vecnum=0;
 
   if (infile.good()){
     while(getline(infile, str)){
+      // create temp curve
       istringstream ss(str);
       ss >> i;
       ss >> vecnum;
       my_curve curve(vecnum,2);
       curve.id=i;
       curve.numofvectors=vecnum;
+      //filling the curve with info
       i=0;
-      #if DEBUG
-      cout << "trying to read vector with (id,vecnum)"<<curve.id<<","<<curve.numofvectors << '\n';
-      #endif
-      while(ss >> num){
+      while(ss >> parenthesis){
+        #if DEBUG
+        cout << "trying to read vector with (id,vecnum)"<<curve.id<<","<<i << '\n';
+        #endif
+        ss>>num;
+        ss>>parenthesis;
         ss>>num2;
-        cout<<i<<" "<<num<<" "<<num2<<endl;
+        ss>>parenthesis;
+        #if DEBUG
+        std::cout << "read" <<num<<" "<<num2<<'\n';
+        #endif
         curve.vectors[i]->coordinates[0]=num;
         curve.vectors[i++]->coordinates[1]=num2;
       }
-      std::cout << vecnum<< '\n';
+
       data->push_back(curve);
       input_N++;
     }

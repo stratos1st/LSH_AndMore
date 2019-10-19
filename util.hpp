@@ -7,7 +7,7 @@
 #include "my_curves.hpp"
 
 extern double Dtw( my_curve& x, my_curve& y);
-extern double manhattan_distance(my_vector a, my_vector b);
+extern double manhattan_distance(my_vector& a, my_vector& b);
 extern std::list <my_vector>* read_vector_file(std::string name);
 template <typename T>
 extern T modpow(T base, T exp, T modulus);
