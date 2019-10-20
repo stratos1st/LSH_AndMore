@@ -47,7 +47,7 @@ int h_i::get_h_x(my_vector &x){
 
   for(unsigned int i=0;i<d;i++){
     a_i=(int)(floor((x.coordinates[i]-s->coordinates[i])/w));
-    a_small=a_i%M;
+    a_small=(M + (a_i%M)) % M;
     m_small=modpow(m, d-(i+1), M);
     ans+=(m_small*a_small)%M;
   }

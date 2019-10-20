@@ -10,7 +10,9 @@
 
 using namespace std;
 
-random_projection::random_projection(const unsigned int _l, const float _w,
+int* get_search_buckets(int x, unsigned int prodes, unsigned int new_d);
+
+random_projection::random_projection(const unsigned int _l, const float _w,//!!! l does not work
           const unsigned int _k, const unsigned int _new_d, const unsigned int _m)
           :w(_w),k(_k),m(_m),l(_l),new_d(_new_d){
   #if DEBUG
@@ -55,18 +57,25 @@ void random_projection::train(list <my_vector> *train_data_set){
         hash_table[i]->insert({hash_function(*it,i),*it});
 }
 
-pair<my_vector*, double> random_projection::find_NN(my_vector &query){
+pair<my_vector*, double> random_projection::find_NN(my_vector &query,
+                          double(*distance_metric)(my_vector&, my_vector&),
+                          unsigned int max_points, unsigned int prodes){
   my_vector *ans;
   double minn=DBL_MAX;
-  for(unsigned int i=0;i<l;i++){
-    int* search_hash_numbers=get_hamming_distance_01(hash_function(query,i),new_d+1);
-    for(unsigned int j=0;j<new_d+1;j++){
+  for(unsigned int i=0;i<l;i++){//!!! l does not work
+    int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
+    for(unsigned int j=0;j<prodes;j++){
       auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
       for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it){
-        double tmp=manhattan_distance(query, *&it->second);
+        double tmp=distance_metric(query, *&it->second);
         if(minn>tmp){
           minn=tmp;
           ans=&it->second;
+        }
+        max_points--;
+        if(max_points==0){
+          delete[] search_hash_numbers;
+          return make_pair(ans,minn);
         }
       }
     }
@@ -75,15 +84,74 @@ pair<my_vector*, double> random_projection::find_NN(my_vector &query){
   return make_pair(ans,minn);
 }
 
-pair<my_vector*, double> random_projection::find_rNN(my_vector &query){
-
+list<my_vector*>* random_projection::find_rNN(my_vector &query, double r,
+                    double(*distance_metric)(my_vector&, my_vector&),
+                    unsigned int max_points, unsigned int prodes){
+  list<my_vector*> *ans=new list<my_vector*>;
+  for(unsigned int i=0;i<l;i++){
+    int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
+    for(unsigned int j=0;j<prodes;j++){
+      auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
+      for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it){
+        double tmp=distance_metric(query, *&it->second);
+        if(tmp<=r)
+          ans->push_back(&it->second);
+        max_points--;
+        if(max_points==0){
+          delete[] search_hash_numbers;
+          ans->unique();
+          return ans;
+        }
+      }
+    }
+    delete[] search_hash_numbers;
+  }
+  ans->unique();
+  return ans;
 }
 
 int random_projection::hash_function(my_vector &x, unsigned int &iteration){
   int ans=0;
   for(unsigned int i=0;i<new_d;i++){
-      ans=ans^table_f_i[iteration][i]->get_f_i(x);
+      ans=ans|table_f_i[iteration][i]->get_f_i(x);
       ans=ans<<1;
   }
+  return ans;
+}
+
+int next_mask(int prev_mask){
+  int w; // next permutation of bits
+
+  int t = prev_mask | (prev_mask - 1); // t gets v's least significant 0 bits set to 1
+  // Next set to 1 the most significant bit to change,
+  // set to 0 the least significant ones, and add the necessary 1 bits.
+  w = (t + 1) | (((~t & -~t) - 1) >> (__builtin_ctz(prev_mask) + 1));
+
+  // kani to idio ligo pio arga xoris tin __builtin_ctz
+  // unsigned int t = (prev_mask | (prev_mask - 1)) + 1;
+  // w = t | ((((t & -t) / (prev_mask & -prev_mask)) >> 1) - 1);
+
+  return w;
+}
+
+int* get_search_buckets(int x, unsigned int prodes, unsigned int new_d){
+  int *ans=new int[prodes];
+  int initial_mask = 1,mask;
+  unsigned int index=1,j=0;
+
+  ans[0]=x;
+  while(prodes>index){
+    initial_mask=initial_mask<<1;
+    initial_mask=initial_mask^1;
+    j=0;
+    mask=initial_mask;
+    while(j<new_d && prodes>index){
+      ans[index]=x^mask;
+      mask=next_mask(mask);
+      j++;
+      index++;
+    }
+  }
+
   return ans;
 }

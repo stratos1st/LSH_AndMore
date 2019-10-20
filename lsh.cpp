@@ -44,13 +44,13 @@ void lsh::train(list <my_vector> *train_data_set){
       hash_table[i]->insert({table_g_i[i]->get_g_x(*it),*it});
 }
 
-pair<my_vector*, double> lsh::find_NN(my_vector &query){
+pair<my_vector*, double> lsh::find_NN(my_vector &query, double (*distance_metric)(my_vector&, my_vector&)){
   my_vector *ans;
   double minn=DBL_MAX;
   for(unsigned int i=0;i<l;i++){
     auto range = hash_table[i]->equal_range(table_g_i[i]->get_g_x(query));
     for(unordered_multimap<long int, my_vector>::iterator it = range.first; it != range.second; ++it){
-      double tmp=manhattan_distance(query, *&it->second);
+      double tmp=distance_metric(query, *&it->second);
       if(minn>tmp){
         minn=tmp;
         ans=&it->second;
@@ -60,6 +60,16 @@ pair<my_vector*, double> lsh::find_NN(my_vector &query){
   return make_pair(ans,minn);
 }
 
-pair<my_vector*, double> lsh::find_rNN(my_vector &query){
-
+list<my_vector*>* lsh::find_rNN(my_vector &query, double r, double (*distance_metric)(my_vector&, my_vector&)){
+  list<my_vector*> *ans=new list<my_vector*>;
+  for(unsigned int i=0;i<l;i++){
+    auto range = hash_table[i]->equal_range(table_g_i[i]->get_g_x(query));
+    for(unordered_multimap<long int, my_vector>::iterator it = range.first; it != range.second; ++it){
+      double tmp=distance_metric(query, *&it->second);
+      if(tmp<=r)
+        ans->push_back(&it->second);
+    }
+  }
+  ans->unique();
+  return ans;
 }

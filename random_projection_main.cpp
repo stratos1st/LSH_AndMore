@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <bits/stdc++.h>
 
 #include "my_vector.hpp"
 #include "util.hpp"
@@ -13,8 +14,6 @@
 
 using namespace std;
 
-//TODO % negative
-
 int main(int argc, char *argv[]){
   // unsigned int m=pow(2,32)-5;//could include m in arguments. tihs is the default value for m
   //k is the k from g(x)
@@ -22,14 +21,15 @@ int main(int argc, char *argv[]){
   //l is the number of times random projection will be executed (num of
   //hash tables) like l in lsh
   //w is the window in h
-  int k=4,new_d=-1, l=1,w=4000,max_points=10,p=2;//w not needed by project. w should be float
+  int k=10,new_d=-1, l=1,w=4000,max_points=INT_MAX,prodes=25;//w not needed by project. w should be float
+  double r=1000;
   char input_file_data[100]("./.atomignore/input_small_id");
   char input_file_queries[100]("./.atomignore/query_small_id");
   char out_file[100]("cube_out");
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -54,7 +54,10 @@ int main(int argc, char *argv[]){
         max_points=atoi(optarg);
         break;
       case 'p':
-        p=atoi(optarg);
+        prodes=atoi(optarg);
+        break;
+      case 'r':
+        r=atoi(optarg);
         break;
       default:
         cout<<"!! WRONG ARGUMENTS !!\n";
@@ -63,8 +66,8 @@ int main(int argc, char *argv[]){
   }
   cout<<"program running with:\n\tdata_file= "<<input_file_data<<
     "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
-    "\n\td'= "<<new_d<<"\n\tM= "<<max_points<<"\n\tprodes= "<<p
-    <<"\n\tw= "<<w<<endl<<endl;
+    "\n\td'= "<<new_d<<"\n\tM= "<<max_points<<"\n\tprodes= "<<prodes
+    <<"\n\tw= "<<w<<"\n\tr= "<<r<<endl<<endl;
 
   //------------------------------------create out file
   ofstream ofile;
@@ -77,7 +80,7 @@ int main(int argc, char *argv[]){
   //------------------------------------read input files
   list <my_vector> *data=read_vector_file(input_file_data);
   list <my_vector> *queries=read_vector_file(input_file_queries);
-  cout<<"read files\n";
+  cout<<"read files done\n";
 
   //------------------------------------create and train model
   if(new_d==-1){
@@ -89,26 +92,43 @@ int main(int argc, char *argv[]){
   cout<<"cube training done!!\n";
 
   //------------------------------------fill out file, running bruteNN and cubeNN
+  double AF_max=0,AF_avg=0.0,AF;
+  unsigned int total=0;
   using namespace std::chrono;
   for(list <my_vector> :: iterator it = queries->begin(); it != queries->end(); ++it){
     auto start = high_resolution_clock::now();
-    pair<my_vector*,int> nn_brute=brute_NN(data,*it);
+    pair<my_vector*,double> nn_brute=brute_NN(data,*it,manhattan_distance);
     auto stop = high_resolution_clock::now();
     auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
     start = high_resolution_clock::now();
-    pair<my_vector*,int> nn_lsh=model.find_NN(*it);
+    pair<my_vector*,double> nn_cube=model.find_NN(*it,manhattan_distance,max_points,prodes);
     stop = high_resolution_clock::now();
     auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 
+    AF=nn_cube.second/nn_brute.second;
+    AF_max=max(AF,AF_max);
+    AF_avg+=AF;
+
     ofile<<"Query: "<<it->id<<endl;
-    ofile<<"Nearest neighbor: "<<nn_lsh.first->id<<endl;
-    ofile<<"distanceCube: "<<nn_lsh.second<<endl;
+    ofile<<"Nearest neighbor: "<<nn_cube.first->id<<endl;
+    ofile<<"distanceCube: "<<nn_cube.second<<endl;
     ofile<<"distanceTrue: "<<nn_brute.second<<endl;
     ofile<<"tCube: "<<duration_lsh.count()<<endl;
     ofile<<"tTrue: "<<duration_brute.count()<<endl;
     ofile<<"R-near neighbors: "<<endl;
+
+    list<my_vector*>* rNNs=model.find_rNN(*it,r,manhattan_distance,max_points,prodes);
+    for(list <my_vector*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
+      ofile<<(*it)->id<<endl;
+    rNNs->clear();
+    delete rNNs;
+
+    total++;
   }
+
+  AF_avg/=total;
+  cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<endl;
 
   //------------------------------------clearing memmory
   ofile.close();

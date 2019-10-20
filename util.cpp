@@ -10,7 +10,7 @@
 
 #include "util.hpp"
 
-#define DEBUG 1
+#define DEBUG 0
 
 using namespace std;
 
@@ -34,7 +34,7 @@ double Dtw( my_curve& x, my_curve& y){
   return OptValue[n][m];
 }
 
-double manhattan_distance(my_vector a, my_vector b){
+double manhattan_distance(my_vector& a, my_vector& b){
   double ans=0.0;
   if(a.get_dimentions()!=b.get_dimentions()){
     cerr<<"\n\n!!manhattan_distance dimentions ERROR!!\n\n";
@@ -49,10 +49,10 @@ double manhattan_distance(my_vector a, my_vector b){
   return ans;
 }
 
-list <my_vector>* read_vector_file(string name){
+list <my_vector>*read_vector_file(string name){
   list <my_vector> *data=new list <my_vector>;
   ifstream infile(name);
-  float num;
+  double num;
   string str;
   unsigned int i=0,input_N=0;
 
@@ -111,25 +111,12 @@ short int hammingDistance(short int n1, short int n2){
     return setBits;
 }
 
-int* get_hamming_distance_01(int x, unsigned int ans_size){
-  int *ans=new int[ans_size];
-  int mask = 1;
-
-  ans[0]=x;
-  for(unsigned int i=1;i<ans_size;i++){
-    ans[i]=x^mask;
-    mask=mask<<1;
-  }
-
-  return ans;
-}
-
-pair<my_vector*,double> brute_NN(list <my_vector> *data, my_vector &query){
+pair<my_vector*,double> brute_NN(list <my_vector> *data, my_vector &query, double(*distance_metric)(my_vector&, my_vector&)){
   my_vector *ans;
   double minn=DBL_MAX,tmp;
 
   for(list <my_vector> :: iterator it = data->begin(); it != data->end(); ++it){
-    tmp=manhattan_distance(query, *it);
+    tmp=distance_metric(query, *it);
     if(minn>tmp){
       minn=tmp;
       ans=&*it;
@@ -153,7 +140,6 @@ pair<my_curve*,double> brute_NN_curve(list <my_curve> *data, my_curve &query){
   }
   return make_pair(ans,minn);
 }
-
 
 list <my_curve>* read_curve_file(string name){
   list <my_curve> *data=new list <my_curve>;

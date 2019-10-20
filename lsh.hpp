@@ -10,8 +10,8 @@
 
 class lsh{
   private:
-    const unsigned int k,m,l;
     const float w;
+    const unsigned int k,m,l;
     g_i **table_g_i;
     std::unordered_multimap<long int, my_vector> **hash_table;
   public:
@@ -19,8 +19,8 @@ class lsh{
               const unsigned int _k=4, const unsigned int _m=pow(2,32)-5);
     ~lsh();
     void train(std::list <my_vector> *train_data_set);
-    std::pair<my_vector*, double> find_NN(my_vector &query);
-    std::pair<my_vector*, double> find_rNN(my_vector &query);
+    std::pair<my_vector*, double> find_NN(my_vector &query,double (*distance_metric)(my_vector&, my_vector&));
+    std::list<my_vector*>* find_rNN(my_vector &query,  double r, double (*distance_metric)(my_vector&, my_vector&));
 };
 
 
