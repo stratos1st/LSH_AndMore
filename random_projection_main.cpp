@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
   //l is the number of times random projection will be executed (num of
   //hash tables) like l in lsh
   //w is the window in h
-  int k=10,new_d=-1, l=1,w=4000,max_points=INT_MAX,prodes=25;//w not needed by project. w should be float
+  int k=4,new_d=-1,l=1,w=4000,max_points=INT_MAX,prodes=25,m=3;//w not needed by project. w should be float
   double r=1000;
   char input_file_data[100]("./.atomignore/input_small_id");
   char input_file_queries[100]("./.atomignore/query_small_id");
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:,m:"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -59,6 +59,9 @@ int main(int argc, char *argv[]){
       case 'r':
         r=atoi(optarg);
         break;
+      case 'm':
+        m=atoi(optarg);
+        break;
       default:
         cout<<"!! WRONG ARGUMENTS !!\n";
         exit(1);
@@ -66,8 +69,8 @@ int main(int argc, char *argv[]){
   }
   cout<<"program running with:\n\tdata_file= "<<input_file_data<<
     "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
-    "\n\td'= "<<new_d<<"\n\tM= "<<max_points<<"\n\tprodes= "<<prodes
-    <<"\n\tw= "<<w<<"\n\tr= "<<r<<endl<<endl;
+    "\n\td'= "<<new_d<<"\n\tm= "<<m<<"\n\tM= "<<max_points<<"\n\tprodes= "<<prodes
+    <<"\n\tw= "<<w<<"\n\tk= "<<k<<"\n\tr= "<<r<<endl<<endl;
 
   //------------------------------------create out file
   ofstream ofile;
@@ -87,7 +90,7 @@ int main(int argc, char *argv[]){
     new_d=log2(data->size());
     cout<<"default d'= "<<new_d<<endl;
   }
-  random_projection model(l, w, k, new_d);
+  random_projection model(l, w, k, new_d,m);
   model.train(data);
   cout<<"cube training done!!\n";
 

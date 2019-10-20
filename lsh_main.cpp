@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char *argv[]){
   // unsigned int m=pow(2,32)-5;//could include m in arguments. tihs is the default value for m
   //w is the window in h
-  int k=4, l=5,w=4000;//w not needed by project. w should be float
+  int k=4, l=5,w=4000,m=3;//w not needed by project. w should be float
   char input_file_data[100]("./.atomignore/input_small_id");
   char input_file_queries[100]("./.atomignore/query_small_id");
   char out_file[100]("lsh_out");
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:r:"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:L:o:w:r:m:"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -47,6 +47,9 @@ int main(int argc, char *argv[]){
       case 'r':
         r=atoi(optarg);
         break;
+      case 'm':
+        m=atoi(optarg);
+        break;
       default:
         cout<<"!! WRONG ARGUMENTS !!\n";
         exit(1);
@@ -54,7 +57,7 @@ int main(int argc, char *argv[]){
   }
   cout<<"program running with:\n\tdata_file= "<<input_file_data<<
     "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
-    "\n\tk= "<<k<<"\n\tl= "<<l<<"\n\tw= "<<w<<"\n\tr= "<<r<<endl<<endl;
+    "\n\tk= "<<k<<"\n\tl= "<<l<<"\n\tw= "<<w<<"\n\tm= "<<m<<"\n\tr= "<<r<<endl<<endl;
 
   //------------------------------------create out file
   ofstream ofile;
@@ -70,7 +73,7 @@ int main(int argc, char *argv[]){
   cout<<"read files done\n";
 
   //------------------------------------create and train model
-  lsh lsh_model(data->front().get_dimentions(), l, w, k);
+  lsh lsh_model(data->front().get_dimentions(), l, w, k,m);
   lsh_model.train(data);
   cout<<"lsh training done!!\n";
 

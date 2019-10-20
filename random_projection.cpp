@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int* get_search_buckets(int x, unsigned int prodes, unsigned int new_d);
+unsigned long int * get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d);
 
 random_projection::random_projection(const unsigned int _l, const float _w,//!!! l does not work
           const unsigned int _k, const unsigned int _new_d, const unsigned int _m)
@@ -19,9 +19,9 @@ random_projection::random_projection(const unsigned int _l, const float _w,//!!!
   cout<<"Constructing random_projection"<<'\n';
   #endif
 
-  hash_table=new unordered_map<int, my_vector>*[l];
+  hash_table=new unordered_map<unsigned long int, my_vector>*[l];
   for(unsigned int i=0;i<l;i++)
-    hash_table[i]=new unordered_map<int, my_vector>;
+    hash_table[i]=new unordered_map<unsigned long int, my_vector>;
   table_f_i=NULL;
 }
 
@@ -49,7 +49,7 @@ void random_projection::train(list <my_vector> *train_data_set){
   for(unsigned int i=0;i<l;i++){
     table_f_i[i]=new f_i*[new_d];
     for(unsigned int j=0;j<new_d;j++)
-      table_f_i[i][j]=new f_i(train_data_set->front().get_dimentions(),train_data_set->size(),w,k,m);
+      table_f_i[i][j]=new f_i(train_data_set->front().get_dimentions(),w,k,m);
   }
 
   for(unsigned int i=0;i<l;i++)
@@ -63,10 +63,10 @@ pair<my_vector*, double> random_projection::find_NN(my_vector &query,
   my_vector *ans;
   double minn=DBL_MAX;
   for(unsigned int i=0;i<l;i++){//!!! l does not work
-    int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
+    unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
     for(unsigned int j=0;j<prodes;j++){
       auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
-      for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it){
+      for(unordered_multimap<unsigned long int, my_vector>::iterator it = range.first; it != range.second; ++it){
         double tmp=distance_metric(query, *&it->second);
         if(minn>tmp){
           minn=tmp;
@@ -89,10 +89,10 @@ list<my_vector*>* random_projection::find_rNN(my_vector &query, double r,
                     unsigned int max_points, unsigned int prodes){
   list<my_vector*> *ans=new list<my_vector*>;
   for(unsigned int i=0;i<l;i++){
-    int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
+    unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
     for(unsigned int j=0;j<prodes;j++){
       auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
-      for(unordered_multimap<int, my_vector>::iterator it = range.first; it != range.second; ++it){
+      for(unordered_multimap<unsigned long int, my_vector>::iterator it = range.first; it != range.second; ++it){
         double tmp=distance_metric(query, *&it->second);
         if(tmp<=r)
           ans->push_back(&it->second);
@@ -110,8 +110,8 @@ list<my_vector*>* random_projection::find_rNN(my_vector &query, double r,
   return ans;
 }
 
-int random_projection::hash_function(my_vector &x, unsigned int &iteration){
-  int ans=0;
+unsigned long int random_projection::hash_function(my_vector &x, unsigned int &iteration){
+  unsigned long int ans=0;
   for(unsigned int i=0;i<new_d;i++){
       ans=ans|table_f_i[iteration][i]->get_f_i(x);
       ans=ans<<1;
@@ -134,15 +134,15 @@ int next_mask(int prev_mask){
   return w;
 }
 
-int* get_search_buckets(int x, unsigned int prodes, unsigned int new_d){
-  int *ans=new int[prodes];
-  int initial_mask = 1,mask;
+unsigned long int* get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d){
+  unsigned long int *ans=new unsigned long int[prodes];
+  int initial_mask = 0,mask;
   unsigned int index=1,j=0;
 
   ans[0]=x;
   while(prodes>index){
     initial_mask=initial_mask<<1;
-    initial_mask=initial_mask^1;
+    initial_mask=initial_mask|1;
     j=0;
     mask=initial_mask;
     while(j<new_d && prodes>index){
@@ -152,6 +152,32 @@ int* get_search_buckets(int x, unsigned int prodes, unsigned int new_d){
       index++;
     }
   }
+
+  #if DEBUG
+  cout<<"----------------------\n";
+  unsigned long int n=x;
+  while (n) {
+    if (n & 1)
+        printf("1");
+    else
+        printf("0");
+
+    n >>= 1;
+  }
+  cout<<endl;
+  for(unsigned int i=0;i<prodes;i++){
+    n=ans[i];
+    while (n) {
+      if (n & 1)
+          printf("1");
+      else
+          printf("0");
+
+      n >>= 1;
+    }
+    cout<<endl;
+  }
+  #endif
 
   return ans;
 }

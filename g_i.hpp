@@ -15,7 +15,7 @@ class g_i{
     g_i(unsigned int dimentions, const float _w=4000,
               const unsigned int _k=4, const unsigned int _m=pow(2,32)-5);
     ~g_i();
-    long int get_g_x(my_vector &x);//at least 32bit
+    unsigned long int get_g_x(my_vector &x);//at least 32bit
 };
 
 

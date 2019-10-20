@@ -10,16 +10,16 @@
 
 class f_i{
   private:
-    const unsigned int k,m,new_d;
     const float w;
+    const unsigned int k,m;
     std::default_random_engine generator;
-    std::unordered_map<long int, bool> dictionary;
+    std::unordered_map<unsigned long int, unsigned short int> dictionary;
     g_i *my_g_i;
   public:
-    f_i(unsigned int dimentions, unsigned int number_of_train_data, const float _w=4000,
+    f_i(unsigned int dimentions, const float _w=4000,
               const unsigned int _k=4, const unsigned int _m=pow(2,32)-5);
     ~f_i();
-    bool get_f_i(my_vector &x);//one bit
+    unsigned short int get_f_i(my_vector &x);//one bit
 };
 
 
