@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define DEBUG 1
+#define DEBUG 0
 
 my_curve::my_curve(unsigned int points,unsigned int dimentions){
   #if DEBUG
@@ -45,7 +45,7 @@ my_curve& my_curve::operator=(const my_curve &other){
   for(unsigned int i=0;i<numofvectors;i++)
     *vectors[i]=*other.vectors[i];  //this calls vector '=' operator
   id=other.id;
-  numofvectors=other.numofvectors;
+
   vectordimentions=other.vectordimentions;
   return *this;
 }

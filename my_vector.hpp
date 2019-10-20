@@ -5,6 +5,7 @@ class my_vector{
  public:
   double *coordinates;
   unsigned int id;
+  unsigned int dim;
 
   my_vector(unsigned int dimentions);
   ~my_vector();

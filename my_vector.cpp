@@ -11,7 +11,7 @@ my_vector::my_vector(unsigned int dimentions){
   cout<<"Constructing "<<dimentions<<"d vector"<<'\n';
   #endif
   coordinates=new double[dimentions];
-
+  dim=dimentions;
   // for(unsigned int i=0;i<get_dimentions();i++)
   //   coordinates[i]=0.0;
 }
@@ -49,7 +49,7 @@ my_vector::my_vector(const my_vector &p2){
 }
 
 unsigned int my_vector::get_dimentions() const{
-  return 128;//sizeof(coordinates)/sizeof(coordinates[0]);
+  return dim;//sizeof(coordinates)/sizeof(coordinates[0]);
 }
 
 void my_vector::print_vec(unsigned int until){

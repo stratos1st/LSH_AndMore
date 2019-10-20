@@ -18,7 +18,12 @@ using namespace std;
 int main(){
 
   list <my_curve> *data=read_curve_file("./.atomignore/trajectories_dataset");
-  //list <my_vector> *queries=read_vector_file("./.atomignore/query_b_id");
+  //list <my_curve> *queries=read_curve_file("./.atomignore/trajectories_dataset");
+  //data->front().get_vector(1).print_vec();
+  my_curve querie(data->front());
+  std::cout << "done with data" << '\n';
+
+  brute_NN_curve(data, querie);
   data->clear();
   delete data;
 
