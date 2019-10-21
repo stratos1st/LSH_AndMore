@@ -19,9 +19,9 @@ random_projection::random_projection(const unsigned int _l, const float _w,//!!!
   cout<<"Constructing random_projection"<<'\n';
   #endif
 
-  hash_table=new unordered_map<unsigned long int, my_vector>*[l];
+  hash_table=new unordered_map<unsigned long int, my_vector*>*[l];
   for(unsigned int i=0;i<l;i++)
-    hash_table[i]=new unordered_map<unsigned long int, my_vector>;
+    hash_table[i]=new unordered_map<unsigned long int, my_vector*>;
   table_f_i=NULL;
 }
 
@@ -34,17 +34,20 @@ random_projection::~random_projection(){
     delete hash_table[i];
   }
   delete[] hash_table;
-  if(table_f_i!=0){//if training was done
+  if(table_f_i!=NULL){//if training was done
     for(unsigned int i=0;i<l;i++){
       for(unsigned int j=0;j<new_d;j++)
         delete table_f_i[i][j];
       delete[] table_f_i[i];
     }
     delete[] table_f_i;
+    data->clear();
+    delete data;
   }
 }
 
 void random_projection::train(list <my_vector> *train_data_set){
+  data=new list<my_vector>(*train_data_set);
   table_f_i=new f_i**[l];
   for(unsigned int i=0;i<l;i++){
     table_f_i[i]=new f_i*[new_d];
@@ -53,8 +56,8 @@ void random_projection::train(list <my_vector> *train_data_set){
   }
 
   for(unsigned int i=0;i<l;i++)
-    for(list <my_vector>::iterator it = train_data_set->begin(); it != train_data_set->end(); ++it)
-        hash_table[i]->insert({hash_function(*it,i),*it});
+    for(auto it = train_data_set->begin(); it != train_data_set->end(); ++it)
+        hash_table[i]->insert({hash_function(*it,i),&*it});
 }
 
 pair<my_vector*, double> random_projection::find_NN(my_vector &query,
@@ -66,11 +69,11 @@ pair<my_vector*, double> random_projection::find_NN(my_vector &query,
     unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
     for(unsigned int j=0;j<prodes;j++){
       auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
-      for(unordered_multimap<unsigned long int, my_vector>::iterator it = range.first; it != range.second; ++it){
-        double tmp=distance_metric(query, *&it->second);
+      for(auto it = range.first; it != range.second; ++it){
+        double tmp=distance_metric(query, *it->second);
         if(minn>tmp){
           minn=tmp;
-          ans=&it->second;
+          ans=it->second;
         }
         max_points--;
         if(max_points==0){
@@ -92,10 +95,10 @@ list<my_vector*>* random_projection::find_rNN(my_vector &query, double r,
     unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
     for(unsigned int j=0;j<prodes;j++){
       auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
-      for(unordered_multimap<unsigned long int, my_vector>::iterator it = range.first; it != range.second; ++it){
-        double tmp=distance_metric(query, *&it->second);
+      for(auto it = range.first; it != range.second; ++it){
+        double tmp=distance_metric(query, *it->second);
         if(tmp<=r)
-          ans->push_back(&it->second);
+          ans->push_back(it->second);
         max_points--;
         if(max_points==0){
           delete[] search_hash_numbers;

@@ -4,16 +4,10 @@
 
 #include "my_curves.hpp"
 #include "util.hpp"
-#include "lsh.hpp"
-#include "random_projection.hpp"
 
 #define DEBUG 0
 
 using namespace std;
-
-//TODO % negative
-//TODO referances
-//TODO hash table init size
 
 int main(){
 

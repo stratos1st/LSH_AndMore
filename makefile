@@ -3,8 +3,8 @@ CGLAG=  -ggdb -lm -g -m64 -O0
 
 all: main lsh cube
 
-main: main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o  my_curves.o
-	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curves.o
+main: main.o my_curves.o util.o my_vector.o
+	$(CC) $(CFLAG) -o main main.o my_curves.o util.o my_vector.o
 
 lsh: lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curves.o
 	$(CC) $(CFLAG) -o lsh lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curves.o

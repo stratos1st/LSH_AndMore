@@ -73,12 +73,13 @@ int main(int argc, char *argv[]){
   cout<<"read files done\n";
 
   //------------------------------------create and train model
-  lsh lsh_model(data->front().get_dimentions(), l, w, k,m);
+  lsh_vector lsh_model(data->front().get_dimentions(), l, w, k,m);
   lsh_model.train(data);
   cout<<"lsh training done!!\n";
 
   //------------------------------------fill out file, running bruteNN and cubeNN
   double AF_max=0.0,AF_avg=0.0,AF;
+  long int average_time=0;
   unsigned int total=0;
   using namespace std::chrono;
   for(list <my_vector> :: iterator it = queries->begin(); it != queries->end(); ++it){
@@ -95,6 +96,7 @@ int main(int argc, char *argv[]){
     AF=nn_lsh.second/nn_brute.second;
     AF_max=max(AF,AF_max);
     AF_avg+=AF;
+    average_time+=duration_lsh.count();
 
     ofile<<"Query: "<<it->id<<endl;
     ofile<<"Nearest neighbor: "<<nn_lsh.first->id<<endl;
@@ -114,7 +116,8 @@ int main(int argc, char *argv[]){
   }
 
   AF_avg/=total;
-  cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<endl;
+  average_time/=total;
+  cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
 
   //------------------------------------clearing memmory
   ofile.close();

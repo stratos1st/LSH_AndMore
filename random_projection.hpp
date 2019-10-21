@@ -13,8 +13,9 @@ class random_projection{
   private:
     const float w;
     const unsigned int k,m,l,new_d;
-    f_i ***table_f_i;
-    std::unordered_map<unsigned long int, my_vector> **hash_table;
+    f_i ***table_f_i;//triple pointer because of l
+    std::unordered_map<unsigned long int, my_vector*> **hash_table;
+    std::list<my_vector> *data;
 
     unsigned long int hash_function(my_vector &x, unsigned int &iteration);
   public:
