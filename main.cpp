@@ -2,7 +2,7 @@
 #include <chrono>
 
 
-#include "my_curves.hpp"
+#include "my_curve.hpp"
 #include "util.hpp"
 
 #define DEBUG 0

@@ -4,7 +4,7 @@
 #include <list>
 #include <string>
 
-#include "my_curves.hpp"
+#include "my_curve.hpp"
 
 extern double Dtw( my_curve& x, my_curve& y);
 extern double manhattan_distance(my_vector& a, my_vector& b);
