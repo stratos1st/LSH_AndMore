@@ -12,16 +12,16 @@ using namespace std;
 
 unsigned long int * get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d);
 
-random_projection::random_projection(const unsigned int _l, const float _w,//!!! l does not work
-          const unsigned int _k, const unsigned int _new_d, const unsigned int _m)
-          :w(_w),k(_k),m(_m),l(_l),new_d(_new_d){
+random_projection::random_projection(const float _w,//!!! l does not work
+          const unsigned int _k, const unsigned int _new_d,
+          const size_t container_sz, const size_t _f_container_sz, const unsigned int _m)
+          :w(_w),k(_k),m(_m),new_d(_new_d),f_container_sz(_f_container_sz){
   #if DEBUG
   cout<<"Constructing random_projection"<<'\n';
   #endif
 
-  hash_table=new unordered_map<unsigned long int, my_vector*>*[l];
-  for(unsigned int i=0;i<l;i++)
-    hash_table[i]=new unordered_map<unsigned long int, my_vector*>;
+  hash_table=new unordered_multimap<unsigned long int, my_vector*>;
+  hash_table->reserve(container_sz);
   table_f_i=NULL;
 }
 
@@ -29,35 +29,33 @@ random_projection::~random_projection(){
   #if DEBUG
   cout<<"Destructing random_projection"<<'\n';
   #endif
-  for(unsigned int i=0;i<l;i++){
-    hash_table[i]->clear();
-    delete hash_table[i];
-  }
-  delete[] hash_table;
+  hash_table->clear();
+  delete hash_table;
   if(table_f_i!=NULL){//if training was done
-    for(unsigned int i=0;i<l;i++){
-      for(unsigned int j=0;j<new_d;j++)
-        delete table_f_i[i][j];
-      delete[] table_f_i[i];
-    }
+    for(unsigned int j=0;j<new_d;j++)
+      delete table_f_i[j];
     delete[] table_f_i;
     data->clear();
     delete data;
   }
 }
 
-void random_projection::train(list <my_vector> *train_data_set){
-  data=new list<my_vector>(*train_data_set);
-  table_f_i=new f_i**[l];
-  for(unsigned int i=0;i<l;i++){
-    table_f_i[i]=new f_i*[new_d];
-    for(unsigned int j=0;j<new_d;j++)
-      table_f_i[i][j]=new f_i(train_data_set->front().get_dimentions(),w,k,m);
-  }
 
-  for(unsigned int i=0;i<l;i++)
-    for(auto it = train_data_set->begin(); it != train_data_set->end(); ++it)
-        hash_table[i]->insert({hash_function(*it,i),&*it});
+void random_projection::train(list <my_vector> *train_data_set){
+  #if DEBUG
+  cout<<"Training cube_vector"<<'\n';
+  #endif
+  //coppy train_data_set list to data
+  data=new list<my_vector>(*train_data_set);
+
+  //create f_i table
+  table_f_i=new f_i*[new_d];
+  for(unsigned int j=0;j<new_d;j++)
+    table_f_i[j]=new f_i(train_data_set->front().get_dimentions(),w,k,f_container_sz,m);
+
+  //fill hash table
+  for(auto it = train_data_set->begin(); it != train_data_set->end(); ++it)
+      hash_table->insert({hash_function(*it),&*it});
 }
 
 pair<my_vector*, double> random_projection::find_NN(my_vector &query,
@@ -65,25 +63,23 @@ pair<my_vector*, double> random_projection::find_NN(my_vector &query,
                           unsigned int max_points, unsigned int prodes){
   my_vector *ans;
   double minn=DBL_MAX;
-  for(unsigned int i=0;i<l;i++){//!!! l does not work
-    unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
-    for(unsigned int j=0;j<prodes;j++){
-      auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
-      for(auto it = range.first; it != range.second; ++it){
-        double tmp=distance_metric(query, *it->second);
-        if(minn>tmp){
-          minn=tmp;
-          ans=it->second;
-        }
-        max_points--;
-        if(max_points==0){
-          delete[] search_hash_numbers;
-          return make_pair(ans,minn);
-        }
+  unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query),prodes,new_d);
+  for(unsigned int j=0;j<prodes;j++){//serch all search_hash_numbers
+    auto range = hash_table->equal_range(search_hash_numbers[j]);//returns all possible NNs
+    for(auto it = range.first; it != range.second; ++it){
+      double tmp=distance_metric(query, *it->second);
+      if(minn>tmp){//if this is a better neighbor
+        minn=tmp;
+        ans=it->second;
+      }
+      max_points--;
+      if(max_points==0){//if max_points reached
+        delete[] search_hash_numbers;
+        return make_pair(ans,minn);
       }
     }
-    delete[] search_hash_numbers;
   }
+  delete[] search_hash_numbers;
   return make_pair(ans,minn);
 }
 
@@ -91,37 +87,37 @@ list<my_vector*>* random_projection::find_rNN(my_vector &query, double r,
                     double(*distance_metric)(my_vector&, my_vector&),
                     unsigned int max_points, unsigned int prodes){
   list<my_vector*> *ans=new list<my_vector*>;
-  for(unsigned int i=0;i<l;i++){
-    unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query,i),prodes,new_d);
-    for(unsigned int j=0;j<prodes;j++){
-      auto range = hash_table[i]->equal_range(search_hash_numbers[j]);
-      for(auto it = range.first; it != range.second; ++it){
-        double tmp=distance_metric(query, *it->second);
-        if(tmp<=r)
-          ans->push_back(it->second);
-        max_points--;
-        if(max_points==0){
-          delete[] search_hash_numbers;
-          ans->unique();
-          return ans;
-        }
+  unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query),prodes,new_d);
+  for(unsigned int j=0;j<prodes;j++){//serch all search_hash_numbers
+    auto range = hash_table->equal_range(search_hash_numbers[j]);//returns all possible NNs
+    for(auto it = range.first; it != range.second; ++it){
+      double tmp=distance_metric(query, *it->second);
+      if(tmp<=r)//if point has <=r distance
+        ans->push_back(it->second);
+      max_points--;
+      if(max_points==0){//if max_points reached
+        delete[] search_hash_numbers;
+        ans->unique();
+        return ans;
       }
     }
-    delete[] search_hash_numbers;
   }
+  delete[] search_hash_numbers;
   ans->unique();
   return ans;
 }
 
-unsigned long int random_projection::hash_function(my_vector &x, unsigned int &iteration){
+//returns concatination of multiple f_i
+unsigned long int random_projection::hash_function(my_vector &x){
   unsigned long int ans=0;
   for(unsigned int i=0;i<new_d;i++){
-      ans=ans|table_f_i[iteration][i]->get_f_i(x);
+      ans=ans|table_f_i[i]->get_f_i(x);
       ans=ans<<1;
   }
   return ans;
 }
 
+//returns prev_mask changed by one bit
 int next_mask(int prev_mask){
   int w; // next permutation of bits
 
@@ -137,6 +133,8 @@ int next_mask(int prev_mask){
   return w;
 }
 
+//returns a table sz=probes with all the dinary numbers with hamming
+//distance(x)=0,1,... until the atble fills
 unsigned long int* get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d){
   unsigned long int *ans=new unsigned long int[prodes];
   int initial_mask = 0,mask;
@@ -144,6 +142,7 @@ unsigned long int* get_search_buckets(unsigned int x, unsigned int prodes, unsig
 
   ans[0]=x;
   while(prodes>index){
+    //each iteration initial mask changes for hamming distance 0,1...
     initial_mask=initial_mask<<1;
     initial_mask=initial_mask|1;
     j=0;

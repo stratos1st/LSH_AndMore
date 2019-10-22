@@ -15,11 +15,13 @@ h_i::h_i(unsigned int dimentions, const float _w,
   #if DEBUG
   cout<<"Constructing "<<dimentions<<"d h_i"<<'\n';
   #endif
+  //seeding generator
   default_random_engine generator;
   auto seed_t=system_clock::now().time_since_epoch();
   auto seed_m=duration_cast<nanoseconds>(seed_t);
   generator.seed(seed_m.count());
-  uniform_real_distribution<double> distribution(0.0,w);//!! den 3ero an mpori na dosi ta akra
+
+  uniform_real_distribution<double> distribution(0.0,w);
   s=new my_vector(dimentions);
 
   for(unsigned int i=0;i<s->get_dimentions();i++)
@@ -47,8 +49,8 @@ int h_i::get_h_x(my_vector &x){
 
   for(unsigned int i=0;i<d;i++){
     a_i=(int)(floor((x.coordinates[i]-s->coordinates[i])/w));
-    a_small=(M + (a_i%M)) % M;
-    m_small=modpow(m, d-(i+1), M);
+    a_small=(M + (a_i%M)) % M;//negative values using %
+    m_small=modpow(m, d-(i+1), M);//overflowing if not for modpow
     ans+=(m_small*a_small)%M;
   }
 

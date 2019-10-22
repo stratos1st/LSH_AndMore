@@ -15,21 +15,20 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-  // unsigned int m=pow(2,32)-5;//could include m in arguments. tihs is the default value for m
   //k is the k from g(x)
   //new_d is the d' from random projection aka k in arguments
-  //l is the number of times random projection will be executed (num of
-  //hash tables) like l in lsh
   //w is the window in h
-  int k=4,new_d=-1,l=1,w=4000,max_points=INT_MAX,prodes=25,m=3;//w not needed by project. w should be float
+  int k=4,new_d=-1,w=4000,max_points=INT_MAX,prodes=25,m=3;
+  //w not needed by projectas argument. w should be float
   double r=1000;
+  size_t f_container_sz=200,cube_container_size=9000;//not needed by project
   char input_file_data[100]("./.atomignore/input_small_id");
   char input_file_queries[100]("./.atomignore/query_small_id");
   char out_file[100]("cube_out");
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:,m:"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:m:f:c"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -40,9 +39,6 @@ int main(int argc, char *argv[]){
         break;
       case 'k':
         new_d=atoi(optarg);
-        break;
-      case 'L':
-        l=atoi(optarg);
         break;
       case 'o':
         strcpy(out_file,optarg);
@@ -62,6 +58,12 @@ int main(int argc, char *argv[]){
       case 'm':
         m=atoi(optarg);
         break;
+      case 'f':
+        f_container_sz=atoi(optarg);
+        break;
+      case 'c':
+        cube_container_size=atoi(optarg);
+        break;
       default:
         cout<<"!! WRONG ARGUMENTS !!\n";
         exit(1);
@@ -70,7 +72,8 @@ int main(int argc, char *argv[]){
   cout<<"program running with:\n\tdata_file= "<<input_file_data<<
     "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
     "\n\td'= "<<new_d<<"\n\tm= "<<m<<"\n\tM= "<<max_points<<"\n\tprodes= "<<prodes
-    <<"\n\tw= "<<w<<"\n\tk= "<<k<<"\n\tr= "<<r<<endl<<endl;
+    <<"\n\tw= "<<w<<"\n\tk= "<<k<<"\n\tr= "<<r<<"\n\tcube_container_sz= "<<
+    cube_container_size<<"\n\tf_container_sz= "<<f_container_sz<<endl<<endl;
 
   //------------------------------------create out file
   ofstream ofile;
@@ -90,7 +93,7 @@ int main(int argc, char *argv[]){
     new_d=log2(data->size());
     cout<<"default d'= "<<new_d<<endl;
   }
-  random_projection model(l, w, k, new_d,m);
+  random_projection model(w,k,new_d,cube_container_size,f_container_sz,m);
   model.train(data);
   cout<<"cube training done!!\n";
 

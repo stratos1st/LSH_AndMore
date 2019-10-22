@@ -9,7 +9,7 @@
 class g_i{
   private:
     h_i **table_h_i;
-    const unsigned int k,m;
+    const unsigned int k,m;//h's k,m,w
     const float w;
   public:
     g_i(unsigned int dimentions, const float _w=4000,
