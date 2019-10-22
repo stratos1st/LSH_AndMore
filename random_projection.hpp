@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <list>
 
-
 #include "my_vector.hpp"
 #include "f_i.hpp"
 
@@ -26,9 +25,11 @@ class random_projection{
     ~random_projection();
     void train(std::list <my_vector> *train_data_set);
     std::pair<my_vector*, double> find_NN(my_vector &query,
-                double(*distance_metric)(my_vector&, my_vector&), unsigned int max_points, unsigned int prodes);
+                double(*distance_metric)(my_vector&, my_vector&),
+                unsigned int max_points, unsigned int prodes);
     std::list<my_vector*>* find_rNN(my_vector &query, double r,
-                double(*distance_metric)(my_vector&, my_vector&), unsigned int max_points, unsigned int prodes);
+                double(*distance_metric)(my_vector&, my_vector&),
+                unsigned int max_points, unsigned int prodes);
 };
 
 

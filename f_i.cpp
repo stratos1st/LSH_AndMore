@@ -32,13 +32,13 @@ f_i::~f_i(){
   delete my_g_i;
 }
 
-unsigned short int f_i::get_f_i(my_vector &x){
-  unordered_map<unsigned long int, unsigned short int>::iterator pos;
+unsigned char f_i::get_f_i(my_vector &x){
+  unordered_map<unsigned long int, unsigned char>::iterator pos;
   unsigned long int tmp=my_g_i->get_g_x(x);
   if((pos=dictionary.find(tmp))!=dictionary.end())//if g(x) has already been assigned 0,1
     return pos->second;
   else{//if g(x) appeares for the first time
-    uniform_int_distribution<unsigned short int> distribution(0,1);
+    uniform_int_distribution<unsigned char> distribution(0,1);
     unsigned short int rand=distribution(generator);
     dictionary.insert({tmp,rand});
     return rand;
