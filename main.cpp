@@ -11,15 +11,12 @@
 
 using namespace std;
 
-//TODO % negative
-//TODO referances
-//TODO hash table init size
+double GridHash::delta = 0.05;
 
 int main(){
-double x=1.3;
-double y=0.3;
-std::cout <<x/y<< '\n';
-  // list <my_curve> *data=read_curve_file("./.atomignore/trajectories_dataset");
+//reading test
+  //list <my_curve> *data=read_curve_file("./.atomignore/trajectories_dataset");
+  //G.t->print_vec();
   // //list <my_curve> *queries=read_curve_file("./.atomignore/trajectories_dataset");
   // //data->front().get_vector(1).print_vec();
   // my_curve querie(data->front());
@@ -27,7 +24,21 @@ std::cout <<x/y<< '\n';
   //
   // brute_NN_curve(data, querie);
   // data->clear();
-  // delete data;
+  //delete data;
 
+
+//test for vectorize curve
+  // list <my_curve> *data=read_curve_file("./.atomignore/trajectories_dataset");
+  // data->pop_front();
+  // my_curve testvector = *(data->begin());
+  // my_vector zerovector(testvector.vectordimentions);
+  // for (size_t i = 0; i < zerovector.dim; i++) {
+  //     zerovector.coordinates[i] = 0.02;
+  // }
+  // GridHash G(zerovector);
+  // //G.t->print_vec();
+  // my_vector result=G.gridify(testvector);
+  // result.print_vec();
+  //delete data;
   return 0;
 }

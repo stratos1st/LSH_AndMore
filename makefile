@@ -4,13 +4,13 @@ CGLAG=  -ggdb -lm -g -m64 -O0
 all: main lsh cube
 
 main: main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o  my_curve.o GridHash.o
-	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curve.o
+	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curve.o GridHash.o
 
-lsh: lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o GridHash.o
+lsh: lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o
 	$(CC) $(CFLAG) -o lsh lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o
 
-cube: random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curve.o GridHash.o
-	$(CC) $(CFLAG) -o cube random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curve.o
+cube: random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curve.o
+	$(CC) $(CFLAG) -o cube random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curve.o 
 
 random_projection_main.o: random_projection_main.cpp
 	$(CC) -c random_projection_main.cpp
