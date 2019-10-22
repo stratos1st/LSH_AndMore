@@ -2,21 +2,39 @@
 
 using namespace std;
 
-my_curve& GridHash::gridify(my_curve& c){
+my_vector& GridHash::gridify(my_curve& c){// maybe call it vectorize
   if (c.vectordimentions != t->dim) {
     cerr<<"\n\n!! ERROR this curve has dif dimentions from the shift vec !!\n\n";
     exit(1);
   }
-  my_curve* gridcurve = new my_curve(c.numofvectors,c.vectordimentions);//new empty vector
   //snap - map point to nearest grid point
-  for(unsigned int i=0;i<=c.numofvectors-1;i++)
+  list <my_vector> gridcurve;//this list will be used later for the merge of same vectors
+  for(unsigned int i=0;i<=c.numofvectors-1;i++){
+    my_vector* newpoint = new my_vector(*c.vectors[i]);// make a new copy of the vector that will be saved in the list
     for(unsigned int j=0;j<=c.vectordimentions-1;j++)
     {
       double x=c.vectors[i]->coordinates[j];
       double shift = x-t->coordinates[j]; // i am shifting temporarily allthe points from the opposite direction istead of the curve being shifted
-      //gridcurve.vectors[i]->coordinates[j]=(shift/delta)*delta+(shift%delta>delta/2)*delta+t->coordinates[j];
+      newpoint[j]==floor(shift/delta)*delta+(fmod(shift,delta)>delta/2)*delta+t->coordinates[j];
     }
-  return *gridcurve;
+    gridcurve.push_back(*newpoint);
+  }
+  // remove dublicates
+  list <my_vector> :: iterator previous = gridcurve.begin();
+  for(list <my_vector> :: iterator it = gridcurve.begin()++; it != gridcurve.end(); ++it){
+    if (*previous==*it) {// might be wrong
+      gridcurve.erase(it);//maybe needs it++/++it
+    }
+  }
+  //concate points
+  my_vector* vectorcurve = new my_vector(gridcurve.size()*c.vectordimentions);
+  unsigned int i = 0;
+  for(list <my_vector> :: iterator it = gridcurve.begin(); it != gridcurve.end(); ++it){
+    for (unsigned int j = 0; j <= c.vectordimentions; j++) {
+      vectorcurve->coordinates[i++]=it->coordinates[j];
+    }
+  }
+  return *vectorcurve;
 }
 
 GridHash::GridHash(unsigned int dimentions){
