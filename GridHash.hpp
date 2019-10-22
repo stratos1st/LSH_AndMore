@@ -1,7 +1,10 @@
 #include <iostream>
+#include <list>
 #include <stdlib.h>
 #include <random>
 #include <chrono>
+#include <cmath>
+#include <tgmath.h>
 #include "my_curve.hpp"
 
 
@@ -12,5 +15,5 @@ public:
   GridHash(my_vector& c);   //create manualy a shift in the grid
   GridHash(unsigned int dimentions);
   ~GridHash();
-  my_curve& gridify(my_curve& c);
+  my_vector& gridify(my_curve& c);
 };

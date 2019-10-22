@@ -65,3 +65,12 @@ void my_vector::print_vec(unsigned int until){
     cout<<coordinates[i]<<", ";
   cout<<endl;
 }
+
+bool my_vector::operator==(const my_vector &other){
+  if(get_dimentions()!=other.get_dimentions())
+    return false;
+  for(unsigned int i=0;i<get_dimentions();i++)
+    if (coordinates[i]!=other.coordinates[i]) 
+      return false;
+  return true;
+}
