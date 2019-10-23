@@ -5,8 +5,12 @@
 #include <unordered_map>
 #include <list>
 
+#include "GridHash.hpp"
+#include "my_curve.hpp"
 #include "my_vector.hpp"
 #include "g_i.hpp"
+#include "util.hpp"
+
 
 class lsh{
 protected:
@@ -35,5 +39,27 @@ class lsh_vector:lsh{
                     double (*distance_metric)(my_vector&, my_vector&));
 };
 
+class lsh_curve:lsh{
+  private:
+    const unsigned int max_curve_sz;
+    GridHash** gridhashfunctions;
+    std::unordered_multimap<long int,std::pair<my_curve*,my_vector*>> **hash_table;
+    std::list<my_curve> *data;
+    std::list<std::pair<my_curve*,my_vector*>> **matching;
+
+    my_vector* gridify_and_padd(my_curve& curve, unsigned int iteration);
+  public:
+    lsh_curve(unsigned int vector_dimentions, unsigned int _max_curve_sz, const unsigned int _l=10, const float _w=4000,
+              const unsigned int _k=4, const size_t _container_sz=9000,
+              const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
+    ~lsh_curve();
+    void train(std::list <my_curve> *train_data_set);
+    std::pair<my_curve*, double> find_NN(my_curve &query,
+                    double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
+                    double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
+    std::list<my_curve*>* find_rNN(my_curve &query,  double r,
+                    double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
+                    double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
+};
 
 #endif

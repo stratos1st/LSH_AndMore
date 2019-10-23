@@ -15,7 +15,7 @@
 using namespace std;
 
 
-double Dtw( my_curve& x, my_curve& y){//TODO use arg function for euclid distance
+double Dtw( my_curve& x, my_curve& y, double(*distance_metric)(my_vector&, my_vector&)){//TODO use arg function for euclid distance
   unsigned int n=x.numofvectors,m=y.numofvectors;
   double OptValue [n+1][m+1];  // where the value of Dtw will be stored
 
@@ -28,7 +28,7 @@ double Dtw( my_curve& x, my_curve& y){//TODO use arg function for euclid distanc
   //implementing the iterative algorithm to fill OptValue
   for(unsigned int i=1;i<=n;i++)
     for(unsigned int j=1;j<=m;j++)
-      OptValue[i][j]=min(min(OptValue[i][j-1],OptValue[i-1][j]),OptValue[i-1][j-1])+manhattan_distance(x.get_vector(i-1), y.get_vector(j-1));
+      OptValue[i][j]=min(min(OptValue[i][j-1],OptValue[i-1][j]),OptValue[i-1][j-1])+distance_metric(x.get_vector(i-1), y.get_vector(j-1));
   //manhattan_distance is iterchangable with other norms
   //TODO return 1 opt solution
   return OptValue[n][m];
@@ -127,17 +127,18 @@ pair<my_vector*,double> brute_NN(list <my_vector> *data, my_vector &query, doubl
   return make_pair(ans,minn);
 }
 
-pair<my_curve*,double> brute_NN_curve(list <my_curve> *data, my_curve &query){
+pair<my_curve*,double> brute_NN_curve(list <my_curve> *data, my_curve &query,
+                        double(*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric)(my_vector&, my_vector&)),
+                        double(*distance_metric_vector)(my_vector&, my_vector&)){
   my_curve *ans;
   double minn=DBL_MAX,tmp;
   for(list <my_curve> :: iterator it = data->begin(); it != data->end(); ++it){
-    tmp=Dtw(query, *it);
+    tmp=distance_metric_curve(query, *it, distance_metric_vector);
     if(minn>tmp){
       minn=tmp;
       ans=&*it;
     }
   }
-  std::cout << "solution " <<tmp<<" id "<<ans->id<< '\n';
   return make_pair(ans,minn);
 }
 
