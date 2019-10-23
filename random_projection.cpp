@@ -12,7 +12,7 @@ using namespace std;
 
 unsigned long int * get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d);
 
-random_projection::random_projection(const float _w,//!!! l does not work
+random_projection::random_projection(const float _w,
           const unsigned int _k, const unsigned int _new_d,
           const size_t container_sz, const size_t _f_container_sz, const unsigned int _m)
           :w(_w),k(_k),m(_m),new_d(_new_d),f_container_sz(_f_container_sz){
@@ -39,7 +39,6 @@ random_projection::~random_projection(){
     delete data;
   }
 }
-
 
 void random_projection::train(list <my_vector> *train_data_set){
   #if DEBUG

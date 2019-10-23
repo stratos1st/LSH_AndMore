@@ -11,6 +11,8 @@
 #define DEBUG 0
 
 #define MAX_CURVE_POINTS 50
+//TODO MAX_CURVE_POINTS from command lsh_container_size
+//TODO container sz experiments 
 
 using namespace std;
 

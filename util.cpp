@@ -15,7 +15,7 @@
 using namespace std;
 
 
-double Dtw( my_curve& x, my_curve& y, double(*distance_metric)(my_vector&, my_vector&)){//TODO use arg function for euclid distance
+double Dtw( my_curve& x, my_curve& y, double(*distance_metric)(my_vector&, my_vector&)){
   unsigned int n=x.numofvectors,m=y.numofvectors;
   double OptValue [n+1][m+1];  // where the value of Dtw will be stored
 

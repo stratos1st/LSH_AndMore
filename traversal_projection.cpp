@@ -4,7 +4,7 @@
 
 #include "traversal_projection.hpp"
 
-#define DEBUG 0
+#define DEBUG 1
 
 using namespace std;
 
@@ -23,7 +23,7 @@ using namespace std;
   typedef unordered_set<pair<unsigned int,unsigned int>> my_unordered_set;
 #endif
 
-list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(int m, int n,
+list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(unsigned int m, unsigned int n,
                                       pair<unsigned int,unsigned int> **all_pairs);
 
 pair<my_curve*,my_vector*> project_traversal_to_vector(my_curve* curve,
@@ -45,9 +45,9 @@ traversal_projection::traversal_projection(unsigned int _max_sz):max_sz(_max_sz)
     for(unsigned int j=i;j<max_sz;j++)
       all_pairs[i][j]=make_pair(i,j);
 
-  for(unsigned int i=0;i<max_sz;i++)
+  for(unsigned int i=1;i<max_sz;i++)//FIXME itan 0
     for(unsigned int j=i;j<max_sz;j++)
-      big_table[i][j]=get_relevant_traversals(i+1,j+1,all_pairs);
+      big_table[i][j]=get_relevant_traversals(i,j,all_pairs);//FIXEME itan +0 i +1
 }
 
 traversal_projection::~traversal_projection(){
@@ -74,7 +74,7 @@ traversal_projection::~traversal_projection(){
 }
 
 void traversal_projection::print_big_table(){
-  for(unsigned int i=0;i<max_sz;i++)
+  for(unsigned int i=1;i<max_sz;i++)//FIXEME itan 0
     for(unsigned int j=i;j<max_sz;j++){
       cout<<"\n\n-------------------------------\n"<<i<<" "<<j<<endl;
       for (auto it : *big_table[i][j]){
@@ -89,28 +89,72 @@ void traversal_projection::print_big_table(){
 
 void traversal_projection::train(list <my_curve> *train_data_set){
   #if DEBUG
-  cout<<"Training lsh_vector"<<'\n';
+  cout<<"Training traversal_projection"<<'\n';
+  print_big_table();
   #endif
   //coppy train_data_set list to data
   data=new list<my_curve>(*train_data_set);
 
+  lsh_table=new lsh_curve**[max_sz];
+  for(unsigned int i=2;i<max_sz;i++){//FIXEME itan 1 i 0
+    lsh_table[i]=new lsh_curve*[max_sz];
+    for(unsigned int j=i;j<max_sz;j++){
+      #if DEBUG
+      cout<<"creating lsh_curve for traversals "<<i<<","<<j<<endl;
+      #endif
+      lsh_table[i][j]= new lsh_curve(train_data_set->begin()->vectordimentions,i,2,0.001,4,100);//TODO parameters from aoutside
+      list<pair<my_curve *, my_vector *>> *tmp=new list<pair<my_curve *, my_vector *>>;
+      for(auto it=data->begin();it!=data->end();++it)
+        if(it->numofvectors==i)
+          for(auto ij=big_table[i][j]->begin();ij!=big_table[i][j]->end();++ij)
+            tmp->push_back(project_traversal_to_vector(&*it,*ij));
+      lsh_table[i][j]->train(tmp);
+      tmp->clear();
+      delete[] tmp;
+    }
+  }
 
+}
+
+std::pair<my_curve*, double> traversal_projection::find_NN(my_curve &query,
+                double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
+                double(*distance_metric_vector)(my_vector&, my_vector&)){
+  unsigned int i=query.numofvectors;
+  unsigned int j=query.numofvectors;
+  my_curve* ans;
+  double minn=100000.0;
+
+  for(auto ij=big_table[i][j]->begin();ij!=big_table[i][j]->end();++ij){
+    pair<my_curve*,my_vector*> tmp=project_traversal_to_vector(&query,*ij);
+    pair<my_curve*,double> tmp2=lsh_table[i][j]->find_NN(tmp,distance_metric_curve);//TODO add distance_metric_vector as parameter of distance_metric_curve
+    if(minn>tmp2.second)
+      make_pair(ans, minn)=tmp2;
+  }
+  return make_pair(ans, minn);
 }
 
 //----------------------------------------------- OTHER
 
 pair<my_curve*,my_vector*> project_traversal_to_vector(my_curve* curve,
                   list<pair<unsigned int,unsigned int>*>* traversal, bool is_query){
-  my_vector *concat_vector=new my_vector(curve->numofvectors*curve->vectordimentions);
+  #if DEBUG
+  cout<<"entering project_traversal_to_vector for"<<curve->vectordimentions<<"d curve with "
+  <<curve->numofvectors<<" points and traversal: \n";
+  for(auto it=traversal->begin();it!=traversal->end();++it)
+    cout<<(*it)->first<<","<<(*it)->second<<" ";
+  cout<<endl;
+  #endif
+  my_vector *concat_vector=new my_vector(traversal->size()*curve->vectordimentions);
   concat_vector->id=curve->id;
 
+  //TODO could be done without
   unsigned int indx=0;
   for(auto it=traversal->begin();it!=traversal->end();++it)
     for(unsigned int j=0;j<curve->vectordimentions;j++)
       if(!is_query)
-        concat_vector[indx++]=curve->vectors[(*it)->first][j];//TODO *D
+        concat_vector->coordinates[indx++]=curve->vectors[(*it)->first]->coordinates[j];//TODO *D
       else
-        concat_vector[indx++]=curve->vectors[(*it)->second][j];//TODO *D
+        concat_vector->coordinates[indx++]=curve->vectors[(*it)->second]->coordinates[j];//TODO *D
 
   return make_pair(curve,concat_vector);
 }
@@ -134,6 +178,7 @@ my_unordered_set *get_diagonal(unsigned int x_sz, unsigned int y_sz){
   }
 
   #if DEBUG
+  cout<<x_sz<<"*"<<y_sz<<" table"<<endl;
   for(pair<unsigned int, unsigned int> i : *coo)
     cout<<"x= "<<i.first<<"\ty= "<<i.second<<endl;
   #endif
@@ -165,20 +210,19 @@ my_unordered_set *get_diagonal_plus(my_unordered_set *traversals_diagonal,unsign
 }
 
 //modifies relevant_traversals to a list containing all the relevant traversals(list)
-void make_relevant_traversals(int i, int j, int m, int n,
+void make_relevant_traversals(unsigned int i, unsigned  int j, unsigned int m, unsigned int n,
                       pair<unsigned int,unsigned int> **path, int pi,
                       my_unordered_set *relevant_squares,
                       list<list<pair<unsigned int,unsigned int>*>*> *relevant_traversals,
                       pair<unsigned int,unsigned int>** all_pairs){
+    if(relevant_squares->find(make_pair(i,j))==relevant_squares->end())
+      return;
     // Reached the bottom of the matrix so we are left with only option to move right
     if (i == m-1){
-      for (int k = j; k < n; k++)
+      for (unsigned int k = j; k < n; k++)
         path[pi + k - j] = &all_pairs[m-1][k];
-      for (int l = 0; l < pi + n - j; l++)
-        if(relevant_squares->find(*path[l])==relevant_squares->end())
-          return;
       list<pair<unsigned int,unsigned int>*> *tmp=new list<pair<unsigned int,unsigned int>*>;
-      for (int l = 0; l < pi + n - j; l++)
+      for (unsigned int l = 0; l < pi + n - j; l++)
         tmp->push_back(path[l]);
       relevant_traversals->push_back(tmp);
       return;
@@ -186,13 +230,10 @@ void make_relevant_traversals(int i, int j, int m, int n,
 
     // Reached the right corner of the matrix we are left with only the downward movement.
     if (j == n-1){
-      for (int k = i; k < m; k++)
+      for (unsigned int k = i; k < m; k++)
         path[pi + k - i] = &all_pairs[k][n-1];
-      for (int l = 0; l < pi + m - i; l++)
-        if(relevant_squares->find(*path[l])==relevant_squares->end())
-          return;
       list<pair<unsigned int,unsigned int>*> *tmp=new list<pair<unsigned int,unsigned int>*>;
-      for (int l = 0; l < pi + m - i; l++)
+      for (unsigned int l = 0; l < pi + m - i; l++)
         tmp->push_back(path[l]);
       relevant_traversals->push_back(tmp);
       return;
@@ -211,7 +252,7 @@ void make_relevant_traversals(int i, int j, int m, int n,
 
 //calls get_diagonal, get_diagonal_plus and make_relevant_traversals and returns a list of lists
 //filled with all the relevant traversals
-list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(int m, int n,
+list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(unsigned int m, unsigned int n,
                                     pair<unsigned int,unsigned int>** all_pairs){
   my_unordered_set *relevant_squares;
   relevant_squares=get_diagonal(m,n);
@@ -219,10 +260,10 @@ list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(int m, in
   cout<<"get_diagonal done!!\n";
     cout<<"---------------\n";
   #endif
-  relevant_squares=get_diagonal_plus(relevant_squares,n);
-  #if DEBUG
-  cout<<"get_diagonal_plus done!!\n";
-  #endif
+  // relevant_squares=get_diagonal_plus(relevant_squares,n);
+  // #if DEBUG
+  // cout<<"get_diagonal_plus done!!\n";
+  // #endif
 
   list<list<pair<unsigned int,unsigned int>*>*> *relevant_traversals=new list<list<pair<unsigned int,unsigned int>*>*>;
   pair<unsigned int,unsigned int> **path = new pair<unsigned int,unsigned int>*[m+n];

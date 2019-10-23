@@ -16,8 +16,8 @@ using namespace std;
 
 int main(){
 
-  traversal_projection a(3);
-  a.print_big_table();
+  traversal_projection *a=new traversal_projection(3);
+  a->print_big_table();
 
   return 0;
 }

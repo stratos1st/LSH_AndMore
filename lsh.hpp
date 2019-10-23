@@ -54,7 +54,11 @@ class lsh_curve:lsh{
               const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
     ~lsh_curve();
     void train(std::list <my_curve> *train_data_set);
+    void train(std::list <std::pair<my_curve*,my_vector*>> *train_data_set);
     std::pair<my_curve*, double> find_NN(my_curve &query,
+                    double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
+                    double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
+    std::pair<my_curve*, double> find_NN(std::pair<my_curve*,my_vector*> &query,
                     double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
                     double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
     std::list<my_curve*>* find_rNN(my_curve &query,  double r,
