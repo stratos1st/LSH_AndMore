@@ -15,7 +15,7 @@ double dmod(double &x,double &y){
   return x - (int)(x/y)*y;
 }
 
-my_vector& GridHash::gridify(my_curve& c){// maybe call it vectorize
+my_vector* GridHash::gridify(my_curve& c){// maybe call it vectorize
   if (c.vectordimentions != t->dim) {
     cerr<<"\n\n!! ERROR this curve has dif dimentions from the shift vec !!\n\n";
     exit(1);
@@ -50,7 +50,7 @@ my_vector& GridHash::gridify(my_curve& c){// maybe call it vectorize
   for(list <my_vector> :: iterator it = gridcurve.begin(); it != gridcurve.end(); ++it)
     it->print_vec();
   #endif
-  return *vectorcurve;
+  return vectorcurve;
 }
 
 GridHash::GridHash(unsigned int dimentions){

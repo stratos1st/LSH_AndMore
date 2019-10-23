@@ -10,7 +10,7 @@ public:
   GridHash(my_vector& c);   //create manualy a shift in the grid
   GridHash(unsigned int dimentions);
   ~GridHash();
-  my_vector& gridify(my_curve& c);
+  my_vector* gridify(my_curve& c);//returns gridifed not paded vector
 };
 
 #endif
