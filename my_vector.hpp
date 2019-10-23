@@ -14,7 +14,7 @@ class my_vector{
 
   unsigned int get_dimentions() const;
   void print_vec(unsigned int until=0);//prints x1,x1,...,xuntil. if until==0 prints all
-  bool operator==(const my_vector &other);
+  friend bool operator==(const my_vector &other,const my_vector &other2);
 };
 
 #endif
