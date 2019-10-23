@@ -26,6 +26,9 @@ using namespace std;
 list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(int m, int n,
                                       pair<unsigned int,unsigned int> **all_pairs);
 
+pair<my_curve*,my_vector*> project_traversal_to_vector(my_curve* curve,
+                  list<pair<unsigned int,unsigned int>*>* traversal, bool=false);
+
 traversal_projection::traversal_projection(unsigned int _max_sz):max_sz(_max_sz){
   #if DEBUG
   cout<<"Constructing traversal_projection"<<'\n';
@@ -84,8 +87,33 @@ void traversal_projection::print_big_table(){
 
 }
 
+void traversal_projection::train(list <my_curve> *train_data_set){
+  #if DEBUG
+  cout<<"Training lsh_vector"<<'\n';
+  #endif
+  //coppy train_data_set list to data
+  data=new list<my_curve>(*train_data_set);
+
+
+}
 
 //----------------------------------------------- OTHER
+
+pair<my_curve*,my_vector*> project_traversal_to_vector(my_curve* curve,
+                  list<pair<unsigned int,unsigned int>*>* traversal, bool is_query){
+  my_vector *concat_vector=new my_vector(curve->numofvectors*curve->vectordimentions);
+  concat_vector->id=curve->id;
+
+  unsigned int indx=0;
+  for(auto it=traversal->begin();it!=traversal->end();++it)
+    for(unsigned int j=0;j<curve->vectordimentions;j++)
+      if(!is_query)
+        concat_vector[indx++]=curve->vectors[(*it)->first][j];//TODO *D
+      else
+        concat_vector[indx++]=curve->vectors[(*it)->second][j];//TODO *D
+
+  return make_pair(curve,concat_vector);
+}
 
 //reteurns a unordered_set containing the squares of the diagonal
 my_unordered_set *get_diagonal(unsigned int x_sz, unsigned int y_sz){
