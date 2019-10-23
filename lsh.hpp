@@ -11,7 +11,6 @@
 #include "g_i.hpp"
 #include "util.hpp"
 
-
 class lsh{
 protected:
     const float w;

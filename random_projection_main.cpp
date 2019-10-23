@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
     new_d=log2(data->size());
     cout<<"default d'= "<<new_d<<endl;
   }
-  random_projection model(w,k,new_d,cube_container_size,f_container_sz,m);
+  random_projection_vector model(w,k,new_d,cube_container_size,f_container_sz,m);
   model.train(data);
   cout<<"cube training done!!\n";
 
