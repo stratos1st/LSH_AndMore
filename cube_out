@@ -1,722 +1,772 @@
 Query: 1
-Nearest neighbor: 7111
-distanceCube: 3043
+Nearest neighbor: 2177
+distanceCube: 2064
 distanceTrue: 2064
-tCube: 10076047
-tTrue: 205064029
+tCube: 144031825
+tTrue: 196819389
 R-near neighbors: 
 Query: 2
-Nearest neighbor: 9963
-distanceCube: 2435
+Nearest neighbor: 2782
+distanceCube: 2045
 distanceTrue: 2045
-tCube: 4314824
-tTrue: 199632717
+tCube: 112777549
+tTrue: 194103920
 R-near neighbors: 
 Query: 3
-Nearest neighbor: 6996
-distanceCube: 1669
+Nearest neighbor: 9973
+distanceCube: 1619
 distanceTrue: 1619
-tCube: 4336657
-tTrue: 197972099
+tCube: 116180542
+tTrue: 191314229
 R-near neighbors: 
 Query: 4
-Nearest neighbor: 5189
-distanceCube: 2497
+Nearest neighbor: 9844
+distanceCube: 1593
 distanceTrue: 1593
-tCube: 4741980
-tTrue: 203459841
+tCube: 105923356
+tTrue: 189248075
 R-near neighbors: 
 Query: 5
-Nearest neighbor: 1303
-distanceCube: 2425
+Nearest neighbor: 4720
+distanceCube: 1877
 distanceTrue: 1680
-tCube: 5091558
-tTrue: 214229637
+tCube: 106458841
+tTrue: 195882026
 R-near neighbors: 
 Query: 6
-Nearest neighbor: 2647
-distanceCube: 3129
+Nearest neighbor: 1240
+distanceCube: 2180
 distanceTrue: 2180
-tCube: 4500617
-tTrue: 201282588
+tCube: 108861131
+tTrue: 189034033
 R-near neighbors: 
 Query: 7
-Nearest neighbor: 3183
-distanceCube: 2707
+Nearest neighbor: 3531
+distanceCube: 1983
 distanceTrue: 1946
-tCube: 4212954
-tTrue: 199536031
+tCube: 112439979
+tTrue: 191547964
 R-near neighbors: 
 Query: 8
-Nearest neighbor: 2805
-distanceCube: 1384
+Nearest neighbor: 5869
+distanceCube: 1149
 distanceTrue: 1149
-tCube: 4446071
-tTrue: 198054038
+tCube: 106268821
+tTrue: 192324265
 R-near neighbors: 
 Query: 9
-Nearest neighbor: 334
-distanceCube: 2835
+Nearest neighbor: 3383
+distanceCube: 1872
 distanceTrue: 1791
-tCube: 4399627
-tTrue: 199014096
+tCube: 139376019
+tTrue: 217504285
 R-near neighbors: 
 Query: 10
-Nearest neighbor: 918
-distanceCube: 2217
+Nearest neighbor: 4720
+distanceCube: 1834
 distanceTrue: 1834
-tCube: 4310916
-tTrue: 202206753
+tCube: 105971095
+tTrue: 191842939
 R-near neighbors: 
 Query: 11
-Nearest neighbor: 1615
-distanceCube: 2288
+Nearest neighbor: 694
+distanceCube: 2067
 distanceTrue: 2067
-tCube: 4688170
-tTrue: 198426786
+tCube: 105887662
+tTrue: 191775537
 R-near neighbors: 
 Query: 12
-Nearest neighbor: 60
-distanceCube: 1866
+Nearest neighbor: 4698
+distanceCube: 1280
 distanceTrue: 1280
-tCube: 4670328
-tTrue: 205093569
+tCube: 106213347
+tTrue: 192305501
 R-near neighbors: 
 Query: 13
-Nearest neighbor: 1070
-distanceCube: 2235
+Nearest neighbor: 2129
+distanceCube: 1848
 distanceTrue: 1811
-tCube: 4720561
-tTrue: 198917049
+tCube: 105872789
+tTrue: 189649638
 R-near neighbors: 
 Query: 14
-Nearest neighbor: 3629
-distanceCube: 2430
+Nearest neighbor: 9816
+distanceCube: 1829
 distanceTrue: 1829
-tCube: 4843058
-tTrue: 198951736
+tCube: 112216568
+tTrue: 191461568
 R-near neighbors: 
 Query: 15
-Nearest neighbor: 1041
-distanceCube: 2763
+Nearest neighbor: 798
+distanceCube: 2136
 distanceTrue: 2136
-tCube: 4866300
-tTrue: 201647711
+tCube: 116051771
+tTrue: 190583695
 R-near neighbors: 
 Query: 16
-Nearest neighbor: 4681
-distanceCube: 2521
+Nearest neighbor: 410
+distanceCube: 1973
 distanceTrue: 1973
-tCube: 4607779
-tTrue: 198236465
+tCube: 112588987
+tTrue: 191580107
 R-near neighbors: 
 Query: 17
-Nearest neighbor: 372
-distanceCube: 2230
+Nearest neighbor: 471
+distanceCube: 1963
 distanceTrue: 1963
-tCube: 4716049
-tTrue: 202909036
+tCube: 108229342
+tTrue: 193371620
 R-near neighbors: 
 Query: 18
-Nearest neighbor: 9527
-distanceCube: 2484
+Nearest neighbor: 4097
+distanceCube: 1987
 distanceTrue: 1987
-tCube: 4755288
-tTrue: 201542938
+tCube: 112448154
+tTrue: 190625226
 R-near neighbors: 
 Query: 19
-Nearest neighbor: 8992
-distanceCube: 2949
+Nearest neighbor: 143
+distanceCube: 2151
 distanceTrue: 1964
-tCube: 4504648
-tTrue: 199852971
+tCube: 106868983
+tTrue: 191279361
 R-near neighbors: 
 Query: 20
-Nearest neighbor: 8570
-distanceCube: 2623
+Nearest neighbor: 9807
+distanceCube: 1754
 distanceTrue: 1754
-tCube: 4327966
-tTrue: 200316782
+tCube: 123097093
+tTrue: 188981596
 R-near neighbors: 
 Query: 21
-Nearest neighbor: 7758
-distanceCube: 1828
+Nearest neighbor: 7420
+distanceCube: 1300
 distanceTrue: 1239
-tCube: 4715523
-tTrue: 198889726
+tCube: 112451586
+tTrue: 190478359
 R-near neighbors: 
 Query: 22
-Nearest neighbor: 9697
-distanceCube: 2303
+Nearest neighbor: 4491
+distanceCube: 486
 distanceTrue: 486
-tCube: 4072095
-tTrue: 198050028
+tCube: 116186899
+tTrue: 192846078
 R-near neighbors: 
+4491
+4458
 Query: 23
-Nearest neighbor: 9722
-distanceCube: 2756
+Nearest neighbor: 4958
+distanceCube: 1159
 distanceTrue: 1159
-tCube: 4745158
-tTrue: 204603637
+tCube: 112116219
+tTrue: 190315265
 R-near neighbors: 
 Query: 24
-Nearest neighbor: 5745
-distanceCube: 2474
+Nearest neighbor: 5759
+distanceCube: 1556
 distanceTrue: 1520
-tCube: 4086972
-tTrue: 202920143
+tCube: 112436156
+tTrue: 191390854
 R-near neighbors: 
 Query: 25
 Nearest neighbor: 4631
 distanceCube: 1068
 distanceTrue: 1068
-tCube: 4531584
-tTrue: 217357121
+tCube: 116116387
+tTrue: 190184665
 R-near neighbors: 
 Query: 26
-Nearest neighbor: 3216
-distanceCube: 2762
+Nearest neighbor: 5948
+distanceCube: 1945
 distanceTrue: 1919
-tCube: 5602010
-tTrue: 208564006
+tCube: 112418991
+tTrue: 189124922
 R-near neighbors: 
 Query: 27
-Nearest neighbor: 4743
-distanceCube: 1872
+Nearest neighbor: 6828
+distanceCube: 1251
 distanceTrue: 1251
-tCube: 4496384
-tTrue: 219674548
+tCube: 108348505
+tTrue: 193160844
 R-near neighbors: 
 Query: 28
-Nearest neighbor: 4690
-distanceCube: 2158
+Nearest neighbor: 5964
+distanceCube: 1166
 distanceTrue: 1166
-tCube: 4502897
-tTrue: 245311407
+tCube: 106810711
+tTrue: 189610612
 R-near neighbors: 
 Query: 29
-Nearest neighbor: 5478
-distanceCube: 1629
+Nearest neighbor: 4462
+distanceCube: 1527
 distanceTrue: 1504
-tCube: 4667589
-tTrue: 204041946
+tCube: 112549041
+tTrue: 192047265
 R-near neighbors: 
 Query: 30
 Nearest neighbor: 5454
 distanceCube: 734
 distanceTrue: 734
-tCube: 4519823
-tTrue: 227595970
+tCube: 116534082
+tTrue: 194957323
 R-near neighbors: 
 5454
 5233
 Query: 31
-Nearest neighbor: 5542
-distanceCube: 2512
+Nearest neighbor: 5653
+distanceCube: 1877
 distanceTrue: 1819
-tCube: 7577437
-tTrue: 332169897
+tCube: 112280435
+tTrue: 192339142
 R-near neighbors: 
 Query: 32
 Nearest neighbor: 5560
 distanceCube: 741
 distanceTrue: 741
-tCube: 4740498
-tTrue: 247340877
+tCube: 105979549
+tTrue: 192898356
 R-near neighbors: 
+4996
 5560
 Query: 33
-Nearest neighbor: 5572
-distanceCube: 2337
+Nearest neighbor: 5301
+distanceCube: 1210
 distanceTrue: 1210
-tCube: 4490645
-tTrue: 204730975
+tCube: 105946366
+tTrue: 189724890
 R-near neighbors: 
 Query: 34
-Nearest neighbor: 303
-distanceCube: 3691
+Nearest neighbor: 8151
+distanceCube: 2368
 distanceTrue: 2368
-tCube: 4172852
-tTrue: 224568129
+tCube: 109084347
+tTrue: 189915560
 R-near neighbors: 
 Query: 35
-Nearest neighbor: 5332
-distanceCube: 2802
+Nearest neighbor: 5403
+distanceCube: 2000
 distanceTrue: 1951
-tCube: 5339557
-tTrue: 202571382
+tCube: 115874783
+tTrue: 188937965
 R-near neighbors: 
 Query: 36
 Nearest neighbor: 6708
 distanceCube: 1179
 distanceTrue: 969
-tCube: 5947545
-tTrue: 198536696
+tCube: 113206187
+tTrue: 191385845
 R-near neighbors: 
 Query: 37
 Nearest neighbor: 5843
 distanceCube: 865
 distanceTrue: 865
-tCube: 4061003
-tTrue: 204984435
+tCube: 106552546
+tTrue: 194058901
 R-near neighbors: 
 5843
 Query: 38
 Nearest neighbor: 8145
 distanceCube: 2092
 distanceTrue: 1241
-tCube: 4640662
-tTrue: 203636591
+tCube: 149124473
+tTrue: 194076963
 R-near neighbors: 
 Query: 39
-Nearest neighbor: 4573
-distanceCube: 2718
+Nearest neighbor: 1321
+distanceCube: 2090
 distanceTrue: 995
-tCube: 5249150
-tTrue: 206782507
+tCube: 106822009
+tTrue: 190406047
 R-near neighbors: 
 Query: 40
-Nearest neighbor: 9060
-distanceCube: 1634
+Nearest neighbor: 5075
+distanceCube: 1200
 distanceTrue: 1200
-tCube: 4853982
-tTrue: 201336929
+tCube: 117218606
+tTrue: 192863737
 R-near neighbors: 
 Query: 41
-Nearest neighbor: 7981
-distanceCube: 2467
+Nearest neighbor: 8308
+distanceCube: 1106
 distanceTrue: 1106
-tCube: 4570797
-tTrue: 201563069
+tCube: 106478827
+tTrue: 190521782
 R-near neighbors: 
 Query: 42
-Nearest neighbor: 2003
-distanceCube: 2920
+Nearest neighbor: 4644
+distanceCube: 1442
 distanceTrue: 1442
-tCube: 4320718
-tTrue: 200248424
+tCube: 106366954
+tTrue: 194140428
 R-near neighbors: 
 Query: 43
-Nearest neighbor: 7477
-distanceCube: 2819
+Nearest neighbor: 4391
+distanceCube: 1854
 distanceTrue: 1629
-tCube: 4649202
-tTrue: 216573489
+tCube: 106804842
+tTrue: 190748780
 R-near neighbors: 
 Query: 44
-Nearest neighbor: 8240
-distanceCube: 2635
+Nearest neighbor: 6303
+distanceCube: 1275
 distanceTrue: 1275
-tCube: 4687728
-tTrue: 200348528
+tCube: 138368259
+tTrue: 198091099
 R-near neighbors: 
 Query: 45
-Nearest neighbor: 4825
-distanceCube: 1811
+Nearest neighbor: 8616
+distanceCube: 1483
 distanceTrue: 1483
-tCube: 4562670
-tTrue: 200017517
+tCube: 110254382
+tTrue: 190496386
 R-near neighbors: 
 Query: 46
-Nearest neighbor: 5956
-distanceCube: 2014
+Nearest neighbor: 7877
+distanceCube: 1628
 distanceTrue: 1628
-tCube: 5489548
-tTrue: 200789414
+tCube: 112718072
+tTrue: 190763977
 R-near neighbors: 
 Query: 47
-Nearest neighbor: 6326
-distanceCube: 1851
+Nearest neighbor: 5881
+distanceCube: 646
 distanceTrue: 646
-tCube: 4530533
-tTrue: 198205793
+tCube: 108564529
+tTrue: 194359469
 R-near neighbors: 
+5881
 Query: 48
-Nearest neighbor: 3905
-distanceCube: 2805
+Nearest neighbor: 6708
+distanceCube: 2560
 distanceTrue: 2446
-tCube: 4333519
-tTrue: 199973963
+tCube: 113208460
+tTrue: 191250715
 R-near neighbors: 
 Query: 49
-Nearest neighbor: 4960
-distanceCube: 2411
+Nearest neighbor: 5214
+distanceCube: 968
 distanceTrue: 968
-tCube: 4285272
-tTrue: 198960855
+tCube: 108864457
+tTrue: 190589696
 R-near neighbors: 
+5214
 Query: 50
-Nearest neighbor: 4511
-distanceCube: 2217
+Nearest neighbor: 5139
+distanceCube: 1149
 distanceTrue: 849
-tCube: 4161421
-tTrue: 202365468
+tCube: 116570370
+tTrue: 190985124
 R-near neighbors: 
 Query: 51
-Nearest neighbor: 6238
-distanceCube: 2623
+Nearest neighbor: 5013
+distanceCube: 1130
 distanceTrue: 1130
-tCube: 4400348
-tTrue: 200597166
+tCube: 108918827
+tTrue: 189890192
 R-near neighbors: 
 Query: 52
-Nearest neighbor: 7696
-distanceCube: 2102
+Nearest neighbor: 6124
+distanceCube: 848
 distanceTrue: 848
-tCube: 4559606
-tTrue: 200791401
+tCube: 106156523
+tTrue: 192845083
 R-near neighbors: 
+6124
 Query: 53
-Nearest neighbor: 16
-distanceCube: 1759
+Nearest neighbor: 4877
+distanceCube: 1541
 distanceTrue: 1188
-tCube: 4313165
-tTrue: 201179929
+tCube: 114756035
+tTrue: 190124714
 R-near neighbors: 
 Query: 54
-Nearest neighbor: 7040
-distanceCube: 2066
+Nearest neighbor: 7910
+distanceCube: 1686
 distanceTrue: 1219
-tCube: 4502341
-tTrue: 199248643
+tCube: 105830772
+tTrue: 190259688
 R-near neighbors: 
 Query: 55
-Nearest neighbor: 9427
-distanceCube: 3272
+Nearest neighbor: 6168
+distanceCube: 979
 distanceTrue: 979
-tCube: 4089148
-tTrue: 201059796
+tCube: 111047535
+tTrue: 189086227
 R-near neighbors: 
+4799
+6168
+6159
 Query: 56
-Nearest neighbor: 6592
-distanceCube: 1353
+Nearest neighbor: 6005
+distanceCube: 1048
 distanceTrue: 1042
-tCube: 4534907
-tTrue: 200950145
+tCube: 105831100
+tTrue: 190128884
 R-near neighbors: 
 Query: 57
-Nearest neighbor: 9104
-distanceCube: 1955
+Nearest neighbor: 4904
+distanceCube: 1436
 distanceTrue: 1436
-tCube: 4304722
-tTrue: 202761339
+tCube: 115589143
+tTrue: 191844201
 R-near neighbors: 
 Query: 58
-Nearest neighbor: 7375
-distanceCube: 1607
+Nearest neighbor: 5285
+distanceCube: 1532
 distanceTrue: 1176
-tCube: 4690348
-tTrue: 202064395
+tCube: 105838318
+tTrue: 189012560
 R-near neighbors: 
 Query: 59
-Nearest neighbor: 7166
-distanceCube: 2898
+Nearest neighbor: 7238
+distanceCube: 460
 distanceTrue: 460
-tCube: 4487551
-tTrue: 199118369
+tCube: 107920011
+tTrue: 191859119
 R-near neighbors: 
+7238
 Query: 60
-Nearest neighbor: 6835
-distanceCube: 619
+Nearest neighbor: 7172
+distanceCube: 703
 distanceTrue: 619
-tCube: 4807166
-tTrue: 198606341
+tCube: 108013733
+tTrue: 215138144
 R-near neighbors: 
-6835
-6377
-6112
-7179
-6799
-6721
-6649
-6317
-6161
+6711
+6483
+4800
+6167
+7635
+7172
 Query: 61
-Nearest neighbor: 4667
-distanceCube: 2330
+Nearest neighbor: 5048
+distanceCube: 1994
 distanceTrue: 1209
-tCube: 4438614
-tTrue: 204518978
+tCube: 108270670
+tTrue: 190255868
 R-near neighbors: 
 Query: 62
-Nearest neighbor: 2875
-distanceCube: 1922
+Nearest neighbor: 8403
+distanceCube: 732
 distanceTrue: 732
-tCube: 4305344
-tTrue: 204905279
+tCube: 113478436
+tTrue: 191833015
 R-near neighbors: 
+8403
 Query: 63
-Nearest neighbor: 6899
-distanceCube: 1310
+Nearest neighbor: 6912
+distanceCube: 1054
 distanceTrue: 832
-tCube: 4489040
-tTrue: 205658863
+tCube: 114880960
+tTrue: 189778668
 R-near neighbors: 
 Query: 64
-Nearest neighbor: 5439
-distanceCube: 1841
+Nearest neighbor: 5990
+distanceCube: 919
 distanceTrue: 627
-tCube: 7745861
-tTrue: 308094445
+tCube: 106648861
+tTrue: 192810045
 R-near neighbors: 
+5990
 Query: 65
-Nearest neighbor: 9315
-distanceCube: 1940
+Nearest neighbor: 6938
+distanceCube: 1455
 distanceTrue: 980
-tCube: 4544585
-tTrue: 228788818
+tCube: 115823292
+tTrue: 190020747
 R-near neighbors: 
 Query: 66
-Nearest neighbor: 1681
-distanceCube: 1810
+Nearest neighbor: 5505
+distanceCube: 1267
 distanceTrue: 1085
-tCube: 5058400
-tTrue: 207331369
+tCube: 112658549
+tTrue: 189070709
 R-near neighbors: 
 Query: 67
-Nearest neighbor: 6745
-distanceCube: 1932
+Nearest neighbor: 5391
+distanceCube: 1189
 distanceTrue: 1189
-tCube: 4682497
-tTrue: 213173171
+tCube: 114458920
+tTrue: 191400161
 R-near neighbors: 
 Query: 68
-Nearest neighbor: 2539
-distanceCube: 3038
+Nearest neighbor: 6858
+distanceCube: 1205
 distanceTrue: 1205
-tCube: 5383721
-tTrue: 270520956
+tCube: 105958301
+tTrue: 221349261
 R-near neighbors: 
 Query: 69
-Nearest neighbor: 2715
-distanceCube: 1908
+Nearest neighbor: 7218
+distanceCube: 1251
 distanceTrue: 1251
-tCube: 4600406
-tTrue: 212780546
+tCube: 105984216
+tTrue: 192557967
 R-near neighbors: 
 Query: 70
-Nearest neighbor: 482
-distanceCube: 3079
+Nearest neighbor: 5878
+distanceCube: 1943
 distanceTrue: 1943
-tCube: 4498552
-tTrue: 198351796
+tCube: 113831262
+tTrue: 189083882
 R-near neighbors: 
 Query: 71
-Nearest neighbor: 6431
-distanceCube: 455
+Nearest neighbor: 6125
+distanceCube: 280
 distanceTrue: 280
-tCube: 4488390
-tTrue: 200536530
+tCube: 112224094
+tTrue: 188756177
 R-near neighbors: 
-6431
+8127
+6125
+6030
+5913
+5236
+5197
 5648
+7766
+7739
+7487
+7416
+6908
+6805
+6489
+6431
+6430
+6408
+6164
+5951
+5173
 Query: 72
-Nearest neighbor: 4819
-distanceCube: 2712
+Nearest neighbor: 5886
+distanceCube: 1415
 distanceTrue: 1254
-tCube: 4813701
-tTrue: 205649739
+tCube: 112530862
+tTrue: 219122306
 R-near neighbors: 
 Query: 73
-Nearest neighbor: 1216
-distanceCube: 2727
+Nearest neighbor: 5247
+distanceCube: 2292
 distanceTrue: 2210
-tCube: 5210497
-tTrue: 201882448
+tCube: 112919372
+tTrue: 189111094
 R-near neighbors: 
 Query: 74
-Nearest neighbor: 6918
-distanceCube: 2740
+Nearest neighbor: 4241
+distanceCube: 2121
 distanceTrue: 1573
-tCube: 4642333
-tTrue: 202656737
+tCube: 112454418
+tTrue: 193220996
 R-near neighbors: 
 Query: 75
-Nearest neighbor: 4695
-distanceCube: 1915
+Nearest neighbor: 9548
+distanceCube: 1782
 distanceTrue: 986
-tCube: 4130120
-tTrue: 200820385
+tCube: 116460501
+tTrue: 189261973
 R-near neighbors: 
 Query: 76
-Nearest neighbor: 2524
-distanceCube: 3190
+Nearest neighbor: 9797
+distanceCube: 2317
 distanceTrue: 1416
-tCube: 4840556
-tTrue: 198000398
+tCube: 106378366
+tTrue: 191293410
 R-near neighbors: 
 Query: 77
-Nearest neighbor: 4007
-distanceCube: 2291
+Nearest neighbor: 7904
+distanceCube: 1648
 distanceTrue: 1648
-tCube: 4519033
-tTrue: 202439953
+tCube: 112623500
+tTrue: 192956903
 R-near neighbors: 
 Query: 78
-Nearest neighbor: 4158
-distanceCube: 3193
+Nearest neighbor: 8276
+distanceCube: 2265
 distanceTrue: 2177
-tCube: 4415251
-tTrue: 202721545
+tCube: 112578701
+tTrue: 191501010
 R-near neighbors: 
 Query: 79
-Nearest neighbor: 105
-distanceCube: 2090
+Nearest neighbor: 4737
+distanceCube: 1766
 distanceTrue: 1551
-tCube: 5539181
-tTrue: 210354966
+tCube: 112405736
+tTrue: 189368637
 R-near neighbors: 
 Query: 80
 Nearest neighbor: 8070
 distanceCube: 743
 distanceTrue: 743
-tCube: 4444426
-tTrue: 206127361
+tCube: 109546031
+tTrue: 191933013
 R-near neighbors: 
+8487
 8070
 7490
-8487
 7081
 Query: 81
-Nearest neighbor: 36
-distanceCube: 2255
+Nearest neighbor: 7452
+distanceCube: 987
 distanceTrue: 987
-tCube: 5077887
-tTrue: 202431259
+tCube: 105962898
+tTrue: 206751201
 R-near neighbors: 
+7452
 Query: 82
-Nearest neighbor: 7268
-distanceCube: 3248
+Nearest neighbor: 3087
+distanceCube: 1969
 distanceTrue: 1969
-tCube: 4567131
-tTrue: 200338362
+tCube: 114599341
+tTrue: 193616412
 R-near neighbors: 
 Query: 83
-Nearest neighbor: 4764
-distanceCube: 2604
+Nearest neighbor: 91
+distanceCube: 2001
 distanceTrue: 2001
-tCube: 4311365
-tTrue: 215487709
+tCube: 105829610
+tTrue: 189033425
 R-near neighbors: 
 Query: 84
-Nearest neighbor: 24
-distanceCube: 2248
+Nearest neighbor: 4673
+distanceCube: 1555
 distanceTrue: 1161
-tCube: 4187594
-tTrue: 213945853
+tCube: 105861056
+tTrue: 189291284
 R-near neighbors: 
 Query: 85
-Nearest neighbor: 6684
-distanceCube: 2035
+Nearest neighbor: 8895
+distanceCube: 1359
 distanceTrue: 1359
-tCube: 4389990
-tTrue: 205003321
+tCube: 116147602
+tTrue: 189469245
 R-near neighbors: 
 Query: 86
-Nearest neighbor: 6878
-distanceCube: 3610
+Nearest neighbor: 8726
+distanceCube: 1753
 distanceTrue: 1753
-tCube: 4341573
-tTrue: 199006006
+tCube: 106003522
+tTrue: 189341803
 R-near neighbors: 
 Query: 87
-Nearest neighbor: 8814
-distanceCube: 1988
+Nearest neighbor: 5744
+distanceCube: 1865
 distanceTrue: 1673
-tCube: 4628001
-tTrue: 202618318
+tCube: 112651149
+tTrue: 219851982
 R-near neighbors: 
 Query: 88
-Nearest neighbor: 7904
-distanceCube: 2860
+Nearest neighbor: 7723
+distanceCube: 683
 distanceTrue: 683
-tCube: 4397216
-tTrue: 204013386
+tCube: 112990839
+tTrue: 188942489
 R-near neighbors: 
+7723
 Query: 89
-Nearest neighbor: 9633
-distanceCube: 3089
+Nearest neighbor: 8900
+distanceCube: 765
 distanceTrue: 399
-tCube: 4774303
-tTrue: 199470478
+tCube: 106023967
+tTrue: 191545193
 R-near neighbors: 
+7066
+6327
+8900
+8104
 Query: 90
-Nearest neighbor: 7266
-distanceCube: 1143
+Nearest neighbor: 5291
+distanceCube: 1204
 distanceTrue: 690
-tCube: 4403331
-tTrue: 199093060
+tCube: 108522535
+tTrue: 217196495
 R-near neighbors: 
 Query: 91
-Nearest neighbor: 1915
-distanceCube: 2333
+Nearest neighbor: 9418
+distanceCube: 338
 distanceTrue: 310
-tCube: 4166574
-tTrue: 198909812
+tCube: 107965420
+tTrue: 189627588
 R-near neighbors: 
+9418
 Query: 92
-Nearest neighbor: 1718
-distanceCube: 2850
+Nearest neighbor: 8897
+distanceCube: 1916
 distanceTrue: 1916
-tCube: 4267224
-tTrue: 198075017
+tCube: 105447001
+tTrue: 217618877
 R-near neighbors: 
 Query: 93
-Nearest neighbor: 6200
-distanceCube: 2822
+Nearest neighbor: 909
+distanceCube: 2237
 distanceTrue: 954
-tCube: 4302435
-tTrue: 200648578
+tCube: 106067460
+tTrue: 189338509
 R-near neighbors: 
 Query: 94
-Nearest neighbor: 405
-distanceCube: 2259
+Nearest neighbor: 8979
+distanceCube: 1433
 distanceTrue: 1433
-tCube: 4052593
-tTrue: 198275241
+tCube: 112239523
+tTrue: 189280751
 R-near neighbors: 
 Query: 95
-Nearest neighbor: 6757
-distanceCube: 2281
+Nearest neighbor: 8420
+distanceCube: 977
 distanceTrue: 977
-tCube: 4501754
-tTrue: 198308161
+tCube: 115250803
+tTrue: 190115669
 R-near neighbors: 
+8420
 Query: 96
-Nearest neighbor: 8154
-distanceCube: 2408
+Nearest neighbor: 1186
+distanceCube: 2188
 distanceTrue: 2188
-tCube: 4390913
-tTrue: 198368757
+tCube: 105978137
+tTrue: 191843759
 R-near neighbors: 
 Query: 97
-Nearest neighbor: 4617
-distanceCube: 2714
+Nearest neighbor: 267
+distanceCube: 2248
 distanceTrue: 2146
-tCube: 4306473
-tTrue: 201701380
+tCube: 106014874
+tTrue: 193193495
 R-near neighbors: 
 Query: 98
-Nearest neighbor: 4844
-distanceCube: 2682
+Nearest neighbor: 8826
+distanceCube: 1515
 distanceTrue: 1515
-tCube: 4896854
-tTrue: 201304176
+tCube: 115108179
+tTrue: 189565751
 R-near neighbors: 
 Query: 99
-Nearest neighbor: 5440
-distanceCube: 833
+Nearest neighbor: 5461
+distanceCube: 817
 distanceTrue: 787
-tCube: 4789153
-tTrue: 211304386
+tCube: 105889743
+tTrue: 189486210
 R-near neighbors: 
+8225
+6883
 6048
+5461
+6633
+6293
+4609
+8152
+7963
+6382
+5925
 5440
-6290
+5174
+4826
+7463
+7218
+5006
+4556
 Query: 100
-Nearest neighbor: 3981
-distanceCube: 3423
+Nearest neighbor: 8083
+distanceCube: 1246
 distanceTrue: 1246
-tCube: 4263756
-tTrue: 204263687
+tCube: 110260694
+tTrue: 192306078
 R-near neighbors: 

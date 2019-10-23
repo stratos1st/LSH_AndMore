@@ -12,7 +12,8 @@ using namespace std;
 
 unsigned long int * get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d);
 
-random_projection::random_projection(const float _w,//!!! l does not work
+//--------------------------------------------------- random_projection
+random_projection::random_projection(const float _w,
           const unsigned int _k, const unsigned int _new_d,
           const size_t container_sz, const size_t _f_container_sz, const unsigned int _m)
           :w(_w),k(_k),m(_m),new_d(_new_d),f_container_sz(_f_container_sz){
@@ -20,8 +21,6 @@ random_projection::random_projection(const float _w,//!!! l does not work
   cout<<"Constructing random_projection"<<'\n';
   #endif
 
-  hash_table=new unordered_multimap<unsigned long int, my_vector*>;
-  hash_table->reserve(container_sz);
   table_f_i=NULL;
 }
 
@@ -29,19 +28,50 @@ random_projection::~random_projection(){
   #if DEBUG
   cout<<"Destructing random_projection"<<'\n';
   #endif
-  hash_table->clear();
-  delete hash_table;
   if(table_f_i!=NULL){//if training was done
     for(unsigned int j=0;j<new_d;j++)
       delete table_f_i[j];
     delete[] table_f_i;
+  }
+}
+
+//returns concatination of multiple f_i
+unsigned long int random_projection::hash_function(my_vector &x){
+  unsigned long int ans=0;
+  for(unsigned int i=0;i<new_d;i++){
+      ans=ans|table_f_i[i]->get_f_i(x);
+      ans=ans<<1;
+  }
+  return ans;
+}
+
+//--------------------------------------------------- random_projection_vector
+random_projection_vector::random_projection_vector(const float _w,
+          const unsigned int _k, const unsigned int _new_d,
+          const size_t container_sz, const size_t _f_container_sz, const unsigned int _m)
+          :random_projection(_w,_k,_m,_new_d,_f_container_sz){
+  #if DEBUG
+  cout<<"Constructing random_projection_vector"<<'\n';
+  #endif
+
+  hash_table=new unordered_multimap<unsigned long int, my_vector*>;
+  hash_table->reserve(container_sz);
+  data=NULL;
+}
+
+random_projection_vector::~random_projection_vector(){
+  #if DEBUG
+  cout<<"Destructing random_projection_vector"<<'\n';
+  #endif
+  hash_table->clear();
+  delete hash_table;
+  if(data!=NULL){//if training was done
     data->clear();
     delete data;
   }
 }
 
-
-void random_projection::train(list <my_vector> *train_data_set){
+void random_projection_vector::train(list <my_vector> *train_data_set){
   #if DEBUG
   cout<<"Training cube_vector"<<'\n';
   #endif
@@ -58,7 +88,7 @@ void random_projection::train(list <my_vector> *train_data_set){
       hash_table->insert({hash_function(*it),&*it});
 }
 
-pair<my_vector*, double> random_projection::find_NN(my_vector &query,
+pair<my_vector*, double> random_projection_vector::find_NN(my_vector &query,
                           double(*distance_metric)(my_vector&, my_vector&),
                           unsigned int max_points, unsigned int prodes){
   my_vector *ans;
@@ -83,7 +113,7 @@ pair<my_vector*, double> random_projection::find_NN(my_vector &query,
   return make_pair(ans,minn);
 }
 
-list<my_vector*>* random_projection::find_rNN(my_vector &query, double r,
+list<my_vector*>* random_projection_vector::find_rNN(my_vector &query, double r,
                     double(*distance_metric)(my_vector&, my_vector&),
                     unsigned int max_points, unsigned int prodes){
   list<my_vector*> *ans=new list<my_vector*>;
@@ -104,16 +134,6 @@ list<my_vector*>* random_projection::find_rNN(my_vector &query, double r,
   }
   delete[] search_hash_numbers;
   ans->unique();
-  return ans;
-}
-
-//returns concatination of multiple f_i
-unsigned long int random_projection::hash_function(my_vector &x){
-  unsigned long int ans=0;
-  for(unsigned int i=0;i<new_d;i++){
-      ans=ans|table_f_i[i]->get_f_i(x);
-      ans=ans<<1;
-  }
   return ans;
 }
 
