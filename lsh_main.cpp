@@ -14,11 +14,12 @@ using namespace std;
 
 int main(int argc, char *argv[]){
   //w is the window in h
-  int k=4, l=5,w=4000,m=3;//w not needed by project as argument. w should be float
+  float w=4000;
+  int k=4, l=5,m=3;//w not needed by project as argument. w should be float
   size_t lsh_container_size=9000;//not needed by project
 
-    char input_file_data[100]("./.atomignore/input_small_id");
-  char input_file_queries[100]("./.atomignore/query_small_id");
+    char input_file_data[100]("");//./.atomignore/input_small_id
+  char input_file_queries[100]("");//./.atomignore/query_small_id
   char out_file[100]("lsh_out");
   double r=1000;
 
@@ -59,11 +60,15 @@ int main(int argc, char *argv[]){
         exit(1);
     }
   }
-  //------------------------------------no arguments passed
+  //------------------------------------reading from keyboard
 
-  if(argc == 1){
+  if(input_file_data[0]=='\0'){ // if it is the empty string promt
     std::cout << "Enter dataset path" << '\n';
-    std::cin >> input_file_data; //needs manipulation
+    std::cin >> input_file_data;
+  }
+  if(input_file_queries[0]=='\0'){ // if it is the empty string promt
+    std::cout << "Enter queryset path" << '\n';
+    std::cin >> input_file_queries;
   }
 
 
@@ -77,6 +82,7 @@ int main(int argc, char *argv[]){
 
   //------------------------------------read input files
   list <my_vector> *data=read_vector_file(input_file_data);
+  list <my_vector> *queries=read_vector_file(input_file_queries);
 
   //------------------------------------create and train model
   lsh_vector lsh_model(data->front().get_dimentions(),l,w,k,lsh_container_size,m);
@@ -84,14 +90,8 @@ int main(int argc, char *argv[]){
   cout<<"lsh training done!!\n";
 
   //-----------------------------------loop
-  if(argc == 1){
-    std::cout << "Enter new queryset path" << '\n';
-    std::cin >> input_file_data;
-  }
-  list <my_vector> *queries=read_vector_file(input_file_queries);
-
   char option = 'y';
-  while (option == 'y') {
+  do {
 
     //------------------------------------info passed
     cout<<"program running with:\n\tdata_file= "<<input_file_data<<
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]){
     //------------------------------------fill out file, running bruteNN and cubeNN
 
     double AF_max=0.0,AF_avg=0.0,AF;
-    long int average_time=0;
+    long int average_time=0,average_time_true=0;
     unsigned int total=0;
     using namespace std::chrono;
     for(list <my_vector> :: iterator it = queries->begin(); it != queries->end(); ++it){
@@ -118,6 +118,7 @@ int main(int argc, char *argv[]){
       AF=nn_lsh.second/nn_brute.second;
       AF_max=max(AF,AF_max);
       AF_avg+=AF;
+      average_time_true+=duration_brute.count();
       average_time+=duration_lsh.count();
 
       ofile<<"Query: "<<it->id<<endl;
@@ -139,9 +140,11 @@ int main(int argc, char *argv[]){
 
     AF_avg/=total;
     average_time/=total;
-    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
+    average_time_true/=total;
 
-    //------------------------------------rerunning the program
+    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\naverage_time=\t\t"<<average_time<<" nanoseconds\navarage_time_true=\t"<<average_time_true<<" nanoseconds\n";
+
+    //------------------------------------change input
 
     std::cout << "Would you like to run LSH for another queryset (y/n)" << '\n';
     std::cin >> option;
@@ -150,11 +153,12 @@ int main(int argc, char *argv[]){
     if(option == 'y'){
       std::cout << "Enter new queryset path" << '\n';
       std::cin >> input_file_queries;
+      //cleaning memmory
       queries->clear();
       delete queries;
       queries=read_vector_file(input_file_queries);
     }
-  }
+  }while(option == 'y');
   //------------------------------------clearing memmory
   ofile.close();
   data->clear();

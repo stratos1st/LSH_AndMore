@@ -18,17 +18,18 @@ int main(int argc, char *argv[]){
   //k is the k from g(x)
   //new_d is the d' from random projection aka k in arguments
   //w is the window in h
-  int k=4,new_d=-1,w=4000,max_points=INT_MAX,prodes=25,m=3;
+  double w=4000;
+  int k=4,new_d=-1,max_points=INT_MAX,prodes=25,m=3;
   //w not needed by projectas argument. w should be float
   double r=1000;
   size_t f_container_sz=200,cube_container_size=9000;//not needed by project
-  char input_file_data[100]("./.atomignore/input_small_id");
-  char input_file_queries[100]("./.atomignore/query_small_id");
+  char input_file_data[100]("");//./.atomignore/input_small_id
+  char input_file_queries[100]("");//./.atomignore/query_small_id
   char out_file[100]("cube_out");
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:m:f:c"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:o:w:M:p:r:m:f:c"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -55,13 +56,13 @@ int main(int argc, char *argv[]){
       case 'r':
         r=atoi(optarg);
         break;
-      case 'm':
+      case 'm'://-----
         m=atoi(optarg);
         break;
-      case 'f':
+      case 'f'://-----
         f_container_sz=atoi(optarg);
         break;
-      case 'c':
+      case 'c'://-----
         cube_container_size=atoi(optarg);
         break;
       default:
@@ -69,9 +70,15 @@ int main(int argc, char *argv[]){
         exit(1);
     }
   }
-  if(argc == 1){
+  //------------------------------------reading from keyboard
+
+  if(input_file_data[0]=='\0'){ // if it is the empty string promt
     std::cout << "Enter dataset path" << '\n';
     std::cin >> input_file_data;
+  }
+  if(input_file_queries[0]=='\0'){ // if it is the empty string promt
+    std::cout << "Enter queryset path" << '\n';
+    std::cin >> input_file_queries;
   }
   //------------------------------------create out file
   ofstream ofile;
@@ -83,6 +90,7 @@ int main(int argc, char *argv[]){
 
   //------------------------------------read input files
   list <my_vector> *data=read_vector_file(input_file_data);
+  list <my_vector> *queries=read_vector_file(input_file_queries);
 
   //------------------------------------create and train model
   if(new_d==-1){
@@ -94,14 +102,8 @@ int main(int argc, char *argv[]){
   cout<<"cube training done!!\n";
   //------------------------------------loop
 
-  if(argc == 1){
-    std::cout << "Enter new queryset path" << '\n';
-    std::cin >> input_file_data;
-  }
-  list <my_vector> *queries=read_vector_file(input_file_queries);
-
   char option = 'y';
-  while (option == 'y'){
+  do{
     //------------------------------------info passed
     cout<<"program running with:\n\tdata_file= "<<input_file_data<<
       "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
@@ -111,6 +113,7 @@ int main(int argc, char *argv[]){
     //------------------------------------fill out file, running bruteNN and cubeNN
     double AF_max=0,AF_avg=0.0,AF;
     long int average_time=0;
+    long int average_time_true=0;
     unsigned int total=0;
     using namespace std::chrono;
     for(list <my_vector> :: iterator it = queries->begin(); it != queries->end(); ++it){
@@ -127,6 +130,7 @@ int main(int argc, char *argv[]){
       AF=nn_cube.second/nn_brute.second;
       AF_max=max(AF,AF_max);
       AF_avg+=AF;
+      average_time_true+=duration_brute.count();
       average_time+=duration_lsh.count();
 
       ofile<<"Query: "<<it->id<<endl;
@@ -148,10 +152,11 @@ int main(int argc, char *argv[]){
 
     AF_avg/=total;
     average_time/=total;
-    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
+    average_time_true/=total;
+    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\naverage_time=\t\t"<<average_time<<" nanoseconds\navarage_time_true=\t"<<average_time_true<<" nanoseconds\n";
     //------------------------------------rerunning the program
 
-    std::cout << "Would you like to run LSH for another queryset (y/n)" << '\n';
+    std::cout << "Would you like to run Cube for another queryset (y/n)" << '\n';
     std::cin >> option;
     while(option != 'y' && option != 'n')
       std::cin >> option;
@@ -162,7 +167,7 @@ int main(int argc, char *argv[]){
       delete queries;
       queries=read_vector_file(input_file_queries);
     }
-  }
+  }while (option == 'y');
   //------------------------------------clearing memmory
   ofile.close();
   data->clear();
