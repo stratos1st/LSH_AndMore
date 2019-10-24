@@ -57,7 +57,7 @@ class random_projection_curve:random_projection{
               const size_t _container_sz=9000, const size_t _f_container_sz=200,
               const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
     ~random_projection_curve();
-    void train(std::list <my_curver> *train_data_set);
+    void train(std::list <my_curve> *train_data_set);
     std::pair<my_vector*, double> find_NN(my_vector &query,
                 double(*distance_metric)(my_vector&, my_vector&),
                 unsigned int max_points, unsigned int prodes);
