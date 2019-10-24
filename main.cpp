@@ -36,6 +36,10 @@ int main(){
   a->train(data);
   cout<<"training done\n";
 
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> filippos
   return 0;
 }

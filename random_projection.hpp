@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <list>
 
+#include "GridHash.hpp"
+#include "my_curve.hpp"
 #include "my_vector.hpp"
 #include "f_i.hpp"
 
@@ -41,5 +43,27 @@ class random_projection_vector:random_projection{
                 unsigned int max_points, unsigned int prodes);
 };
 
+class random_projection_curve:random_projection{
+  private:
+    const unsigned int max_curve_sz;
+    GridHash** gridhashfunctions;
+    std::unordered_multimap<unsigned long int,std::pair<my_curve*,my_vector*>> **hash_table;
+    std::list<my_curve> *data;
+    std::list<std::pair<my_curve*,my_vector*>> **matching;
+
+    my_vector* gridify_and_padd(my_curve& curve, unsigned int iteration);
+  public:
+    random_projection_curve(const float _w=4000, const unsigned int _k=4, const unsigned int _new_d=3,
+              const size_t _container_sz=9000, const size_t _f_container_sz=200,
+              const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
+    ~random_projection_curve();
+    void train(std::list <my_curver> *train_data_set);
+    std::pair<my_vector*, double> find_NN(my_vector &query,
+                double(*distance_metric)(my_vector&, my_vector&),
+                unsigned int max_points, unsigned int prodes);
+    std::list<my_vector*>* find_rNN(my_vector &query, double r,
+                double(*distance_metric)(my_vector&, my_vector&),
+                unsigned int max_points, unsigned int prodes);
+};
 
 #endif

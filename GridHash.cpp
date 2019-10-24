@@ -28,7 +28,7 @@ my_vector* GridHash::gridify(my_curve& c){// maybe call it vectorize
     {
       double x=c.vectors[i]->coordinates[j];
       double shift = x-t->coordinates[j]; // i am shifting temporarily allthe points from the opposite direction istead of the curve being shifted
-      newpoint.coordinates[j]=floor(shift/delta)*delta+(dmod(shift,delta)>delta/2)*delta+t->coordinates[j];
+      newpoint.coordinates[j]=floor(shift/delta)*delta+(dmod(shift,delta)>delta/2)*delta+t->coordinates[j];// !!for delta 0.3 ocurs an undifind problem
     }
     gridcurve.push_back(newpoint);
   }

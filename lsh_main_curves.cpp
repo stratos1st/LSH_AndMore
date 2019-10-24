@@ -63,10 +63,12 @@ int main(int argc, char *argv[]){
         exit(1);
     }
   }
-  cout<<"program running with:\n\tdata_file= "<<input_file_data<<
-    "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
-    "\n\tk= "<<k<<"\n\tl= "<<l<<"\n\tw= "<<w<<"\n\tm= "<<m<<"\n\tr= "<<r
-    <<"\n\tf_container_sz= "<<lsh_container_size<<endl<<endl;
+  //------------------------------------no arguments passed
+
+  if(argc == 1){
+    std::cout << "Enter dataset path" << '\n';
+    std::cin >> input_file_data; //needs manipulation
+  }
 
   //------------------------------------create out file
   ofstream ofile;
@@ -83,71 +85,102 @@ int main(int argc, char *argv[]){
     if(it->numofvectors<=MAX_CURVE_POINTS)
       data->push_back(*it);
 
+  //------------------------------------create and train model
+  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),MAX_CURVE_POINTS,l,w,k,lsh_container_size,m);
+  lsh_model.train(data);
+  cout<<"lsh training done!!\n";
+  //-----------------------------------loop
+  if(argc == 1){
+    std::cout << "Enter new queryset path" << '\n';
+    std::cin >> input_file_queries  ;
+  }
   list <my_curve> *queries1=read_curve_file(input_file_queries);
   list <my_curve> *queries=new list <my_curve>;
   for(auto it=queries1->begin();it!=queries1->end();++it)
     if(it->numofvectors<=MAX_CURVE_POINTS)
       queries->push_back(*it);
-  cout<<"read files done\n";
 
-  //------------------------------------create and train model
-  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),MAX_CURVE_POINTS,l,w,k,lsh_container_size,m);
-  lsh_model.train(data);
-  cout<<"lsh training done!!\n";
+  char option = 'y';
+  while (option == 'y') {
+    //------------------------------------info passed
+    cout<<"program running with:\n\tdata_file= "<<input_file_data<<
+      "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
+      "\n\tk= "<<k<<"\n\tl= "<<l<<"\n\tw= "<<w<<"\n\tm= "<<m<<"\n\tr= "<<r
+      <<"\n\tf_container_sz= "<<lsh_container_size<<endl<<endl;
 
-  //------------------------------------fill out file, running bruteNN and cubeNN
-  double AF_max=0.0,AF_avg=0.0,AF;
-  long int average_time=0;
-  unsigned int total=0;
-  using namespace std::chrono;
-  for(list <my_curve> :: iterator it = queries->begin(); it != queries->end(); ++it){
-    auto start = high_resolution_clock::now();
-    pair<my_curve*,double> nn_brute=brute_NN_curve(data,*it,Dtw);
-    auto stop = high_resolution_clock::now();
-    auto duration_brute = duration_cast<nanoseconds>(stop - start);
+    //------------------------------------fill out file, running bruteNN and cubeNN
+    double AF_max=0.0,AF_avg=0.0,AF;
+    long int average_time=0;
+    unsigned int total=0;
+    using namespace std::chrono;
+    for(list <my_curve> :: iterator it = queries->begin(); it != queries->end(); ++it){
+      auto start = high_resolution_clock::now();
+      pair<my_curve*,double> nn_brute=brute_NN_curve(data,*it,Dtw);
+      auto stop = high_resolution_clock::now();
+      auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
-    start = high_resolution_clock::now();
-    pair<my_curve*,double> nn_lsh=lsh_model.find_NN(*it,Dtw);
-    stop = high_resolution_clock::now();
-    auto duration_lsh = duration_cast<nanoseconds>(stop - start);
+      start = high_resolution_clock::now();
+      pair<my_curve*,double> nn_lsh=lsh_model.find_NN(*it,Dtw);
+      stop = high_resolution_clock::now();
+      auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 
-    if(nn_brute.second==0.0){
-      cout<<"Warining: distance is ~=0! querry does not count\n";
-      total--;
+      if(nn_brute.second==0.0){
+        cout<<"Warining: distance is ~=0! querry does not count\n";
+        total--;
+      }
+      else
+        AF=nn_lsh.second/nn_brute.second;
+      AF_max=max(AF,AF_max);
+      AF_avg+=AF;
+      average_time+=duration_lsh.count();
+
+      ofile<<"Query: "<<it->id<<endl;
+      ofile<<"Nearest neighbor: "<<nn_lsh.first->id<<endl;
+      ofile<<"distanceLSH: "<<nn_lsh.second<<endl;
+      ofile<<"distanceTrue: "<<nn_brute.second<<endl;
+      ofile<<"tLSH: "<<duration_lsh.count()<<endl;
+      ofile<<"tTrue: "<<duration_brute.count()<<endl;
+      ofile<<"R-near neighbors: "<<endl;
+
+      list<my_curve*>* rNNs=lsh_model.find_rNN(*it,r,Dtw);
+      for(list <my_curve*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
+        ofile<<(*it)->id<<endl;
+      rNNs->clear();
+      delete rNNs;
+
+      total++;
     }
-    else
-      AF=nn_lsh.second/nn_brute.second;
-    AF_max=max(AF,AF_max);
-    AF_avg+=AF;
-    average_time+=duration_lsh.count();
 
-    ofile<<"Query: "<<it->id<<endl;
-    ofile<<"Nearest neighbor: "<<nn_lsh.first->id<<endl;
-    ofile<<"distanceLSH: "<<nn_lsh.second<<endl;
-    ofile<<"distanceTrue: "<<nn_brute.second<<endl;
-    ofile<<"tLSH: "<<duration_lsh.count()<<endl;
-    ofile<<"tTrue: "<<duration_brute.count()<<endl;
-    ofile<<"R-near neighbors: "<<endl;
+    AF_avg/=total;
+    average_time/=total;
+    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
+    //------------------------------------rerunning the program
 
-    list<my_curve*>* rNNs=lsh_model.find_rNN(*it,r,Dtw);
-    for(list <my_curve*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
-      ofile<<(*it)->id<<endl;
-    rNNs->clear();
-    delete rNNs;
-
-    total++;
+    std::cout << "Would you like to run LSH for another queryset (y/n)" << '\n';
+    std::cin >> option;
+    while(option != 'y' && option != 'n')
+      std::cin >> option;
+    if(option == 'y'){
+      std::cout << "Enter new queryset path" << '\n';
+      std::cin >> input_file_queries;
+      queries->clear();
+      delete queries;
+      queries1->clear();//added
+      delete queries1;//added
+      list <my_curve> *queries1=read_curve_file(input_file_queries);
+      list <my_curve> *queries=new list <my_curve>;
+      for(auto it=queries1->begin();it!=queries1->end();++it)
+        if(it->numofvectors<=MAX_CURVE_POINTS)
+          queries->push_back(*it);
+    }
   }
-
-  AF_avg/=total;
-  average_time/=total;
-  cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
-
   //------------------------------------clearing memmory
   ofile.close();
   data->clear();
   queries->clear();
   delete data;
   delete queries;
-
+  queries1->clear();//added
+  delete queries1;//added
   return 0;
 }
