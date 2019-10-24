@@ -18,11 +18,11 @@ curve_grid_lsh: lsh_main_curves.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.
 curve_grid_hypercube: lsh.o curve_grid_hypercube_main.o my_vector.o util.o random_projection.o h_i.o g_i.o f_i.o my_curve.o GridHash.o
 	$(CC) $(CFLAG) -o curve_grid_hypercube lsh.o curve_grid_hypercube_main.o my_vector.o util.o random_projection.o h_i.o g_i.o f_i.o my_curve.o GridHash.o
 
-curve_projection_lsh: traversal_projection_cube_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
-	$(CC) $(CFLAG) -o curve_projection_lsh traversal_projection_cube_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
+curve_projection_lsh: traversal_projection_lsh_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
+	$(CC) $(CFLAG) -o curve_projection_lsh traversal_projection_lsh_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
 
-curve_projection_hypercube: curve_grid_hypercube_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
-	$(CC) $(CFLAG) -o curve_projection_hypercube curve_grid_hypercube_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
+curve_projection_hypercube: traversal_projection_cube_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
+	$(CC) $(CFLAG) -o curve_projection_hypercube traversal_projection_cube_main.o my_vector.o util.o h_i.o g_i.o f_i.o lsh.o my_curve.o GridHash.o traversal_projection.o random_projection.o
 
 traversal_projection_cube_main.o: traversal_projection_cube_main.cpp
 	$(CC) -c traversal_projection_cube_main.cpp
@@ -77,4 +77,4 @@ GridHash.o: GridHash.cpp GridHash.hpp
 
 .PHONY: clean
 clean:
-	rm -f curve_projection_hypercube curve_grid_hypercube_main.o curve_projection_lsh traversal_projection_cube_main.o traversal_projection.o cube curve_grid_lsh lsh_main_curves.o random_projection_main.o lsh lsh_main.o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curve.o GridHash.o
+	rm -f traversal_projection_lsh_main.o curve_projection_hypercube curve_grid_hypercube_main.o curve_projection_lsh traversal_projection_cube_main.o traversal_projection.o cube curve_grid_lsh lsh_main_curves.o random_projection_main.o lsh lsh_main.o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curve.o GridHash.o

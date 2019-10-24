@@ -139,23 +139,28 @@ lsh_curve::~lsh_curve(){
     delete hash_table[i];
   }
   delete[] hash_table;
-  if(data!=NULL){
-    data->clear();
-    delete data;
-  }
   if(gridhashfunctions!=NULL){
     for(unsigned int i=0;i<l;i++)
       delete gridhashfunctions[i];
     delete[] gridhashfunctions;
   }
   if(matching!=NULL){
-    for(unsigned int i=0;i<l;i++){
-      for(auto it=matching[i]->begin();it!=matching[i]->end();++it)
+    if(data==NULL)//if trained bu pairs then .second pointers show to the same item
+      for(auto it=matching[0]->begin();it!=matching[0]->end();++it)
         delete it->second;
+    else
+      for(unsigned int i=0;i<l;i++)
+        for(auto it=matching[i]->begin();it!=matching[i]->end();++it)
+          delete it->second;
+    for(unsigned int i=0;i<l;i++){
       matching[i]->clear();
       delete matching[i];
     }
     delete[] matching;
+  }
+  if(data!=NULL){
+    data->clear();
+    delete data;
   }
 }
 

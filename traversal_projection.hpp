@@ -14,7 +14,6 @@ class traversal_projection{
     std::pair<unsigned int, unsigned int> **all_pairs;
     std::list<std::list<std::pair<unsigned int, unsigned int>*>*> ***big_table;
     std::list<my_curve> *data;
-    std::list<my_vector*> data2;//TODO make it * //FIXEME needs deletion myvector*
     std::list<T*> **lsh_table;
 
   public:

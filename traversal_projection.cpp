@@ -59,15 +59,6 @@ traversal_projection<T>::~traversal_projection(){
   #if DEBUG
   cout<<"Destructing traversal_projection"<<'\n';
   #endif
-  for(unsigned int i=0;i<max_sz;i++)
-    delete all_pairs[i];
-  delete[] all_pairs;
-
-  data->clear();
-  delete data;
-
-  for(auto it=data2.begin();it!=data2.end();++it)
-    delete *it;
 
   for(unsigned int i=0;i<max_sz;i++){
     for(unsigned int j=0;j<max_sz;j++){
@@ -75,20 +66,29 @@ traversal_projection<T>::~traversal_projection(){
         delete *it;
       lsh_table[i][j].clear();
     }
-    delete lsh_table[i];
+    delete[] lsh_table[i];
   }
   delete[] lsh_table;
 
   for(unsigned int i=0;i<max_sz;i++){
     for(unsigned int j=0;j<max_sz;j++){
-      for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
+      for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it){
         (*it)->clear();
+        delete *it;
+      }
       big_table[i][j]->clear();
       delete big_table[i][j];
     }
     delete[] big_table[i];
   }
   delete[] big_table;
+
+  data->clear();
+  delete data;
+
+  for(unsigned int i=0;i<max_sz;i++)
+    delete[] all_pairs[i];
+  delete[] all_pairs;
 }
 
 template<class T>
@@ -110,11 +110,10 @@ void traversal_projection<T>::print_big_table(){
 
 template<>
 void traversal_projection<lsh_curve>::train_lsh(list<my_curve> *train_data_set,
-                        const unsigned int _l, const float _w,
-                        const unsigned int _k, const size_t _container_sz,
-                        const unsigned int _m){
+                        const unsigned int _l, const float _w,const unsigned int _k,
+                        const size_t _container_sz, const unsigned int _m){
   #if DEBUG
-  cout<<"Training traversal_projection"<<'\n';
+  cout<<"Training traversal_projection<lsh_curve>"<<'\n';
   print_big_table();
   #endif
 
@@ -125,7 +124,7 @@ void traversal_projection<lsh_curve>::train_lsh(list<my_curve> *train_data_set,
     lsh_table[i]=new list<lsh_curve*>[max_sz];
     for(unsigned int j=0;j<max_sz;j++)
       for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
-        lsh_table[i][j].push_back(new lsh_curve(train_data_set->begin()->vectordimentions,2+i+j-1,_l,_w,_k,_container_sz,_m));
+        lsh_table[i][j].push_back(new lsh_curve(data->begin()->vectordimentions,2+i+j-1,_l,_w,_k,_container_sz,_m));
         //TODO parameters from outside
   }
 
@@ -142,7 +141,6 @@ void traversal_projection<lsh_curve>::train_lsh(list<my_curve> *train_data_set,
         list<pair<my_curve*,my_vector*>> *tmp=new list<pair<my_curve*,my_vector*>>;
         for(auto ij=same_curves->begin();ij!=same_curves->end();++ij){//for all curves mikous i
           tmp->push_back(project_traversal_to_vector(*ij,*it));
-          data2.push_back(tmp->back().second);
         }
         (*ii)->train(tmp);
         tmp->clear();
@@ -160,11 +158,9 @@ template<>
 void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *train_data_set,
                         unsigned int _max_curve_sz, const float _w,
                         const unsigned int _k, const unsigned int _new_d,
-                        const size_t _container_sz,
-                        const size_t _f_container_sz,
-                        const unsigned int _m){
+                        const size_t _container_sz, const size_t _f_container_sz, const unsigned int _m){
   #if DEBUG
-  cout<<"Training traversal_projection"<<'\n';
+  cout<<"Training traversal_projection<random_projection_curve>"<<'\n';
   print_big_table();
   #endif
 
@@ -192,11 +188,6 @@ void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *
         list<pair<my_curve*,my_vector*>> *tmp=new list<pair<my_curve*,my_vector*>>;
         for(auto ij=same_curves->begin();ij!=same_curves->end();++ij){//for all curves mikous i
           tmp->push_back(project_traversal_to_vector(*ij,*it));
-          data2.push_back(tmp->back().second);
-        }
-        if(tmp->size()<=1){
-          cout<<"tin katsame\n";
-          exit(1);
         }
         (*ii)->train(tmp);
         tmp->clear();
@@ -236,8 +227,11 @@ std::pair<my_curve*, double> traversal_projection<T>::find_NN(my_curve &query,
         minn=tmp.second;
       }
       ij++;
-    //}
-  }
+      delete query2.second;
+    }
+  // }
+
+
 
   return make_pair(ans,minn);
 }
@@ -382,8 +376,6 @@ list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(unsigned 
   #endif
 
   delete relevant_squares;
-  for(unsigned int i=0;i<m+n;i++)
-    delete path[i];
   delete[] path;
 
   return relevant_traversals;
