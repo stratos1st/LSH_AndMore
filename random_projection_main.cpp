@@ -69,12 +69,10 @@ int main(int argc, char *argv[]){
         exit(1);
     }
   }
-  cout<<"program running with:\n\tdata_file= "<<input_file_data<<
-    "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
-    "\n\td'= "<<new_d<<"\n\tm= "<<m<<"\n\tM= "<<max_points<<"\n\tprodes= "<<prodes
-    <<"\n\tw= "<<w<<"\n\tk= "<<k<<"\n\tr= "<<r<<"\n\tcube_container_sz= "<<
-    cube_container_size<<"\n\tf_container_sz= "<<f_container_sz<<endl<<endl;
-
+  if(argc == 1){
+    std::cout << "Enter dataset path" << '\n';
+    std::cin >> input_file_data; 
+  }
   //------------------------------------create out file
   ofstream ofile;
   ofile.open(out_file);
@@ -85,8 +83,6 @@ int main(int argc, char *argv[]){
 
   //------------------------------------read input files
   list <my_vector> *data=read_vector_file(input_file_data);
-  list <my_vector> *queries=read_vector_file(input_file_queries);
-  cout<<"read files done\n";
 
   //------------------------------------create and train model
   if(new_d==-1){
@@ -96,49 +92,77 @@ int main(int argc, char *argv[]){
   random_projection_vector model(w,k,new_d,cube_container_size,f_container_sz,m);
   model.train(data);
   cout<<"cube training done!!\n";
+  //------------------------------------loop
 
-  //------------------------------------fill out file, running bruteNN and cubeNN
-  double AF_max=0,AF_avg=0.0,AF;
-  long int average_time=0;
-  unsigned int total=0;
-  using namespace std::chrono;
-  for(list <my_vector> :: iterator it = queries->begin(); it != queries->end(); ++it){
-    auto start = high_resolution_clock::now();
-    pair<my_vector*,double> nn_brute=brute_NN(data,*it,manhattan_distance);
-    auto stop = high_resolution_clock::now();
-    auto duration_brute = duration_cast<nanoseconds>(stop - start);
-
-    start = high_resolution_clock::now();
-    pair<my_vector*,double> nn_cube=model.find_NN(*it,manhattan_distance,max_points,prodes);
-    stop = high_resolution_clock::now();
-    auto duration_lsh = duration_cast<nanoseconds>(stop - start);
-
-    AF=nn_cube.second/nn_brute.second;
-    AF_max=max(AF,AF_max);
-    AF_avg+=AF;
-    average_time+=duration_lsh.count();
-
-    ofile<<"Query: "<<it->id<<endl;
-    ofile<<"Nearest neighbor: "<<nn_cube.first->id<<endl;
-    ofile<<"distanceCube: "<<nn_cube.second<<endl;
-    ofile<<"distanceTrue: "<<nn_brute.second<<endl;
-    ofile<<"tCube: "<<duration_lsh.count()<<endl;
-    ofile<<"tTrue: "<<duration_brute.count()<<endl;
-    ofile<<"R-near neighbors: "<<endl;
-
-    list<my_vector*>* rNNs=model.find_rNN(*it,r,manhattan_distance,max_points,prodes);
-    for(list <my_vector*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
-      ofile<<(*it)->id<<endl;
-    rNNs->clear();
-    delete rNNs;
-
-    total++;
+  if(argc == 1){
+    std::cout << "Enter new queryset path" << '\n';
+    std::cin >> input_file_data;
   }
+  list <my_vector> *queries=read_vector_file(input_file_queries);
 
-  AF_avg/=total;
-  average_time/=total;
-  cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
+  char option = 'y';
+  while (option == 'y'){
+    //------------------------------------info passed
+    cout<<"program running with:\n\tdata_file= "<<input_file_data<<
+      "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
+      "\n\td'= "<<new_d<<"\n\tm= "<<m<<"\n\tM= "<<max_points<<"\n\tprodes= "<<prodes
+      <<"\n\tw= "<<w<<"\n\tk= "<<k<<"\n\tr= "<<r<<"\n\tcube_container_sz= "<<
+      cube_container_size<<"\n\tf_container_sz= "<<f_container_sz<<endl<<endl;
+    //------------------------------------fill out file, running bruteNN and cubeNN
+    double AF_max=0,AF_avg=0.0,AF;
+    long int average_time=0;
+    unsigned int total=0;
+    using namespace std::chrono;
+    for(list <my_vector> :: iterator it = queries->begin(); it != queries->end(); ++it){
+      auto start = high_resolution_clock::now();
+      pair<my_vector*,double> nn_brute=brute_NN(data,*it,manhattan_distance);
+      auto stop = high_resolution_clock::now();
+      auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
+      start = high_resolution_clock::now();
+      pair<my_vector*,double> nn_cube=model.find_NN(*it,manhattan_distance,max_points,prodes);
+      stop = high_resolution_clock::now();
+      auto duration_lsh = duration_cast<nanoseconds>(stop - start);
+
+      AF=nn_cube.second/nn_brute.second;
+      AF_max=max(AF,AF_max);
+      AF_avg+=AF;
+      average_time+=duration_lsh.count();
+
+      ofile<<"Query: "<<it->id<<endl;
+      ofile<<"Nearest neighbor: "<<nn_cube.first->id<<endl;
+      ofile<<"distanceCube: "<<nn_cube.second<<endl;
+      ofile<<"distanceTrue: "<<nn_brute.second<<endl;
+      ofile<<"tCube: "<<duration_lsh.count()<<endl;
+      ofile<<"tTrue: "<<duration_brute.count()<<endl;
+      ofile<<"R-near neighbors: "<<endl;
+
+      list<my_vector*>* rNNs=model.find_rNN(*it,r,manhattan_distance,max_points,prodes);
+      for(list <my_vector*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
+        ofile<<(*it)->id<<endl;
+      rNNs->clear();
+      delete rNNs;
+
+      total++;
+    }
+
+    AF_avg/=total;
+    average_time/=total;
+    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
+    //------------------------------------rerunning the program
+
+    std::cout << "Would you like to run LSH for another queryset (y/n)" << '\n';
+    std::cin >> option;
+    while(option != 'y' && option != 'n')
+      std::cin >> option;
+    if(option == 'y'){
+      std::cout << "Enter new queryset path" << '\n';
+      std::cin >> input_file_queries;
+      queries->clear();
+      delete queries;
+      queries=read_vector_file(input_file_queries);
+    }
+  }
   //------------------------------------clearing memmory
   ofile.close();
   data->clear();
