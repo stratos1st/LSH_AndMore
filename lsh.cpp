@@ -111,7 +111,7 @@ list<my_vector*>* lsh_vector::find_rNN(my_vector &query, double r, double (*dist
 }
 
 //----------------------------------------------lsh_curve
-double GridHash::delta = 0.09;//TODO from function parameter
+// double GridHash::delta = 0.09;//TODO from function parameter
 lsh_curve::lsh_curve(unsigned int vector_dimentions, unsigned int _max_curve_sz, const unsigned int _l, const float _w,
           const unsigned int _k, const size_t _container_sz,
           const unsigned int _m):lsh(vector_dimentions*_max_curve_sz,_l,_w,_k,_m),
@@ -150,6 +150,8 @@ lsh_curve::~lsh_curve(){
   }
   if(matching!=NULL){
     for(unsigned int i=0;i<l;i++){
+      for(auto it=matching[i]->begin();it!=matching[i]->end();++it)
+        delete it->second;
       matching[i]->clear();
       delete matching[i];
     }

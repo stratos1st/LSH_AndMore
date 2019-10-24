@@ -54,7 +54,8 @@ class random_projection_curve:random_projection{
 
     my_vector* gridify_and_padd(my_curve& curve);
   public:
-    random_projection_curve(unsigned int _max_curve_szconst, const float _w=4000, const unsigned int _k=4, const unsigned int _new_d=3,
+    random_projection_curve(unsigned int _max_curve_sz, const float _w=0.001,
+              const unsigned int _k=4, const unsigned int _new_d=4,
               const size_t _container_sz=9000, const size_t _f_container_sz=200,
               const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
     ~random_projection_curve();

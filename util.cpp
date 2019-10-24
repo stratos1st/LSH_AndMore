@@ -142,7 +142,7 @@ pair<my_curve*,double> brute_NN_curve(list <my_curve> *data, my_curve &query,
   return make_pair(ans,minn);
 }
 
-list <my_curve>* read_curve_file(string name){
+list <my_curve>* read_curve_file(string name, unsigned int max_curve_points){
   list <my_curve> *data=new list <my_curve>;
   ifstream infile(name);
   double num,num2;
@@ -175,9 +175,10 @@ list <my_curve>* read_curve_file(string name){
         curve.vectors[i]->coordinates[0]=num;
         curve.vectors[i++]->coordinates[1]=num2;
       }
-
-      data->push_back(curve);
-      input_N++;
+      if(curve.numofvectors<=max_curve_points || max_curve_points==0){
+        data->push_back(curve);
+        input_N++;
+      }
     }
   }
   else{

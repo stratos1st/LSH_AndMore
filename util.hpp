@@ -19,5 +19,6 @@ extern std::pair<my_vector*,double> brute_NN(std::list <my_vector> *data, my_vec
 extern std::pair<my_curve*,double> brute_NN_curve(std::list <my_curve> *data, my_curve &query,
                         double(*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric)(my_vector&, my_vector&)),
                         double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
-extern std::list <my_curve>* read_curve_file(std::string name);
+extern std::list <my_curve>* read_curve_file(std::string name, unsigned int max_curve_points=10);
+//read all curves with <=max_curve_points. if max_curve_points==0 read all curves
 #endif

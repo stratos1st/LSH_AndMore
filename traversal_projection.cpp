@@ -24,13 +24,17 @@ using namespace std;
   typedef unordered_set<pair<unsigned int,unsigned int>> my_unordered_set;
 #endif
 
+template class traversal_projection<lsh_curve>;
+template class traversal_projection<random_projection_curve>;
+
 list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(unsigned int m, unsigned int n,
                                       pair<unsigned int,unsigned int> **all_pairs);
 
 pair<my_curve*,my_vector*> project_traversal_to_vector(my_curve* curve,
                   list<pair<unsigned int,unsigned int>*>* traversal, bool=false);
 
-traversal_projection::traversal_projection(unsigned int _max_sz):max_sz(_max_sz){
+template<class T>
+traversal_projection<T>::traversal_projection(unsigned int _max_sz):max_sz(_max_sz){
   #if DEBUG
   cout<<"Constructing traversal_projection"<<'\n';
   #endif
@@ -50,14 +54,45 @@ traversal_projection::traversal_projection(unsigned int _max_sz):max_sz(_max_sz)
   }
 }
 
-traversal_projection::~traversal_projection(){
+template<class T>
+traversal_projection<T>::~traversal_projection(){
   #if DEBUG
   cout<<"Destructing traversal_projection"<<'\n';
   #endif
+  for(unsigned int i=0;i<max_sz;i++)
+    delete all_pairs[i];
+  delete[] all_pairs;
 
+  data->clear();
+  delete data;
+
+  for(auto it=data2.begin();it!=data2.end();++it)
+    delete *it;
+
+  for(unsigned int i=0;i<max_sz;i++){
+    for(unsigned int j=0;j<max_sz;j++){
+      for(auto it=lsh_table[i][j].begin();it!=lsh_table[i][j].end();++it)
+        delete *it;
+      lsh_table[i][j].clear();
+    }
+    delete lsh_table[i];
+  }
+  delete[] lsh_table;
+
+  for(unsigned int i=0;i<max_sz;i++){
+    for(unsigned int j=0;j<max_sz;j++){
+      for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
+        (*it)->clear();
+      big_table[i][j]->clear();
+      delete big_table[i][j];
+    }
+    delete[] big_table[i];
+  }
+  delete[] big_table;
 }
 
-void traversal_projection::print_big_table(){
+template<class T>
+void traversal_projection<T>::print_big_table(){
   for(unsigned int i=0;i<max_sz;i++){
     for(unsigned int j=0;j<max_sz;j++){
       cout<<"All traversals for "<<i+1<<","<<j+1<<endl;
@@ -73,7 +108,11 @@ void traversal_projection::print_big_table(){
   }
 }
 
-void traversal_projection::train(list<my_curve> *train_data_set){
+template<>
+void traversal_projection<lsh_curve>::train_lsh(list<my_curve> *train_data_set,
+                        const unsigned int _l, const float _w,
+                        const unsigned int _k, const size_t _container_sz,
+                        const unsigned int _m){
   #if DEBUG
   cout<<"Training traversal_projection"<<'\n';
   print_big_table();
@@ -86,7 +125,7 @@ void traversal_projection::train(list<my_curve> *train_data_set){
     lsh_table[i]=new list<lsh_curve*>[max_sz];
     for(unsigned int j=0;j<max_sz;j++)
       for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
-        lsh_table[i][j].push_back(new lsh_curve(train_data_set->begin()->vectordimentions,2+i+j-1,5,0.01,4,50));
+        lsh_table[i][j].push_back(new lsh_curve(train_data_set->begin()->vectordimentions,2+i+j-1,_l,_w,_k,_container_sz,_m));
         //TODO parameters from outside
   }
 
@@ -117,7 +156,62 @@ void traversal_projection::train(list<my_curve> *train_data_set){
 
 }
 
-std::pair<my_curve*, double> traversal_projection::find_NN(my_curve &query,
+template<>
+void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *train_data_set,
+                        unsigned int _max_curve_sz, const float _w,
+                        const unsigned int _k, const unsigned int _new_d,
+                        const size_t _container_sz,
+                        const size_t _f_container_sz,
+                        const unsigned int _m){
+  #if DEBUG
+  cout<<"Training traversal_projection"<<'\n';
+  print_big_table();
+  #endif
+
+  data=new list<my_curve>(*train_data_set);
+
+  lsh_table=new list<random_projection_curve*>*[max_sz];
+  for(unsigned int i=0;i<max_sz;i++){
+    lsh_table[i]=new list<random_projection_curve*>[max_sz];
+    for(unsigned int j=0;j<max_sz;j++)
+      for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
+        lsh_table[i][j].push_back(new random_projection_curve(2+i+j-1,_w,_k,_new_d,_container_sz,_f_container_sz,_m));
+        //TODO parameters from outside
+  }
+
+  //search all data fo curves mikous i+1 and push them into same_curves
+  for(unsigned int i=0;i<max_sz;i++){
+    list<my_curve*> *same_curves=new list<my_curve*>;
+    for(auto it=data->begin();it!=data->end();++it)
+      if(it->numofvectors==i+1)
+        same_curves->push_back(&*it);
+    //train all lsh[i][*] with tmp
+    for(unsigned int j=0;j<max_sz;j++){
+      auto ii=lsh_table[i][j].begin();//for all lsh i j
+      for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it){//for all traversals i j
+        list<pair<my_curve*,my_vector*>> *tmp=new list<pair<my_curve*,my_vector*>>;
+        for(auto ij=same_curves->begin();ij!=same_curves->end();++ij){//for all curves mikous i
+          tmp->push_back(project_traversal_to_vector(*ij,*it));
+          data2.push_back(tmp->back().second);
+        }
+        if(tmp->size()<=1){
+          cout<<"tin katsame\n";
+          exit(1);
+        }
+        (*ii)->train(tmp);
+        tmp->clear();
+        delete tmp;
+        ii++;
+      }
+    }
+    same_curves->clear();
+    delete same_curves;
+  }
+
+}
+
+template<class T>
+std::pair<my_curve*, double> traversal_projection<T>::find_NN(my_curve &query,
                 double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
                 double(*distance_metric_vector)(my_vector&, my_vector&)){//TODO pass distance_metric_curve to findNN
   #if DEBUG
@@ -288,6 +382,8 @@ list<list<pair<unsigned int,unsigned int>*>*> *get_relevant_traversals(unsigned 
   #endif
 
   delete relevant_squares;
+  for(unsigned int i=0;i<m+n;i++)
+    delete path[i];
   delete[] path;
 
   return relevant_traversals;

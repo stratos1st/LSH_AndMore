@@ -11,6 +11,8 @@ using namespace std;
 
 #define DEBUG 0
 
+double GridHash::delta = 0.009;//FIXEME den prepi na ine edo
+
 double dmod(double &x,double &y){
   return x - (int)(x/y)*y;
 }

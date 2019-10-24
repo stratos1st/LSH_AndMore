@@ -5,6 +5,7 @@
 
 #include "random_projection.hpp"
 #include "util.hpp"
+#include "lsh.hpp"//FIXME den prepi na ine edo to ebala gia tin gridify_and_padd
 
 #define DEBUG 0
 
@@ -85,7 +86,7 @@ void random_projection_vector::train(list <my_vector> *train_data_set){
     table_f_i[j]=new f_i(data->front().get_dimentions(),w,k,f_container_sz,m);
 
   //fill hash table
-  for(auto it = train_data_set->begin(); it != train_data_set->end(); ++it)
+  for(auto it = data->begin(); it != data->end(); ++it)
       hash_table->insert({hash_function(*it),&*it});
 }
 
@@ -139,7 +140,7 @@ list<my_vector*>* random_projection_vector::find_rNN(my_vector &query, double r,
 }
 
 //--------------------------------------------------- random_projection_curve
-double GridHash::delta = 0.09;//TODO from function parameter
+// double GridHash::delta = 0.09;//TODO from function parameter
 random_projection_curve::random_projection_curve(unsigned int _max_curve_sz, const float _w, const unsigned int _k, const unsigned int _new_d,
           const size_t _container_sz, const size_t _f_container_sz,
           const unsigned int _m):random_projection(_w,_k,_new_d,_container_sz,_f_container_sz,_m),
@@ -168,6 +169,8 @@ random_projection_curve::~random_projection_curve(){
   if(gridhashfunctions!=NULL)
     delete gridhashfunctions;
   if(matching!=NULL){
+      for(auto it=matching->begin();it!=matching->end();++it)
+        delete it->second;
       matching->clear();
       delete matching;
   }
@@ -205,7 +208,12 @@ void random_projection_curve::train(list<pair<my_curve*, my_vector*>> *train_dat
 
   matching=new list<pair<my_curve*,my_vector*>>(*train_data_set);
 
-  for(auto it=train_data_set->begin();it!=train_data_set->end();++it)
+  //create f_i table
+  table_f_i=new f_i*[new_d];
+  for(unsigned int j=0;j<new_d;j++)
+    table_f_i[j]=new f_i(matching->front().second->dim,w,k,f_container_sz,m);
+
+  for(auto it=matching->begin();it!=matching->end();++it)
       hash_table->insert({hash_function(*it->second),*it});
 }
 
@@ -275,21 +283,21 @@ my_vector* random_projection_curve::gridify_and_padd(my_curve& curve){
   return final_vector;
 }
 
-my_vector* padd(my_vector &c, unsigned int length, double specialchar){//FIXEME iparxi ke sto lsh.cpp antigrafi epikolisi. na ton baloume se kino arxio i kati tetio
-  if(length<=c.dim){
-      cout<<"\n\n!!ERROR pad not big enought!!\n\n";
-      exit(1);
-  }
-  my_vector* padded_vector = new my_vector(length);
-  unsigned int i = 0;
-  for (i = 0; i < c.dim; i++) {
-    padded_vector->coordinates[i] = c.coordinates[i];
-  }
-  for(;i<length;i++){
-    padded_vector->coordinates[i] = specialchar;
-  }
-  return padded_vector;
-}
+// my_vector* padd(my_vector &c, unsigned int length, double specialchar){//FIXEME iparxi ke sto lsh.cpp antigrafi epikolisi. na ton baloume se kino arxio i kati tetio
+//   if(length<=c.dim){
+//       cout<<"\n\n!!ERROR pad not big enought!!\n\n";
+//       exit(1);
+//   }
+//   my_vector* padded_vector = new my_vector(length);
+//   unsigned int i = 0;
+//   for (i = 0; i < c.dim; i++) {
+//     padded_vector->coordinates[i] = c.coordinates[i];
+//   }
+//   for(;i<length;i++){
+//     padded_vector->coordinates[i] = specialchar;
+//   }
+//   return padded_vector;
+// }
 
 //--------------------------------------------------- OTHER
 
