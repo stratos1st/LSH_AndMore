@@ -12,7 +12,7 @@
 
 using namespace std;
 
-my_vector* padd(my_vector &c, unsigned int length=10, double specialchar=DBL_MAX);
+my_vector* padd(my_vector &c, unsigned int length, double specialchar=DBL_MAX);
 
 //----------------------------------------------lsh
 lsh::lsh(unsigned int dimentions, const unsigned int _l, const float _w,
@@ -110,8 +110,8 @@ list<my_vector*>* lsh_vector::find_rNN(my_vector &query, double r, double (*dist
   return ans;
 }
 
-double GridHash::delta = 0.09;//TODO from function parameter
 //----------------------------------------------lsh_curve
+double GridHash::delta = 0.09;//TODO from function parameter
 lsh_curve::lsh_curve(unsigned int vector_dimentions, unsigned int _max_curve_sz, const unsigned int _l, const float _w,
           const unsigned int _k, const size_t _container_sz,
           const unsigned int _m):lsh(vector_dimentions*_max_curve_sz,_l,_w,_k,_m),
@@ -151,7 +151,7 @@ lsh_curve::~lsh_curve(){
   if(matching!=NULL){
     for(unsigned int i=0;i<l;i++){
       matching[i]->clear();
-      delete[] matching[i];
+      delete matching[i];
     }
     delete[] matching;
   }

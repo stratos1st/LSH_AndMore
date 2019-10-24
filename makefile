@@ -1,16 +1,16 @@
 CC= g++
 CGLAG=  -ggdb -lm -g -m64 -O0
 
-all: main lsh cube curve_grid_lsh curve_projection_lsh
+all: lsh cube curve_grid_lsh curve_projection_lsh curve_grid_hypercube #main
 
-main: main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o  my_curve.o GridHash.o traversal_projection.o
-	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curve.o GridHash.o traversal_projection.o
+# main: main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o  my_curve.o GridHash.o traversal_projection.o
+# 	$(CC) $(CFLAG) -o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o my_curve.o GridHash.o traversal_projection.o
 
 lsh: lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o GridHash.o
 	$(CC) $(CFLAG) -o lsh lsh_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o GridHash.o
 
-cube: random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curve.o
-	$(CC) $(CFLAG) -o cube random_projection_main.o my_vector.o util.o h_i.o g_i.o f_i.o random_projection.o my_curve.o
+cube: random_projection_main.o random_projection.o my_vector.o util.o h_i.o g_i.o f_i.o my_curve.o GridHash.o
+	$(CC) $(CFLAG) -o cube random_projection_main.o random_projection.o my_vector.o util.o h_i.o g_i.o f_i.o my_curve.o GridHash.o
 
 curve_grid_lsh: lsh_main_curves.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o GridHash.o
 	$(CC) $(CFLAG) -o curve_grid_lsh lsh_main_curves.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o GridHash.o
@@ -18,8 +18,14 @@ curve_grid_lsh: lsh_main_curves.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.
 curve_projection_lsh: traversal_projection_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o GridHash.o traversal_projection.o
 	$(CC) $(CFLAG) -o curve_projection_lsh traversal_projection_main.o my_vector.o util.o h_i.o g_i.o lsh.o my_curve.o GridHash.o traversal_projection.o
 
+curve_grid_hypercube: curve_grid_hypercube_main.o my_vector.o util.o random_projection.o h_i.o g_i.o f_i.o my_curve.o GridHash.o
+	$(CC) $(CFLAG) -o curve_grid_hypercube curve_grid_hypercube_main.o my_vector.o util.o random_projection.o h_i.o g_i.o f_i.o my_curve.o GridHash.o
+
 traversal_projection_main.o: traversal_projection_main.cpp
 	$(CC) -c traversal_projection_main.cpp
+
+curve_grid_hypercube_main.o: curve_grid_hypercube_main.cpp
+	$(CC) -c curve_grid_hypercube_main.cpp
 
 random_projection_main.o: random_projection_main.cpp
 	$(CC) -c random_projection_main.cpp
@@ -27,8 +33,8 @@ random_projection_main.o: random_projection_main.cpp
 lsh_main.o: lsh_main.cpp
 	$(CC) -c lsh_main.cpp
 
-main.o: main.cpp
-	$(CC) -c main.cpp
+# main.o: main.cpp
+# 	$(CC) -c main.cpp
 
 lsh_main_curves.o: lsh_main_curves.cpp
 	$(CC) -c lsh_main_curves.cpp
@@ -65,4 +71,4 @@ GridHash.o: GridHash.cpp GridHash.hpp
 
 .PHONY: clean
 clean:
-	rm -f curve_projection_lsh traversal_projection_main.o traversal_projection.o cube curve_grid_lsh lsh_main_curves.o random_projection_main.o lsh lsh_main.o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curve.o GridHash.o
+	rm -f curve_grid_hypercube_main.o curve_projection_lsh traversal_projection_main.o traversal_projection.o cube curve_grid_lsh lsh_main_curves.o random_projection_main.o lsh lsh_main.o main main.o my_vector.o util.o h_i.o g_i.o lsh.o f_i.o random_projection.o my_curve.o GridHash.o

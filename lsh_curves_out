@@ -2,1495 +2,1175 @@ Query: 7000
 Nearest neighbor: 6965
 distanceLSH: 0.00108
 distanceTrue: 0.00108
-tLSH: 36803591
-tTrue: 9217426
+tLSH: 162840196
+tTrue: 285071209
 R-near neighbors: 
 Query: 7007
 Nearest neighbor: 6995
 distanceLSH: 0.00049
 distanceTrue: 0.00049
-tLSH: 10552077
-tTrue: 2446336
+tLSH: 87046587
+tTrue: 74366938
 R-near neighbors: 
 Query: 7009
 Nearest neighbor: 4585
 distanceLSH: 0.05419
 distanceTrue: 0.05419
-tLSH: 17867271
-tTrue: 4743327
+tLSH: 82016973
+tTrue: 145804680
 R-near neighbors: 
 Query: 7010
 Nearest neighbor: 4585
 distanceLSH: 0.03041
 distanceTrue: 0.03041
-tLSH: 6443933
-tTrue: 1697718
+tLSH: 32443713
+tTrue: 49525570
 R-near neighbors: 
 Query: 7013
 Nearest neighbor: 6990
 distanceLSH: 0.03526
 distanceTrue: 0.03526
-tLSH: 10674787
-tTrue: 2465529
+tLSH: 78274727
+tTrue: 71938185
 R-near neighbors: 
 Query: 7014
 Nearest neighbor: 4553
 distanceLSH: 4e-05
 distanceTrue: 4e-05
-tLSH: 8041594
-tTrue: 1809857
+tLSH: 34170652
+tTrue: 49321688
 R-near neighbors: 
-6997
-6941
-4553
-6997
-6941
-4553
-6997
-6941
-4553
-6997
-6941
-4553
-6997
-6941
-4553
 Query: 7017
 Nearest neighbor: 4540
 distanceLSH: 0.08679
 distanceTrue: 0.08679
-tLSH: 90957244
-tTrue: 28580067
+tLSH: 660120808
+tTrue: 807118789
 R-near neighbors: 
-Query: 7019
-Nearest neighbor: 4542
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 5936652
-tTrue: 1007229
-R-near neighbors: 
-6965
-6963
-4606
-4602
-4576
-4574
-4573
-4559
-4542
-4537
-6965
-6963
-4606
-4602
-4576
-4574
-4573
-4559
-4542
-4537
-6965
-6963
-4606
-4602
-4576
-4574
-4573
-4559
-4542
-4537
-6965
-6963
-4606
-4602
-4576
-4574
-4573
-4559
-4542
-4537
-6965
-6963
-4606
-4602
-4576
-4574
-4573
-4559
-4542
-4537
 Query: 7023
 Nearest neighbor: 6955
 distanceLSH: 0.47701
 distanceTrue: 0.47701
-tLSH: 15231383
-tTrue: 27349825
+tLSH: 375734410
+tTrue: 770448526
 R-near neighbors: 
 Query: 7024
 Nearest neighbor: 4557
 distanceLSH: 0.07009
 distanceTrue: 0.07009
-tLSH: 3002107
-tTrue: 3202747
+tLSH: 103650890
+tTrue: 117043438
 R-near neighbors: 
 Query: 7025
 Nearest neighbor: 6955
 distanceLSH: 0.07476
 distanceTrue: 0.07476
-tLSH: 20941051
-tTrue: 10726520
+tLSH: 273133034
+tTrue: 338632463
 R-near neighbors: 
 Query: 7026
-Nearest neighbor: 4557
-distanceLSH: 0.13559
+Nearest neighbor: 4070
+distanceLSH: 0.11503
 distanceTrue: 0.11503
-tLSH: 6047457
-tTrue: 7001597
+tLSH: 158151606
+tTrue: 226766412
 R-near neighbors: 
 Query: 7027
 Nearest neighbor: 6986
 distanceLSH: 0.05584
 distanceTrue: 0.05584
-tLSH: 5369411
-tTrue: 6369666
+tLSH: 11486709
+tTrue: 200179245
 R-near neighbors: 
 Query: 7028
 Nearest neighbor: 6995
 distanceLSH: 0.0001
 distanceTrue: 0.0001
-tLSH: 5993286
-tTrue: 963567
+tLSH: 39716039
+tTrue: 26952525
 R-near neighbors: 
 Query: 7029
 Nearest neighbor: 6985
 distanceLSH: 0.02325
 distanceTrue: 0.02325
-tLSH: 7896834
-tTrue: 1702556
+tLSH: 59594456
+tTrue: 50921782
 R-near neighbors: 
 Query: 7031
 Nearest neighbor: 6980
 distanceLSH: 0.00077
 distanceTrue: 0.00077
-tLSH: 11211988
-tTrue: 2449155
+tLSH: 90843067
+tTrue: 77020631
 R-near neighbors: 
 Query: 7034
 Nearest neighbor: 4561
 distanceLSH: 6e-05
 distanceTrue: 6e-05
-tLSH: 10374072
-tTrue: 2436006
+tLSH: 59826135
+tTrue: 108858946
 R-near neighbors: 
-4561
 Query: 7039
 Nearest neighbor: 6987
 distanceLSH: 0.00179
 distanceTrue: 0.00179
-tLSH: 52140972
-tTrue: 15201311
+tLSH: 310684123
+tTrue: 533341310
 R-near neighbors: 
 Query: 7043
 Nearest neighbor: 4615
 distanceLSH: 0.07587
 distanceTrue: 0.07587
-tLSH: 30875732
-tTrue: 13134798
+tLSH: 250136911
+tTrue: 473305346
 R-near neighbors: 
 Query: 7045
 Nearest neighbor: 4584
 distanceLSH: 0.00023
 distanceTrue: 0.00023
-tLSH: 11263866
-tTrue: 2720168
+tLSH: 49067028
+tTrue: 126321944
 R-near neighbors: 
 Query: 7046
 Nearest neighbor: 6955
 distanceLSH: 0.04936
 distanceTrue: 0.04936
-tLSH: 22198203
-tTrue: 11426792
+tLSH: 167485029
+tTrue: 351112122
 R-near neighbors: 
 Query: 7050
 Nearest neighbor: 4590
 distanceLSH: 5e-05
 distanceTrue: 5e-05
-tLSH: 8258629
-tTrue: 1685596
+tLSH: 67304450
+tTrue: 53131704
 R-near neighbors: 
-4590
 Query: 7052
 Nearest neighbor: 6947
 distanceLSH: 0.07471
 distanceTrue: 0.07471
-tLSH: 83351143
-tTrue: 24546119
+tLSH: 550617671
+tTrue: 782232234
 R-near neighbors: 
 Query: 7053
 Nearest neighbor: 4590
 distanceLSH: 0.00018
 distanceTrue: 0.00018
-tLSH: 10968576
-tTrue: 2471103
+tLSH: 87364282
+tTrue: 74249368
 R-near neighbors: 
 Query: 7054
 Nearest neighbor: 4576
 distanceLSH: 2e-05
 distanceTrue: 2e-05
-tLSH: 5718067
-tTrue: 975653
+tLSH: 22044092
+tTrue: 26990725
 R-near neighbors: 
-6965
-6963
-4602
-4576
-4542
-4537
-6965
-6963
-4602
-4576
-4542
-4537
-6965
-6963
-4602
-4576
-4542
-4537
-6965
-6963
-4602
-4576
-4542
-4537
-6965
-6963
-4602
-4576
-4542
-4537
 Query: 7057
 Nearest neighbor: 6990
 distanceLSH: 0.01387
 distanceTrue: 0.01387
-tLSH: 11144670
-tTrue: 3894665
+tLSH: 67312661
+tTrue: 74659103
 R-near neighbors: 
 Query: 7062
 Nearest neighbor: 5590
 distanceLSH: 0.0021
 distanceTrue: 0.0021
-tLSH: 5773784
-tTrue: 956154
+tLSH: 61318459
+tTrue: 35759380
 R-near neighbors: 
 Query: 7063
 Nearest neighbor: 5590
 distanceLSH: 0.00221
 distanceTrue: 0.00221
-tLSH: 5806545
-tTrue: 955474
+tLSH: 57819529
+tTrue: 27786979
 R-near neighbors: 
 Query: 7064
 Nearest neighbor: 5590
 distanceLSH: 0.00205
 distanceTrue: 0.00205
-tLSH: 5932831
-tTrue: 954970
+tLSH: 57659231
+tTrue: 26629319
 R-near neighbors: 
 Query: 7067
 Nearest neighbor: 1031
 distanceLSH: 0.00729
 distanceTrue: 0.00729
-tLSH: 10747780
-tTrue: 2453454
+tLSH: 13784535
+tTrue: 72078112
 R-near neighbors: 
 Query: 7068
 Nearest neighbor: 768
 distanceLSH: 0.00057
 distanceTrue: 0.00057
-tLSH: 5954934
-tTrue: 1016045
+tLSH: 57709343
+tTrue: 27222731
 R-near neighbors: 
 Query: 7070
 Nearest neighbor: 1031
 distanceLSH: 0.00712
 distanceTrue: 0.00712
-tLSH: 8627000
-tTrue: 1709898
+tLSH: 10337948
+tTrue: 50094455
 R-near neighbors: 
 Query: 7072
 Nearest neighbor: 1031
 distanceLSH: 0.00706
 distanceTrue: 0.00706
-tLSH: 5619846
-tTrue: 967121
+tLSH: 7047912
+tTrue: 26578676
 R-near neighbors: 
 Query: 7077
 Nearest neighbor: 5483
 distanceLSH: 0.03528
 distanceTrue: 0.03528
-tLSH: 9112620
-tTrue: 2505944
+tLSH: 14270527
+tTrue: 73591279
 R-near neighbors: 
 Query: 7080
 Nearest neighbor: 1031
 distanceLSH: 0.00706
 distanceTrue: 0.00706
-tLSH: 5382524
-tTrue: 961615
+tLSH: 7064698
+tTrue: 26738708
 R-near neighbors: 
 Query: 7081
 Nearest neighbor: 2117
 distanceLSH: 0.05518
 distanceTrue: 0.05518
-tLSH: 55373662
-tTrue: 15820612
+tLSH: 673921831
+tTrue: 496719786
 R-near neighbors: 
 Query: 7082
 Nearest neighbor: 1025
 distanceLSH: 0.08043
 distanceTrue: 0.08043
-tLSH: 9328377
-tTrue: 6885984
+tLSH: 23447807
+tTrue: 191037993
 R-near neighbors: 
 Query: 7083
-Nearest neighbor: 2076
-distanceLSH: 0.73543
+Nearest neighbor: 6237
+distanceLSH: 1.05994
 distanceTrue: 0.28301
-tLSH: 3847389
-tTrue: 18818837
+tLSH: 8615611
+tTrue: 585611022
 R-near neighbors: 
 Query: 7084
 Nearest neighbor: 1046
 distanceLSH: 0.05295
 distanceTrue: 0.05295
-tLSH: 4720141
-tTrue: 3218531
+tLSH: 14754396
+tTrue: 95152187
 R-near neighbors: 
 Query: 7090
 Nearest neighbor: 1031
 distanceLSH: 0.00706
 distanceTrue: 0.00706
-tLSH: 5712501
-tTrue: 959468
+tLSH: 7214240
+tTrue: 30917421
 R-near neighbors: 
 Query: 7092
 Nearest neighbor: 5765
 distanceLSH: 0.00956
 distanceTrue: 0.00956
-tLSH: 62146667
-tTrue: 18002743
+tLSH: 934468242
+tTrue: 600056765
 R-near neighbors: 
 Query: 7095
 Nearest neighbor: 1046
 distanceLSH: 0.01146
 distanceTrue: 0.01146
-tLSH: 5951728
-tTrue: 1679137
+tLSH: 9926500
+tTrue: 50426028
 R-near neighbors: 
 Query: 7096
 Nearest neighbor: 2212
 distanceLSH: 0.00016
 distanceTrue: 0.00016
-tLSH: 5837602
-tTrue: 977752
+tLSH: 57397273
+tTrue: 26666708
 R-near neighbors: 
 Query: 7097
 Nearest neighbor: 1180
 distanceLSH: 2e-05
 distanceTrue: 2e-05
-tLSH: 5596277
-tTrue: 954629
+tLSH: 58477079
+tTrue: 26531687
 R-near neighbors: 
-6052
-1180
-6052
-1180
-6052
-1180
-6052
-1180
-6052
-1180
 Query: 7098
 Nearest neighbor: 5483
 distanceLSH: 0.01002
 distanceTrue: 0.01002
-tLSH: 6232835
-tTrue: 1053055
+tLSH: 9354085
+tTrue: 27036773
 R-near neighbors: 
 Query: 7099
-Nearest neighbor: 4296
-distanceLSH: 0.32192
+Nearest neighbor: 1020
+distanceLSH: 0.2225
 distanceTrue: 0.20176
-tLSH: 8162308
-tTrue: 16054141
+tLSH: 24468911
+tTrue: 487430556
 R-near neighbors: 
 Query: 7102
 Nearest neighbor: 1031
 distanceLSH: 0.00706
 distanceTrue: 0.00706
-tLSH: 6475326
-tTrue: 1035804
+tLSH: 7070205
+tTrue: 26948780
 R-near neighbors: 
 Query: 7115
 Nearest neighbor: 1088
 distanceLSH: 0.00427
 distanceTrue: 0.00427
-tLSH: 62215732
-tTrue: 17473425
+tLSH: 853060785
+tTrue: 526480731
 R-near neighbors: 
 Query: 7119
 Nearest neighbor: 329
 distanceLSH: 0.0008
 distanceTrue: 0.0008
-tLSH: 6262064
-tTrue: 962940
+tLSH: 59427599
+tTrue: 26544615
 R-near neighbors: 
 Query: 7121
 Nearest neighbor: 2591
 distanceLSH: 0.3523
 distanceTrue: 0.27836
-tLSH: 10338917
-tTrue: 12254555
+tLSH: 6089317
+tTrue: 370397672
 R-near neighbors: 
 Query: 7126
 Nearest neighbor: 4711
 distanceLSH: 0.015
 distanceTrue: 0.015
-tLSH: 16093409
-tTrue: 3968672
+tLSH: 201290502
+tTrue: 122043863
 R-near neighbors: 
 Query: 7143
 Nearest neighbor: 1165
 distanceLSH: 5e-05
 distanceTrue: 5e-05
-tLSH: 8379881
-tTrue: 1697131
+tLSH: 93457730
+tTrue: 49359515
 R-near neighbors: 
-1165
-Query: 7145
-Nearest neighbor: 1145
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 5954745
-tTrue: 1007530
-R-near neighbors: 
-1145
-Query: 7150
-Nearest neighbor: 291
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 6619064
-tTrue: 979014
-R-near neighbors: 
-5124
-293
-291
-5124
-293
-291
-5124
-293
-291
-5124
-293
-291
-5124
-293
-291
 Query: 7160
 Nearest neighbor: 6173
 distanceLSH: 0.00015
 distanceTrue: 0.00015
-tLSH: 11891772
-tTrue: 3845879
+tLSH: 35317322
+tTrue: 72828999
 R-near neighbors: 
 Query: 7161
 Nearest neighbor: 5329
 distanceLSH: 0.04098
 distanceTrue: 0.04098
-tLSH: 45488981
-tTrue: 12977350
+tLSH: 640938093
+tTrue: 389857200
 R-near neighbors: 
 Query: 7162
 Nearest neighbor: 5245
 distanceLSH: 0.00903
 distanceTrue: 0.00903
-tLSH: 14001496
-tTrue: 3673004
+tLSH: 166971026
+tTrue: 97862802
 R-near neighbors: 
 Query: 7163
 Nearest neighbor: 2088
 distanceLSH: 0.0509
 distanceTrue: 0.0509
-tLSH: 27271101
-tTrue: 7029669
+tLSH: 219499397
+tTrue: 213251394
 R-near neighbors: 
 Query: 7168
 Nearest neighbor: 2694
 distanceLSH: 0.02005
 distanceTrue: 0.02005
-tLSH: 47778569
-tTrue: 16476203
+tLSH: 192682354
+tTrue: 502201084
 R-near neighbors: 
 Query: 7170
 Nearest neighbor: 6687
 distanceLSH: 0.00125
 distanceTrue: 0.00125
-tLSH: 10492131
-tTrue: 2432836
+tLSH: 37078765
+tTrue: 74703389
 R-near neighbors: 
 Query: 7171
 Nearest neighbor: 2088
 distanceLSH: 0.08837
 distanceTrue: 0.08837
-tLSH: 38069058
-tTrue: 10691955
+tLSH: 220509418
+tTrue: 318671915
 R-near neighbors: 
 Query: 7173
 Nearest neighbor: 551
 distanceLSH: 0.06967
 distanceTrue: 0.06967
-tLSH: 7031690
-tTrue: 3231693
+tLSH: 30155760
+tTrue: 97750676
 R-near neighbors: 
 Query: 7174
 Nearest neighbor: 2940
 distanceLSH: 0.00024
 distanceTrue: 0.00024
-tLSH: 7938271
-tTrue: 1696182
+tLSH: 93853659
+tTrue: 54426180
 R-near neighbors: 
-Query: 7176
-Nearest neighbor: 2596
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 5388436
-tTrue: 969608
-R-near neighbors: 
-2596
 Query: 7187
 Nearest neighbor: 2604
 distanceLSH: 0.09066
 distanceTrue: 0.09066
-tLSH: 10691982
-tTrue: 4275165
+tLSH: 31085674
+tTrue: 96919949
 R-near neighbors: 
 Query: 7190
 Nearest neighbor: 6081
 distanceLSH: 0.00172
 distanceTrue: 0.00172
-tLSH: 33293597
-tTrue: 9368033
+tLSH: 460650896
+tTrue: 278281622
 R-near neighbors: 
 Query: 7191
 Nearest neighbor: 2680
 distanceLSH: 0.02808
 distanceTrue: 0.02808
-tLSH: 21430447
-tTrue: 6982587
+tLSH: 96563974
+tTrue: 212627719
 R-near neighbors: 
 Query: 7192
 Nearest neighbor: 6687
 distanceLSH: 0.00133
 distanceTrue: 0.00133
-tLSH: 50663827
-tTrue: 14435323
+tLSH: 185499753
+tTrue: 437667231
 R-near neighbors: 
 Query: 7193
 Nearest neighbor: 4683
 distanceLSH: 0.00385
 distanceTrue: 0.00385
-tLSH: 10531781
-tTrue: 2422214
+tLSH: 33864230
+tTrue: 71815222
 R-near neighbors: 
-Query: 7195
-Nearest neighbor: 2589
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 6148400
-tTrue: 955192
-R-near neighbors: 
-2599
-2589
-2599
-2589
-2599
-2589
-2599
-2589
-2599
-2589
-Query: 7199
-Nearest neighbor: 806
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 7061242
-tTrue: 1455562
-R-near neighbors: 
-806
 Query: 7200
 Nearest neighbor: 5523
 distanceLSH: 0.12625
 distanceTrue: 0.12625
-tLSH: 68161764
-tTrue: 36855955
+tLSH: 87796192
+tTrue: 1091967958
 R-near neighbors: 
 Query: 7202
 Nearest neighbor: 6797
 distanceLSH: 0.00012
 distanceTrue: 0.00012
-tLSH: 5649522
-tTrue: 964911
+tLSH: 5212892
+tTrue: 26891671
 R-near neighbors: 
 Query: 7203
 Nearest neighbor: 5523
 distanceLSH: 0.10107
 distanceTrue: 0.10107
-tLSH: 49291472
-tTrue: 17971038
+tLSH: 44871182
+tTrue: 555800189
 R-near neighbors: 
 Query: 7205
 Nearest neighbor: 811
 distanceLSH: 0.00027
 distanceTrue: 0.00027
-tLSH: 6040047
-tTrue: 963865
+tLSH: 5241673
+tTrue: 26597630
 R-near neighbors: 
 Query: 7208
 Nearest neighbor: 6792
 distanceLSH: 7e-05
 distanceTrue: 7e-05
-tLSH: 5373205
-tTrue: 960533
+tLSH: 5294496
+tTrue: 26470173
 R-near neighbors: 
-6792
-802
-6792
-802
-6792
-802
-6792
-802
-6792
-802
 Query: 7210
 Nearest neighbor: 2748
 distanceLSH: 0.00014
 distanceTrue: 0.00014
-tLSH: 6160789
-tTrue: 968345
+tLSH: 5322790
+tTrue: 27121342
 R-near neighbors: 
 Query: 7213
 Nearest neighbor: 6797
 distanceLSH: 0.00023
 distanceTrue: 0.00023
-tLSH: 5326311
-tTrue: 978462
+tLSH: 5211615
+tTrue: 29584648
 R-near neighbors: 
 Query: 7215
 Nearest neighbor: 817
 distanceLSH: 0.00025
 distanceTrue: 0.00025
-tLSH: 6030362
-tTrue: 961587
+tLSH: 5252264
+tTrue: 26536195
 R-near neighbors: 
 Query: 7217
 Nearest neighbor: 6797
 distanceLSH: 0.00017
 distanceTrue: 0.00017
-tLSH: 5804839
-tTrue: 963781
+tLSH: 5277119
+tTrue: 26645602
 R-near neighbors: 
 Query: 7220
 Nearest neighbor: 827
 distanceLSH: 0.00085
 distanceTrue: 0.00085
-tLSH: 5828963
-tTrue: 963170
+tLSH: 5233607
+tTrue: 26597619
 R-near neighbors: 
 Query: 7222
 Nearest neighbor: 2760
 distanceLSH: 0.0007
 distanceTrue: 0.0007
-tLSH: 7862533
-tTrue: 1700636
+tLSH: 7677144
+tTrue: 49203450
 R-near neighbors: 
 Query: 7224
 Nearest neighbor: 6787
 distanceLSH: 0.00035
 distanceTrue: 0.00035
-tLSH: 5323955
-tTrue: 957582
+tLSH: 5558259
+tTrue: 28007090
 R-near neighbors: 
 Query: 7226
 Nearest neighbor: 6787
 distanceLSH: 0.0002
 distanceTrue: 0.0002
-tLSH: 5494565
-tTrue: 954920
+tLSH: 5216075
+tTrue: 27175075
 R-near neighbors: 
 Query: 7228
 Nearest neighbor: 806
 distanceLSH: 0.0008
 distanceTrue: 0.0008
-tLSH: 5589097
-tTrue: 955513
+tLSH: 5307791
+tTrue: 26878229
 R-near neighbors: 
 Query: 7230
 Nearest neighbor: 5807
 distanceLSH: 0.00919
 distanceTrue: 0.00919
-tLSH: 11297780
-tTrue: 3603262
+tLSH: 7021993
+tTrue: 98321900
 R-near neighbors: 
 Query: 7231
 Nearest neighbor: 5807
 distanceLSH: 0.01145
 distanceTrue: 0.01145
-tLSH: 8790234
-tTrue: 2449233
+tLSH: 5844051
+tTrue: 76979764
 R-near neighbors: 
 Query: 7233
 Nearest neighbor: 6017
 distanceLSH: 0.00011
 distanceTrue: 0.00011
-tLSH: 5983686
-tTrue: 953853
+tLSH: 57064289
+tTrue: 26698371
 R-near neighbors: 
 Query: 7235
 Nearest neighbor: 4318
 distanceLSH: 0.7032
 distanceTrue: 0.7032
-tLSH: 19624807
-tTrue: 36435304
+tLSH: 61025344
+tTrue: 1260066535
 R-near neighbors: 
 Query: 7236
 Nearest neighbor: 6022
 distanceLSH: 0.00163
 distanceTrue: 0.00163
-tLSH: 49622005
-tTrue: 14424246
+tLSH: 735678248
+tTrue: 484530054
 R-near neighbors: 
 Query: 7237
 Nearest neighbor: 2577
 distanceLSH: 3e-05
 distanceTrue: 3e-05
-tLSH: 5680078
-tTrue: 1056505
+tLSH: 58665293
+tTrue: 31043175
 R-near neighbors: 
-4307
-2577
-2576
-4307
-2577
-2576
-4307
-2577
-2576
-4307
-2577
-2576
-4307
-2577
-2576
 Query: 7238
 Nearest neighbor: 2094
 distanceLSH: 8e-05
 distanceTrue: 8e-05
-tLSH: 9152814
-tTrue: 2651357
+tLSH: 8932295
+tTrue: 49452974
 R-near neighbors: 
-2094
 Query: 7245
 Nearest neighbor: 2386
 distanceLSH: 0.75005
 distanceTrue: 0.75005
-tLSH: 10830475
-tTrue: 31924548
+tLSH: 21127655
+tTrue: 1060483561
 R-near neighbors: 
 Query: 7246
 Nearest neighbor: 4840
 distanceLSH: 0.15907
 distanceTrue: 0.15907
-tLSH: 6645421
-tTrue: 7703784
+tLSH: 17925527
+tTrue: 261344587
 R-near neighbors: 
 Query: 7248
 Nearest neighbor: 4317
 distanceLSH: 0.64705
 distanceTrue: 0.64705
-tLSH: 8869087
-tTrue: 27163304
+tLSH: 25202467
+tTrue: 845400461
 R-near neighbors: 
 Query: 7252
 Nearest neighbor: 329
 distanceLSH: 0.00054
 distanceTrue: 0.00054
-tLSH: 5836121
-tTrue: 964103
+tLSH: 58282834
+tTrue: 26805412
 R-near neighbors: 
 Query: 7253
 Nearest neighbor: 2558
 distanceLSH: 0.02014
 distanceTrue: 0.02014
-tLSH: 6645055
-tTrue: 1701883
+tLSH: 59235982
+tTrue: 51828572
 R-near neighbors: 
 Query: 7254
 Nearest neighbor: 4322
 distanceLSH: 0.30564
 distanceTrue: 0.30564
-tLSH: 10171005
-tTrue: 15273539
+tLSH: 23339255
+tTrue: 472717080
 R-near neighbors: 
 Query: 7256
 Nearest neighbor: 5128
 distanceLSH: 0.00451
 distanceTrue: 0.00451
-tLSH: 35754869
-tTrue: 9957144
+tLSH: 501687203
+tTrue: 304667829
 R-near neighbors: 
 Query: 7258
 Nearest neighbor: 4317
 distanceLSH: 0.43953
 distanceTrue: 0.43953
-tLSH: 11984145
-tTrue: 18767532
+tLSH: 50492287
+tTrue: 572262870
 R-near neighbors: 
 Query: 7259
 Nearest neighbor: 767
 distanceLSH: 0.51535
 distanceTrue: 0.32338
-tLSH: 6632138
-tTrue: 29127812
+tLSH: 22264974
+tTrue: 908253812
 R-near neighbors: 
 Query: 7265
 Nearest neighbor: 6260
 distanceLSH: 0.09715
 distanceTrue: 0.09715
-tLSH: 25689649
-tTrue: 6971504
+tLSH: 29775772
+tTrue: 235965613
 R-near neighbors: 
 Query: 7267
 Nearest neighbor: 2094
 distanceLSH: 0.00526
 distanceTrue: 0.00526
-tLSH: 5377202
-tTrue: 973645
+tLSH: 7155339
+tTrue: 32415098
 R-near neighbors: 
 Query: 7268
 Nearest neighbor: 6003
 distanceLSH: 0.10124
 distanceTrue: 0.10124
-tLSH: 37710089
-tTrue: 29115581
+tLSH: 337755559
+tTrue: 971128756
 R-near neighbors: 
 Query: 7274
 Nearest neighbor: 3641
 distanceLSH: 0.26496
 distanceTrue: 0.26496
-tLSH: 7816175
-tTrue: 9235112
+tLSH: 25065909
+tTrue: 284907788
 R-near neighbors: 
 Query: 7277
 Nearest neighbor: 2094
 distanceLSH: 0.00126
 distanceTrue: 0.00126
-tLSH: 5827488
-tTrue: 964770
+tLSH: 6200276
+tTrue: 26818146
 R-near neighbors: 
 Query: 7281
 Nearest neighbor: 2094
 distanceLSH: 4e-05
 distanceTrue: 4e-05
-tLSH: 10526695
-tTrue: 2445349
+tLSH: 11743450
+tTrue: 72308479
 R-near neighbors: 
-2094
 Query: 7285
 Nearest neighbor: 2105
 distanceLSH: 0.18146
 distanceTrue: 0.18146
-tLSH: 28137002
-tTrue: 10706070
+tLSH: 32502353
+tTrue: 323698281
 R-near neighbors: 
 Query: 7287
 Nearest neighbor: 4296
 distanceLSH: 0.23987
 distanceTrue: 0.23987
-tLSH: 11582868
-tTrue: 17368395
+tLSH: 36233282
+tTrue: 527625590
 R-near neighbors: 
 Query: 7288
 Nearest neighbor: 6003
 distanceLSH: 0.1123
 distanceTrue: 0.1123
-tLSH: 31211502
-tTrue: 23042821
+tLSH: 254058153
+tTrue: 708272509
 R-near neighbors: 
 Query: 7290
 Nearest neighbor: 5962
 distanceLSH: 0.00177
 distanceTrue: 0.00177
-tLSH: 8107344
-tTrue: 1689170
+tLSH: 94788365
+tTrue: 49516846
 R-near neighbors: 
 Query: 7294
 Nearest neighbor: 4317
 distanceLSH: 0.2957
 distanceTrue: 0.2957
-tLSH: 19073298
-tTrue: 18536003
+tLSH: 44196382
+tTrue: 549140225
 R-near neighbors: 
 Query: 7295
-Nearest neighbor: 4318
-distanceLSH: 0.57895
+Nearest neighbor: 4306
+distanceLSH: 0.2728
 distanceTrue: 0.2728
-tLSH: 5933606
-tTrue: 26274807
+tLSH: 28384599
+tTrue: 802490943
 R-near neighbors: 
 Query: 7303
 Nearest neighbor: 1175
 distanceLSH: 3e-05
 distanceTrue: 3e-05
-tLSH: 5773250
-tTrue: 967602
+tLSH: 57109165
+tTrue: 26650259
 R-near neighbors: 
-1175
 Query: 7306
 Nearest neighbor: 2547
 distanceLSH: 0.0002
 distanceTrue: 0.0002
-tLSH: 5799062
-tTrue: 959468
+tLSH: 59013778
+tTrue: 32415419
 R-near neighbors: 
 Query: 7322
 Nearest neighbor: 5755
 distanceLSH: 0.00026
 distanceTrue: 0.00026
-tLSH: 10206003
-tTrue: 2423903
+tLSH: 117082028
+tTrue: 72022753
 R-near neighbors: 
 Query: 7324
 Nearest neighbor: 2350
 distanceLSH: 0.0003
 distanceTrue: 0.0003
-tLSH: 5625466
-tTrue: 968535
+tLSH: 50815512
+tTrue: 26621111
 R-near neighbors: 
 Query: 7325
 Nearest neighbor: 5803
 distanceLSH: 0.00265
 distanceTrue: 0.00265
-tLSH: 10665003
-tTrue: 2483184
+tLSH: 9133352
+tTrue: 74754640
 R-near neighbors: 
 Query: 7328
 Nearest neighbor: 6987
 distanceLSH: 0.02672
 distanceTrue: 0.02672
-tLSH: 5325959
-tTrue: 954395
+tLSH: 8250149
+tTrue: 26884880
 R-near neighbors: 
 Query: 7330
 Nearest neighbor: 3576
 distanceLSH: 0.01281
 distanceTrue: 0.01281
-tLSH: 5398077
-tTrue: 967843
+tLSH: 50911093
+tTrue: 29191642
 R-near neighbors: 
 Query: 7331
 Nearest neighbor: 2695
 distanceLSH: 0.00035
 distanceTrue: 0.00035
-tLSH: 7946739
-tTrue: 1709179
+tLSH: 28893308
+tTrue: 52144731
 R-near neighbors: 
 Query: 7333
 Nearest neighbor: 2724
 distanceLSH: 0.00478
 distanceTrue: 0.00478
-tLSH: 6055808
-tTrue: 971824
+tLSH: 33496802
+tTrue: 27366007
 R-near neighbors: 
 Query: 7339
 Nearest neighbor: 2724
 distanceLSH: 3e-05
 distanceTrue: 3e-05
-tLSH: 5500988
-tTrue: 968818
+tLSH: 21780278
+tTrue: 26948623
 R-near neighbors: 
-2724
 Query: 7342
 Nearest neighbor: 6146
 distanceLSH: 0.06421
 distanceTrue: 0.06421
-tLSH: 15830268
-tTrue: 4946354
+tLSH: 173878717
+tTrue: 117584522
 R-near neighbors: 
 Query: 7345
 Nearest neighbor: 3678
 distanceLSH: 0.0092
 distanceTrue: 0.0092
-tLSH: 5482474
-tTrue: 973831
+tLSH: 61483388
+tTrue: 27416938
 R-near neighbors: 
 Query: 7347
 Nearest neighbor: 2687
 distanceLSH: 0.00898
 distanceTrue: 0.00898
-tLSH: 5380058
-tTrue: 963567
+tLSH: 45091414
+tTrue: 29925606
 R-near neighbors: 
 Query: 7356
 Nearest neighbor: 2719
 distanceLSH: 0.00056
 distanceTrue: 0.00056
-tLSH: 101288656
-tTrue: 29670421
+tLSH: 518341144
+tTrue: 916717206
 R-near neighbors: 
 Query: 7357
 Nearest neighbor: 2724
 distanceLSH: 0.0001
 distanceTrue: 0.0001
-tLSH: 5748605
-tTrue: 991669
+tLSH: 22051246
+tTrue: 29688021
 R-near neighbors: 
-Query: 7362
-Nearest neighbor: 2724
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 8306423
-tTrue: 1719719
-R-near neighbors: 
-2724
 Query: 7363
 Nearest neighbor: 2724
 distanceLSH: 0.00183
 distanceTrue: 0.00183
-tLSH: 7215809
-tTrue: 968413
+tLSH: 21872008
+tTrue: 29713385
 R-near neighbors: 
 Query: 7365
 Nearest neighbor: 4683
 distanceLSH: 0.00584
 distanceTrue: 0.00584
-tLSH: 14096592
-tTrue: 3258219
+tLSH: 39998777
+tTrue: 95321332
 R-near neighbors: 
 Query: 7370
 Nearest neighbor: 2724
 distanceLSH: 0.00674
 distanceTrue: 0.00674
-tLSH: 5353135
-tTrue: 964149
+tLSH: 43518131
+tTrue: 26685837
 R-near neighbors: 
 Query: 7372
 Nearest neighbor: 3576
 distanceLSH: 0.00961
 distanceTrue: 0.00961
-tLSH: 5692820
-tTrue: 973009
+tLSH: 50883518
+tTrue: 29412822
 R-near neighbors: 
 Query: 7375
 Nearest neighbor: 1932
 distanceLSH: 0.01062
 distanceTrue: 0.01062
-tLSH: 83946868
-tTrue: 24532590
+tLSH: 320271140
+tTrue: 759803591
 R-near neighbors: 
 Query: 7378
 Nearest neighbor: 2374
 distanceLSH: 0.00972
 distanceTrue: 0.00972
-tLSH: 5794973
-tTrue: 954759
+tLSH: 50544717
+tTrue: 26669087
 R-near neighbors: 
 Query: 7379
 Nearest neighbor: 2374
 distanceLSH: 0.01249
 distanceTrue: 0.01249
-tLSH: 5676774
-tTrue: 955840
+tLSH: 50756982
+tTrue: 28990288
 R-near neighbors: 
 Query: 7381
 Nearest neighbor: 2687
 distanceLSH: 0.02973
 distanceTrue: 0.02973
-tLSH: 15830356
-tTrue: 3991939
+tLSH: 116308880
+tTrue: 116952443
 R-near neighbors: 
 Query: 7385
 Nearest neighbor: 2687
 distanceLSH: 0.29925
 distanceTrue: 0.29925
-tLSH: 67801461
-tTrue: 29026234
+tLSH: 418717883
+tTrue: 899772993
 R-near neighbors: 
 Query: 7387
 Nearest neighbor: 2724
 distanceLSH: 0.00014
 distanceTrue: 0.00014
-tLSH: 53343693
-tTrue: 15067758
+tLSH: 269045547
+tTrue: 462196012
 R-near neighbors: 
 Query: 7392
 Nearest neighbor: 2741
 distanceLSH: 0.00011
 distanceTrue: 0.00011
-tLSH: 5677775
-tTrue: 955162
+tLSH: 21961119
+tTrue: 26568577
 R-near neighbors: 
 Query: 7394
 Nearest neighbor: 4015
 distanceLSH: 0.0003
 distanceTrue: 0.0003
-tLSH: 8215624
-tTrue: 1708154
+tLSH: 94126242
+tTrue: 52457064
 R-near neighbors: 
 Query: 7396
 Nearest neighbor: 4415
 distanceLSH: 0.00488
 distanceTrue: 0.00488
-tLSH: 37679512
-tTrue: 10682440
+tLSH: 28621385
+tTrue: 322382670
 R-near neighbors: 
 Query: 7399
 Nearest neighbor: 4015
 distanceLSH: 0.00042
 distanceTrue: 0.00042
-tLSH: 8059636
-tTrue: 1699721
+tLSH: 93620626
+tTrue: 49434141
 R-near neighbors: 
 Query: 7402
 Nearest neighbor: 966
 distanceLSH: 5e-05
 distanceTrue: 5e-05
-tLSH: 8315883
-tTrue: 1761589
+tLSH: 97926021
+tTrue: 49107933
 R-near neighbors: 
-966
 Query: 7407
 Nearest neighbor: 4015
 distanceLSH: 0.00015
 distanceTrue: 0.00015
-tLSH: 8237883
-tTrue: 1715741
+tLSH: 93279022
+tTrue: 52452687
 R-near neighbors: 
 Query: 7410
-Nearest neighbor: 5618
-distanceLSH: 1.33344
+Nearest neighbor: 2982
+distanceLSH: 1.50417
 distanceTrue: 1.2809
-tLSH: 23599753
-tTrue: 28953548
+tLSH: 6167240
+tTrue: 897596535
 R-near neighbors: 
 Query: 7411
 Nearest neighbor: 2545
 distanceLSH: 0.00018
 distanceTrue: 0.00018
-tLSH: 5827042
-tTrue: 965928
+tLSH: 59670098
+tTrue: 30151126
 R-near neighbors: 
 Query: 7416
 Nearest neighbor: 2766
 distanceLSH: 0.01449
 distanceTrue: 0.01449
-tLSH: 6698907
-tTrue: 1694859
+tLSH: 12602565
+tTrue: 52040902
 R-near neighbors: 
-Query: 7418
-Nearest neighbor: 2770
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 8077747
-tTrue: 1706442
-R-near neighbors: 
-2770
 Query: 7420
 Nearest neighbor: 4863
 distanceLSH: 0.00065
 distanceTrue: 0.00065
-tLSH: 29351903
-tTrue: 9332891
+tLSH: 131028207
+tTrue: 234231511
 R-near neighbors: 
 Query: 7424
 Nearest neighbor: 6873
 distanceLSH: 0.02124
 distanceTrue: 0.02124
-tLSH: 19239733
-tTrue: 5224159
+tLSH: 63330007
+tTrue: 144854297
 R-near neighbors: 
 Query: 7435
 Nearest neighbor: 4983
 distanceLSH: 0.05035
 distanceTrue: 0.05035
-tLSH: 4493045
-tTrue: 2465385
+tLSH: 33838852
+tTrue: 71647341
 R-near neighbors: 
 Query: 7436
 Nearest neighbor: 4806
 distanceLSH: 0.00888
 distanceTrue: 0.00888
-tLSH: 5750662
-tTrue: 967879
+tLSH: 42676089
+tTrue: 26945732
 R-near neighbors: 
 Query: 7438
 Nearest neighbor: 4970
 distanceLSH: 0.00037
 distanceTrue: 0.00037
-tLSH: 6079230
-tTrue: 964116
+tLSH: 21925448
+tTrue: 30095258
 R-near neighbors: 
 Query: 7440
 Nearest neighbor: 6871
 distanceLSH: 1e-05
 distanceTrue: 1e-05
-tLSH: 6127792
-tTrue: 955745
+tLSH: 21476373
+tTrue: 27581372
 R-near neighbors: 
-6871
-4990
-6871
-4990
-6871
-4990
-6871
-4990
-6871
-4990
 Query: 7443
 Nearest neighbor: 4914
 distanceLSH: 0.01061
 distanceTrue: 0.01061
-tLSH: 6033610
-tTrue: 2471023
+tLSH: 47345118
+tTrue: 72114162
 R-near neighbors: 
 Query: 7444
 Nearest neighbor: 1310
 distanceLSH: 0.0003
 distanceTrue: 0.0003
-tLSH: 6596664
-tTrue: 1026882
+tLSH: 21198458
+tTrue: 26569317
 R-near neighbors: 
 Query: 7446
 Nearest neighbor: 4902
 distanceLSH: 2e-05
 distanceTrue: 2e-05
-tLSH: 8649277
-tTrue: 1747416
+tLSH: 33626573
+tTrue: 52056873
 R-near neighbors: 
-4902
-4894
-2912
-2897
-4902
-4894
-2912
-2897
-4902
-4894
-2912
-2897
-4902
-4894
-2912
-2897
-4902
-4894
-2912
-2897
 Query: 7447
 Nearest neighbor: 676
 distanceLSH: 0.00415
 distanceTrue: 0.00415
-tLSH: 6653327
-tTrue: 962757
+tLSH: 57544837
+tTrue: 26484999
 R-near neighbors: 
 Query: 7448
 Nearest neighbor: 281
 distanceLSH: 0.0012
 distanceTrue: 0.0012
-tLSH: 6266796
-tTrue: 955020
+tLSH: 57627176
+tTrue: 26417780
 R-near neighbors: 
 Query: 7450
 Nearest neighbor: 4973
 distanceLSH: 2e-05
 distanceTrue: 2e-05
-tLSH: 5843065
-tTrue: 963527
+tLSH: 21155205
+tTrue: 29579367
 R-near neighbors: 
-6879
-4988
-4973
-4904
-4889
-2886
-6879
-4988
-4973
-4904
-4889
-2886
-6879
-4988
-4973
-4904
-4889
-2886
-6879
-4988
-4973
-4904
-4889
-2886
-6879
-4988
-4973
-4904
-4889
-2886
 Query: 7454
 Nearest neighbor: 4954
 distanceLSH: 0.00014
 distanceTrue: 0.00014
-tLSH: 7580681
-tTrue: 1471392
+tLSH: 21210114
+tTrue: 26485564
 R-near neighbors: 
 Query: 7457
 Nearest neighbor: 5004
 distanceLSH: 0.00022
 distanceTrue: 0.00022
-tLSH: 5700171
-tTrue: 967128
+tLSH: 21542945
+tTrue: 27879089
 R-near neighbors: 
 Query: 7459
 Nearest neighbor: 4902
 distanceLSH: 1e-05
 distanceTrue: 1e-05
-tLSH: 6035127
-tTrue: 960622
+tLSH: 21210120
+tTrue: 26695674
 R-near neighbors: 
-5001
-4902
-4894
-2912
-2897
-5001
-4902
-4894
-2912
-2897
-5001
-4902
-4894
-2912
-2897
-5001
-4902
-4894
-2912
-2897
-5001
-4902
-4894
-2912
-2897
 Query: 7461
 Nearest neighbor: 4442
 distanceLSH: 0.01385
 distanceTrue: 0.01385
-tLSH: 6635493
-tTrue: 1381364
+tLSH: 38846418
+tTrue: 29494330
 R-near neighbors: 
 Query: 7462
 Nearest neighbor: 1741
 distanceLSH: 0.23021
 distanceTrue: 0.23021
-tLSH: 36960751
-tTrue: 19516217
+tLSH: 630762267
+tTrue: 597701070
 R-near neighbors: 
 Query: 7464
 Nearest neighbor: 2866
 distanceLSH: 0.0006
 distanceTrue: 0.0006
-tLSH: 10567160
-tTrue: 2512894
+tLSH: 46633850
+tTrue: 76242042
 R-near neighbors: 
 Query: 7465
 Nearest neighbor: 4918
 distanceLSH: 0.00055
 distanceTrue: 0.00055
-tLSH: 5380527
-tTrue: 955974
+tLSH: 21166350
+tTrue: 31557882
 R-near neighbors: 
 Query: 7467
 Nearest neighbor: 4970
 distanceLSH: 0.00012
 distanceTrue: 0.00012
-tLSH: 5374461
-tTrue: 970937
+tLSH: 21045126
+tTrue: 26532737
 R-near neighbors: 
-Query: 7468
-Nearest neighbor: 4914
-distanceLSH: 0
-distanceTrue: 0
-tLSH: 5411340
-tTrue: 970114
-R-near neighbors: 
-4914
 Query: 7470
 Nearest neighbor: 4821
 distanceLSH: 0.00434
 distanceTrue: 0.00434
-tLSH: 9070196
-tTrue: 1706515
+tLSH: 76612999
+tTrue: 50599724
 R-near neighbors: 
 Query: 7472
 Nearest neighbor: 4986
 distanceLSH: 1e-05
 distanceTrue: 1e-05
-tLSH: 6247661
-tTrue: 1404224
+tLSH: 21269619
+tTrue: 26572257
 R-near neighbors: 
-4986
 Query: 7474
 Nearest neighbor: 6865
 distanceLSH: 0.0001
 distanceTrue: 0.0001
-tLSH: 5988148
-tTrue: 981015
+tLSH: 23001820
+tTrue: 27356511
 R-near neighbors: 
-6865
 Query: 7476
 Nearest neighbor: 6865
 distanceLSH: 5e-05
 distanceTrue: 5e-05
-tLSH: 5886310
-tTrue: 964654
+tLSH: 21623458
+tTrue: 29414837
 R-near neighbors: 
-6865
 Query: 7478
 Nearest neighbor: 3923
 distanceLSH: 0.00233
 distanceTrue: 0.00233
-tLSH: 71961203
-tTrue: 21076425
+tLSH: 57796354
+tTrue: 641702418
 R-near neighbors: 
 Query: 7479
 Nearest neighbor: 2084
 distanceLSH: 0.00208
 distanceTrue: 0.00208
-tLSH: 37976165
-tTrue: 10759132
+tLSH: 528813007
+tTrue: 322152919
 R-near neighbors: 
 Query: 7482
 Nearest neighbor: 2088
 distanceLSH: 0.03815
 distanceTrue: 0.03815
-tLSH: 28171626
-tTrue: 7754450
+tLSH: 240309681
+tTrue: 234012934
 R-near neighbors: 

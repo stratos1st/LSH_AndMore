@@ -3,6 +3,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <string.h>
+#include <bits/stdc++.h>
 
 #include "my_curve.hpp"
 #include "util.hpp"
@@ -12,13 +13,14 @@
 
 #define MAX_CURVE_POINTS 50
 //TODO MAX_CURVE_POINTS from command lsh_container_size
-//TODO container sz experiments 
+//TODO container sz experiments
 
 using namespace std;
 
 int main(int argc, char *argv[]){
   //w is the window in h
-  int k=4, l=5,w=4000,m=3;//w not needed by project as argument. w should be float
+  int k=4, l=5,m=3;//w not needed by project as argument. w should be float
+  float w=0.001;
   size_t lsh_container_size=9000;//not needed by project
 
   char input_file_data[100]("./.atomignore/trajectories_dataset_cut");
@@ -125,11 +127,15 @@ int main(int argc, char *argv[]){
       auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 
       if(nn_brute.second==0.0){
-        cout<<"Warining: distance is ~=0! querry does not count\n";
-        total--;
+        cout<<"Warining: real distance is ~=0! querry "<<it->id<<" does not count\n";
+        continue;
       }
-      else
-        AF=nn_lsh.second/nn_brute.second;
+      if(nn_lsh.second==DBL_MAX){
+        cout<<"Warining: predicted distance is ~=inf! querry "<<it->id<<" does not count\n";
+        continue;
+      }
+
+      AF=nn_lsh.second/nn_brute.second;
       AF_max=max(AF,AF_max);
       AF_avg+=AF;
       average_time+=duration_lsh.count();
@@ -142,11 +148,11 @@ int main(int argc, char *argv[]){
       ofile<<"tTrue: "<<duration_brute.count()<<endl;
       ofile<<"R-near neighbors: "<<endl;
 
-      list<my_curve*>* rNNs=lsh_model.find_rNN(*it,r,Dtw);
-      for(list <my_curve*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
-        ofile<<(*it)->id<<endl;
-      rNNs->clear();
-      delete rNNs;
+      // list<my_curve*>* rNNs=lsh_model.find_rNN(*it,r,Dtw);
+      // for(list <my_curve*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
+      //   ofile<<(*it)->id<<endl;
+      // rNNs->clear();
+      // delete rNNs;
 
       total++;
     }
@@ -167,8 +173,8 @@ int main(int argc, char *argv[]){
       delete queries;
       queries1->clear();//added
       delete queries1;//added
-      list <my_curve> *queries1=read_curve_file(input_file_queries);
-      list <my_curve> *queries=new list <my_curve>;
+      queries1=read_curve_file(input_file_queries);
+      queries=new list <my_curve>;
       for(auto it=queries1->begin();it!=queries1->end();++it)
         if(it->numofvectors<=MAX_CURVE_POINTS)
           queries->push_back(*it);

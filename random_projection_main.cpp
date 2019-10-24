@@ -71,7 +71,7 @@ int main(int argc, char *argv[]){
   }
   if(argc == 1){
     std::cout << "Enter dataset path" << '\n';
-    std::cin >> input_file_data; 
+    std::cin >> input_file_data;
   }
   //------------------------------------create out file
   ofstream ofile;

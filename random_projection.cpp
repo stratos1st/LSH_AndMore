@@ -11,6 +11,7 @@
 using namespace std;
 
 unsigned long int * get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d);
+my_vector* padd(my_vector &c, unsigned int length, double specialchar=DBL_MAX);
 
 //--------------------------------------------------- random_projection
 random_projection::random_projection(const float _w,
@@ -81,7 +82,7 @@ void random_projection_vector::train(list <my_vector> *train_data_set){
   //create f_i table
   table_f_i=new f_i*[new_d];
   for(unsigned int j=0;j<new_d;j++)
-    table_f_i[j]=new f_i(train_data_set->front().get_dimentions(),w,k,f_container_sz,m);
+    table_f_i[j]=new f_i(data->front().get_dimentions(),w,k,f_container_sz,m);
 
   //fill hash table
   for(auto it = train_data_set->begin(); it != train_data_set->end(); ++it)
@@ -136,6 +137,161 @@ list<my_vector*>* random_projection_vector::find_rNN(my_vector &query, double r,
   ans->unique();
   return ans;
 }
+
+//--------------------------------------------------- random_projection_curve
+double GridHash::delta = 0.09;//TODO from function parameter
+random_projection_curve::random_projection_curve(unsigned int _max_curve_sz, const float _w, const unsigned int _k, const unsigned int _new_d,
+          const size_t _container_sz, const size_t _f_container_sz,
+          const unsigned int _m):random_projection(_w,_k,_new_d,_container_sz,_f_container_sz,_m),
+          max_curve_sz(_max_curve_sz){
+  #if DEBUG
+  cout<<"Constructing random_projection_curve"<<'\n';
+  #endif
+  hash_table=new unordered_multimap<long int, pair<my_curve*,my_vector*>>;
+  hash_table->reserve(_container_sz);
+
+  matching=NULL;
+  gridhashfunctions=NULL;
+  data=NULL;
+}
+
+random_projection_curve::~random_projection_curve(){
+  #if DEBUG
+  cout<<"Destructing random_projection_curve"<<'\n';
+  #endif
+  hash_table->clear();
+  delete hash_table;
+  if(data!=NULL){
+    data->clear();
+    delete data;
+  }
+  if(gridhashfunctions!=NULL)
+    delete gridhashfunctions;
+  if(matching!=NULL){
+      matching->clear();
+      delete matching;
+  }
+
+}
+
+void random_projection_curve::train(list<my_curve> *train_data_set){
+  #if DEBUG
+  cout<<"Training random_projection_curve"<<'\n';
+  #endif
+
+  data=new list<my_curve>(*train_data_set);
+
+  gridhashfunctions = new GridHash(data->begin()->vectordimentions);
+  matching=new list<pair<my_curve*,my_vector*>>;
+
+  //create f_i table
+  table_f_i=new f_i*[new_d];
+  for(unsigned int j=0;j<new_d;j++)
+    table_f_i[j]=new f_i(max_curve_sz*data->front().vectordimentions,w,k,f_container_sz,m);
+
+  for(auto it=data->begin();it!=data->end();++it){
+      my_vector* final_vector=gridify_and_padd(*it);
+      matching->push_back(make_pair(&*it, final_vector));
+      hash_table->insert({hash_function(*final_vector),make_pair(&*it, final_vector)});
+
+  }
+}
+
+void random_projection_curve::train(list<pair<my_curve*, my_vector*>> *train_data_set){
+  #if DEBUG
+  cout<<"Training random_projection_curve"<<'\n';
+  #endif
+  data=NULL;
+
+  matching=new list<pair<my_curve*,my_vector*>>(*train_data_set);
+
+  for(auto it=train_data_set->begin();it!=train_data_set->end();++it)
+      hash_table->insert({hash_function(*it->second),*it});
+}
+
+//FIXME unique ALL OF THEM ans->unique();
+
+pair<my_curve*, double> random_projection_curve::find_NN(pair<my_curve*,my_vector*> &query,
+                  double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
+                  double(*distance_metric_vector)(my_vector&, my_vector&)){
+  #if DEBUG
+  cout<<"entering random_projection_curve::find_NN\n";
+  #endif
+  my_curve *ans;
+  double minn=DBL_MAX;
+  auto range = hash_table->equal_range(hash_function(*query.second));//returns all possible NNs
+  for(auto it = range.first; it != range.second; ++it){
+    double tmp=distance_metric_curve(*query.first,*it->second.first,distance_metric_vector);
+    if(minn>tmp){//if this is a better neighbor
+      minn=tmp;
+      ans=it->second.first;
+    }
+    //TODO 3L early abandonment
+  }
+
+  return make_pair(ans,minn);
+}
+
+pair<my_curve*, double> random_projection_curve::find_NN(my_curve &query,
+                  double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
+                  double(*distance_metric_vector)(my_vector&, my_vector&)){
+  my_curve *ans;
+  double minn=DBL_MAX;
+  my_vector *vector_query=gridify_and_padd(query);
+  auto range = hash_table->equal_range(hash_function(*vector_query));//returns all possible NNs
+  delete vector_query;
+  for(auto it = range.first; it != range.second; ++it){
+    double tmp=distance_metric_curve(query,*it->second.first,distance_metric_vector);
+    if(minn>tmp){//if this is a better neighbor
+      minn=tmp;
+      ans=it->second.first;
+    }
+    //TODO 3L early abandonment
+  }
+
+  return make_pair(ans,minn);
+}
+
+list<my_curve*>* random_projection_curve::find_rNN(my_curve &query, double r,
+                        double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
+                        double(*distance_metric_vector)(my_vector&, my_vector&)){
+  list<my_curve*> *ans=new list<my_curve*>;
+  my_vector *vector_query=gridify_and_padd(query);
+  auto range = hash_table->equal_range(hash_function(*vector_query));//returns all possible NNs
+  for(auto it = range.first; it != range.second; ++it){
+    double tmp=distance_metric_curve(query, *it->second.first,distance_metric_vector);
+    if(tmp<=r)//if point has <=r distance
+      ans->push_back(it->second.first);
+  }
+
+  ans->unique();
+  return ans;
+}
+
+my_vector* random_projection_curve::gridify_and_padd(my_curve& curve){
+  my_vector* tmp=gridhashfunctions->gridify(curve);
+  my_vector* final_vector=padd(*tmp,max_curve_sz*curve.vectordimentions);//TODO add specialchar
+  delete tmp;
+  return final_vector;
+}
+
+my_vector* padd(my_vector &c, unsigned int length, double specialchar){//FIXEME iparxi ke sto lsh.cpp antigrafi epikolisi. na ton baloume se kino arxio i kati tetio
+  if(length<=c.dim){
+      cout<<"\n\n!!ERROR pad not big enought!!\n\n";
+      exit(1);
+  }
+  my_vector* padded_vector = new my_vector(length);
+  unsigned int i = 0;
+  for (i = 0; i < c.dim; i++) {
+    padded_vector->coordinates[i] = c.coordinates[i];
+  }
+  for(;i<length;i++){
+    padded_vector->coordinates[i] = specialchar;
+  }
+  return padded_vector;
+}
+
+//--------------------------------------------------- OTHER
 
 //returns prev_mask changed by one bit
 int next_mask(int prev_mask){
