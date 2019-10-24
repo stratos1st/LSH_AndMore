@@ -11,8 +11,9 @@ class traversal_projection{
     const unsigned int max_sz;
     std::pair<unsigned int, unsigned int> **all_pairs;
     std::list<std::list<std::pair<unsigned int, unsigned int>*>*> ***big_table;
-    std::list <my_curve> *data;
-    lsh_curve ***lsh_table;
+    std::list<my_curve> *data;
+    std::list<my_vector*> data2;//TODO make it * //FIXEME needs deletion myvector*
+    std::list<lsh_curve*> **lsh_table;
 
   public:
     traversal_projection(unsigned int _max_sz=5);

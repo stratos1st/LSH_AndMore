@@ -199,6 +199,9 @@ void lsh_curve::train(list<pair<my_curve*, my_vector*>> *train_data_set){
 pair<my_curve*, double> lsh_curve::find_NN(pair<my_curve*,my_vector*> &query,
                   double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
                   double(*distance_metric_vector)(my_vector&, my_vector&)){
+  #if DEBUG
+  cout<<"entering lsh_curve::find_NN\n";
+  #endif
   my_curve *ans;
   double minn=DBL_MAX;
   for(unsigned int i=0;i<l;i++){

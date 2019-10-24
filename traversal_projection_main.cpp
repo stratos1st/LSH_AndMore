@@ -3,6 +3,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <string.h>
+#include <bits/stdc++.h>
 
 #include "my_curve.hpp"
 #include "util.hpp"
@@ -23,7 +24,7 @@ int main(int argc, char *argv[]){
 
   char input_file_data[100]("./.atomignore/trajectories_dataset_cut");
   char input_file_queries[100]("./.atomignore/queriecurve");
-  char out_file[100]("lsh_curves_out");
+  char out_file[100]("curve_projection_lsh_out");
   double r=0.0001;
 
   //------------------------------------parse arguments
@@ -76,27 +77,29 @@ int main(int argc, char *argv[]){
     exit(1);
   }
 
-  cout.setstate(ios::failbit);
+  // cout.setstate(ios::failbit);
   //------------------------------------read input files
   list <my_curve> *data1=read_curve_file(input_file_data);
   list <my_curve> *data=new list <my_curve>;
   for(auto it=data1->begin();it!=data1->end();++it)
     if(it->numofvectors<=MAX_CURVE_POINTS)
       data->push_back(*it);
+  data1->clear();
 
   list <my_curve> *queries1=read_curve_file(input_file_queries);
   list <my_curve> *queries=new list <my_curve>;
   for(auto it=queries1->begin();it!=queries1->end();++it)
     if(it->numofvectors<=MAX_CURVE_POINTS)
       queries->push_back(*it);
+  queries1->clear();
   cout<<"read files done\n";
 
-  cout.clear();
   //------------------------------------create and train model
   traversal_projection lsh_model(MAX_CURVE_POINTS);
   lsh_model.train(data);
-  cout<<"lsh training done!!\n";
+  cout<<"traversal_projection training done!!\n";
 
+  // cout.clear();
   //------------------------------------fill out file, running bruteNN and cubeNN
   double AF_max=0.0,AF_avg=0.0,AF;
   long int average_time=0;
@@ -114,11 +117,14 @@ int main(int argc, char *argv[]){
     auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 
     if(nn_brute.second==0.0){
-      cout<<"Warining: distance is ~=0! querry does not count\n";
-      total--;
+      cout<<"Warining: true distance is ~=0! querry "<<it->id<<" does not count\n";
+      continue;
     }
-    else
-      AF=nn_lsh.second/nn_brute.second;
+    if(nn_lsh.second==DBL_MAX){
+      cout<<"Warining: distance of lsh is ~=inf! querry "<<it->id<<" does not count\n";
+      continue;
+    }
+    AF=nn_lsh.second/nn_brute.second;
     AF_max=max(AF,AF_max);
     AF_avg+=AF;
     average_time+=duration_lsh.count();
