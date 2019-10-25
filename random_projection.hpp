@@ -49,16 +49,16 @@ class random_projection_vector:random_projection{
 
 class random_projection_curve:random_projection{
   private:
+    const double pad_number;
     const unsigned int max_curve_sz;
     GridHash* gridhashfunctions;
     std::unordered_multimap<long int,std::pair<my_curve*,my_vector*>> *hash_table;
     std::list<my_curve> *data;
-    std::list<std::pair<my_curve*,my_vector*>> *matching;
 
-    my_vector* gridify_and_padd(my_curve& curve);
+    my_vector* gridify_and_padd(my_curve& curve, double pad_value=99999.99999);
   public:
     random_projection_curve(unsigned int _max_curve_sz, const float _w=0.001,
-              const unsigned int _k=4, const unsigned int _new_d=4,
+              const unsigned int _k=4, const unsigned int _new_d=4, double _pad_number=99999.99999,
               const size_t _container_sz=9000, const size_t _f_container_sz=200,
               const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
     ~random_projection_curve();

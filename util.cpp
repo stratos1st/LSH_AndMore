@@ -194,8 +194,8 @@ list <my_curve>* read_curve_file(string name, unsigned int max_curve_points){
 }
 
 my_vector* padd(my_vector &c, unsigned int length, double specialchar){
-  if(length<=c.dim){
-      cout<<"\n\n!!ERROR pad not big enought!!\n\n";
+  if(length<c.dim){
+      cout<<"\n\n!!ERROR pad len not big enought!!\n\n";
       exit(1);
   }
   my_vector* padded_vector = new my_vector(length);

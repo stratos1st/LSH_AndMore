@@ -90,7 +90,7 @@ void random_projection_vector::train(list <my_vector> *train_data_set){
 }
 
 pair<my_vector*, double> random_projection_vector::find_NN(my_vector &query,
-                          double(*distance_metric)(my_vector&, my_vector&),
+                          double(*distance_metric)(my_vector&, my_vector&),//takes defaulf manhatan
                           unsigned int max_points, unsigned int prodes){
   my_vector *ans;
   double minn=DBL_MAX;
@@ -143,17 +143,17 @@ list<my_vector*>* random_projection_vector::find_rNN(my_vector &query, double r,
 }
 
 //--------------------------------------------------- random_projection_curve
-random_projection_curve::random_projection_curve(unsigned int _max_curve_sz, const float _w, const unsigned int _k, const unsigned int _new_d,
+random_projection_curve::random_projection_curve(unsigned int _max_curve_sz, const float _w,
+          const unsigned int _k, const unsigned int _new_d, double _pad_number,
           const size_t _container_sz, const size_t _f_container_sz,
           const unsigned int _m):random_projection(_w,_k,_new_d,_container_sz,_f_container_sz,_m),
-          max_curve_sz(_max_curve_sz){
+          pad_number(_pad_number),max_curve_sz(_max_curve_sz){
   #if DEBUG
   cout<<"Constructing random_projection_curve"<<'\n';
   #endif
   hash_table=new unordered_multimap<long int, pair<my_curve*,my_vector*>>;
   hash_table->reserve(_container_sz);
 
-  matching=NULL;
   gridhashfunctions=NULL;
   data=NULL;
 }
@@ -162,6 +162,11 @@ random_projection_curve::~random_projection_curve(){
   #if DEBUG
   cout<<"Destructing random_projection_curve"<<'\n';
   #endif
+
+  //!!! if training is not done then SEGGMENTATION
+  for(auto it=hash_table->begin();it!=hash_table->end();++it)
+    delete it->second.second;
+
   hash_table->clear();
   delete hash_table;
   if(data!=NULL){
@@ -170,12 +175,6 @@ random_projection_curve::~random_projection_curve(){
   }
   if(gridhashfunctions!=NULL)
     delete gridhashfunctions;
-  if(matching!=NULL){
-      for(auto it=matching->begin();it!=matching->end();++it)
-        delete it->second;
-      matching->clear();
-      delete matching;
-  }
 
 }
 
@@ -187,7 +186,6 @@ void random_projection_curve::train(list<my_curve> *train_data_set){
   data=new list<my_curve>(*train_data_set);
 
   gridhashfunctions = new GridHash(data->begin()->vectordimentions);
-  matching=new list<pair<my_curve*,my_vector*>>;
 
   //create f_i table
   table_f_i=new f_i*[new_d];
@@ -196,7 +194,6 @@ void random_projection_curve::train(list<my_curve> *train_data_set){
 
   for(auto it=data->begin();it!=data->end();++it){
       my_vector* final_vector=gridify_and_padd(*it);
-      matching->push_back(make_pair(&*it, final_vector));
       hash_table->insert({hash_function(*final_vector),make_pair(&*it, final_vector)});
 
   }
@@ -208,14 +205,12 @@ void random_projection_curve::train(list<pair<my_curve*, my_vector*>> *train_dat
   #endif
   data=NULL;
 
-  matching=new list<pair<my_curve*,my_vector*>>(*train_data_set);
-
   //create f_i table
   table_f_i=new f_i*[new_d];
   for(unsigned int j=0;j<new_d;j++)
-    table_f_i[j]=new f_i(matching->front().second->dim,w,k,f_container_sz,m);
+    table_f_i[j]=new f_i(train_data_set->front().second->dim,w,k,f_container_sz,m);
 
-  for(auto it=matching->begin();it!=matching->end();++it)
+  for(auto it=train_data_set->begin();it!=train_data_set->end();++it)
       hash_table->insert({hash_function(*it->second),*it});
 }
 
@@ -278,9 +273,9 @@ list<my_curve*>* random_projection_curve::find_rNN(my_curve &query, double r,
   return ans;
 }
 
-my_vector* random_projection_curve::gridify_and_padd(my_curve& curve){
+my_vector* random_projection_curve::gridify_and_padd(my_curve& curve, double pad_value){
   my_vector* tmp=gridhashfunctions->gridify(curve);
-  my_vector* final_vector=padd(*tmp,max_curve_sz*curve.vectordimentions);//TODO add specialchar
+  my_vector* final_vector=padd(*tmp,max_curve_sz*curve.vectordimentions,pad_value);
   delete tmp;
   return final_vector;
 }

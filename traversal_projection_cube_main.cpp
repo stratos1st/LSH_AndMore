@@ -81,11 +81,15 @@ int main(int argc, char *argv[]){
   //------------------------------------read input files
   list <my_curve> *data=read_curve_file(input_file_data,MAX_CURVE_POINTS);
   list <my_curve> *queries=read_curve_file(input_file_queries,MAX_CURVE_POINTS);
+  int new_d=-1;
+  if(new_d==-1){
+    new_d=log2(data->size());
+    cout<<"default d'= "<<new_d<<endl;
+  }
   cout<<"read files done\n";
-
   //------------------------------------create and train model
   traversal_projection<random_projection_curve> lsh_model(MAX_CURVE_POINTS);
-  lsh_model.train_cube(data,MAX_CURVE_POINTS);
+  lsh_model.train_cube(data,MAX_CURVE_POINTS,0.001,4,new_d,99999.9999,100,100,250);
   cout<<"traversal_projection<random_projection_curve> training done!!\n";
 
   // cout.clear();

@@ -24,7 +24,8 @@ int main(int argc, char *argv[]){
   //k is the k from g(x)
   //new_d is the d' from random projection aka k in arguments
   //w is the window in h
-  int k=4,max_curve_points=10,prodes=25,m=99999999,l=5;
+  int k=4,prodes=25,m=99999999,l=5;
+  unsigned int max_curve_points;
   float w=0.001;
   GridHash::delta=0.002;//defaultvalue
 
@@ -106,7 +107,7 @@ int main(int argc, char *argv[]){
   cout<<"reading files done!!\n";
 
   //------------------------------------create and train model
-  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),max_curve_points,l,w,k,lsh_container_size,m);
+  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),max_curve_points+1,l,w,k,9999.9999,lsh_container_size,m);
   lsh_model.train(data);
   cout<<"lsh_curve training done!!\n";
   //------------------------------------loop

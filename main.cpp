@@ -18,7 +18,7 @@ using namespace std;
 my_vector* multiply(my_curve& G,my_vector& U){//my curve is an array of its points
 //check of matrix copatipility
   if(G.vectordimentions != U.dim){
-    //cout smth
+    cout<<"\n\n!! ERROR multiply G*U fault !!\n\n";
     exit(1);
   }
   //initializing the result of the multiplication

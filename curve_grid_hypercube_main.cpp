@@ -108,7 +108,7 @@ int main(int argc, char *argv[]){
   cout<<"reading files done!!\n";
 
   //------------------------------------create and train model
-  random_projection_curve cube_model(max_curve_points,w,k,new_d,cube_container_size,f_container_sz,m);
+  random_projection_curve cube_model(max_curve_points,w,k,new_d,99999.99999,cube_container_size,f_container_sz,m);
   cube_model.train(data);
   cout<<"random_projection_curve training done!!\n";
   //------------------------------------loop
