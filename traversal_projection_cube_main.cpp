@@ -19,9 +19,8 @@ using namespace std;
 
 int main(int argc, char *argv[]){
   //w is the window in h
-  int k=4,new_d=-1,m=999999,max_points=INT_MAX,prodes=20;//w not needed by project as argument. w should be float
-  float w=0.001;
-  size_t f_container_sz=200,cube_container_size=100;//not needed by project
+  int k=4, l=5,w=4000,m=3;//w not needed by project as argument. w should be float
+  size_t lsh_container_size=9000;//not needed by project
 
   char input_file_data[100]("./.atomignore/trajectories_dataset_cut");
   char input_file_queries[100]("./.atomignore/queriecurve");
@@ -30,7 +29,7 @@ int main(int argc, char *argv[]){
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:m:f:c"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:L:o:w:r:m:c:"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -40,7 +39,10 @@ int main(int argc, char *argv[]){
         strcpy(input_file_queries,optarg);
         break;
       case 'k':
-        new_d=atoi(optarg);
+        k=atoi(optarg);
+        break;
+      case 'L':
+        l=atoi(optarg);
         break;
       case 'o':
         strcpy(out_file,optarg);
@@ -48,37 +50,26 @@ int main(int argc, char *argv[]){
       case 'w':
         w=atoi(optarg);
         break;
-      case 'M':
-        max_points=atoi(optarg);
-        break;
-      case 'p':
-        prodes=atoi(optarg);
-        break;
       case 'r':
         r=atoi(optarg);
         break;
       case 'm':
         m=atoi(optarg);
         break;
-      case 'f':
-        f_container_sz=atoi(optarg);
-        break;
       case 'c':
-        cube_container_size=atoi(optarg);
+        lsh_container_size=atoi(optarg);
         break;
       default:
         cout<<"!! WRONG ARGUMENTS !!\n";
         exit(1);
     }
   }
-
-  //------------------------------------info passed
   cout<<"program running with:\n\tdata_file= "<<input_file_data<<
     "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
-    "\n\td'= "<<new_d<<"\n\tm= "<<m<<"\n\tM= "<<max_points<<"\n\tprodes= "<<prodes
-    <<"\n\tw= "<<w<<"\n\tk= "<<k<<"\n\tr= "<<r<<"\n\tcube_container_sz= "<<
-    cube_container_size<<"\n\tf_container_sz= "<<f_container_sz<<endl<<endl;
+    "\n\tk= "<<k<<"\n\tl= "<<l<<"\n\tw= "<<w<<"\n\tm= "<<m<<"\n\tr= "<<r
+    <<"\n\tf_container_sz= "<<lsh_container_size<<endl<<endl;
 
+  //------------------------------------create out file
   ofstream ofile;
   ofile.open(out_file);
   if(!ofile.is_open()){
@@ -90,15 +81,11 @@ int main(int argc, char *argv[]){
   //------------------------------------read input files
   list <my_curve> *data=read_curve_file(input_file_data,MAX_CURVE_POINTS);
   list <my_curve> *queries=read_curve_file(input_file_queries,MAX_CURVE_POINTS);
-  if(new_d==-1){
-    new_d=log2(data->size());
-    cout<<"default d'= "<<new_d<<endl;
-  }
   cout<<"read files done\n";
 
   //------------------------------------create and train model
   traversal_projection<random_projection_curve> lsh_model(MAX_CURVE_POINTS);
-  lsh_model.train_cube(data,MAX_CURVE_POINTS,w,k,new_d,cube_container_size,f_container_sz,m);
+  lsh_model.train_cube(data,MAX_CURVE_POINTS);
   cout<<"traversal_projection<random_projection_curve> training done!!\n";
 
   // cout.clear();
@@ -109,12 +96,12 @@ int main(int argc, char *argv[]){
   using namespace std::chrono;
   for(list <my_curve> :: iterator it = queries->begin(); it != queries->end(); ++it){
     auto start = high_resolution_clock::now();
-    pair<my_curve*,double> nn_brute=brute_NN_curve(data,*it,Dtw);
+    pair<my_curve*,double> nn_brute=brute_NN_curve(data,*it,Dtw,manhattan_distance);
     auto stop = high_resolution_clock::now();
     auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
     start = high_resolution_clock::now();
-    pair<my_curve*,double> nn_lsh=lsh_model.find_NN(*it,Dtw);
+    pair<my_curve*,double> nn_lsh=lsh_model.find_NN(*it,Dtw,manhattan_distance);
     stop = high_resolution_clock::now();
     auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 

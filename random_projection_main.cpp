@@ -18,10 +18,10 @@ int main(int argc, char *argv[]){
   //k is the k from g(x)
   //new_d is the d' from random projection aka k in arguments
   //w is the window in h
-  double w=4000;
+  float w=4000;
   int k=4,new_d=-1,max_points=INT_MAX,prodes=25,m=3;
   //w not needed by projectas argument. w should be float
-  double r=1000;
+  float r=1000;
   size_t f_container_sz=200,cube_container_size=9000;//not needed by project
   char input_file_data[100]("");//./.atomignore/input_small_id
   char input_file_queries[100]("");//./.atomignore/query_small_id
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
         strcpy(out_file,optarg);
         break;
       case 'w':
-        w=atoi(optarg);
+        w=atof(optarg);
         break;
       case 'M':
         max_points=atoi(optarg);
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
         prodes=atoi(optarg);
         break;
       case 'r':
-        r=atoi(optarg);
+        r=atof(optarg);
         break;
       case 'm'://-----
         m=atoi(optarg);
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]){
     average_time/=total;
     average_time_true/=total;
     cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\naverage_time=\t\t"<<average_time<<" nanoseconds\navarage_time_true=\t"<<average_time_true<<" nanoseconds\n";
-    //------------------------------------rerunning the program
+    //------------------------------------change input
 
     std::cout << "Would you like to run Cube for another queryset (y/n)" << '\n';
     std::cin >> option;

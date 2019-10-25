@@ -27,4 +27,28 @@ c:preallocation μεταβλητη για να μειωσει τον χρονο 
 
 
 (B11) lsh_main_curves.cpp
-(B12) curve_grid_hypercube_main.cpp
+d:  ""
+q:  ""
+L:  ""
+o:  ""
+w:  ""
+M:  MAX_CURVE_POINTS οταν διαβαζω απο αρχειο
+p:  τα probes default =25
+r:  δεν χρησιμοποιειται σε αυτα τα ερωτηματα
+m:  ""
+c:  container size του lsh_curves
+D:  delta
+
+(B12) curve_grid_hypercube_main.cpp:
+d:""
+q:""
+k: αυτο το ορισμα ειναι οι διαστασεις του υπερκυβου
+o:""
+w:""
+M:MAX_CURVE_POINTS οταν διαβαζω απο αρχειο
+p:""
+r:δεν χρησιμοποιειται σε αυτα τα ερωτηματα
+m:""
+f:""
+c:""
+D: delta

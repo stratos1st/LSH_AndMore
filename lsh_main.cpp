@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
     char input_file_data[100]("");//./.atomignore/input_small_id
   char input_file_queries[100]("");//./.atomignore/query_small_id
   char out_file[100]("lsh_out");
-  double r=1000;
+  float r=1000;
 
   //------------------------------------parse arguments
   int opt;
@@ -44,10 +44,10 @@ int main(int argc, char *argv[]){
         strcpy(out_file,optarg);
         break;
       case 'w':
-        w=atoi(optarg);
+        w=atof(optarg);
         break;
       case 'r':
-        r=atoi(optarg);
+        r=atof(optarg);
         break;
       case 'm':
         m=atoi(optarg);
