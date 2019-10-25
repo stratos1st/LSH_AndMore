@@ -30,7 +30,6 @@ double Dtw( my_curve& x, my_curve& y, double(*distance_metric)(my_vector&, my_ve
     for(unsigned int j=1;j<=m;j++)
       OptValue[i][j]=min(min(OptValue[i][j-1],OptValue[i-1][j]),OptValue[i-1][j-1])+distance_metric(x.get_vector(i-1), y.get_vector(j-1));
   //manhattan_distance is iterchangable with other norms
-  //TODO return 1 opt solution
   return OptValue[n][m];
 }
 
@@ -192,4 +191,20 @@ list <my_curve>* read_curve_file(string name, unsigned int max_curve_points){
 
   infile.close();
   return data;
+}
+
+my_vector* padd(my_vector &c, unsigned int length, double specialchar){
+  if(length<=c.dim){
+      cout<<"\n\n!!ERROR pad not big enought!!\n\n";
+      exit(1);
+  }
+  my_vector* padded_vector = new my_vector(length);
+  unsigned int i = 0;
+  for (i = 0; i < c.dim; i++) {
+    padded_vector->coordinates[i] = c.coordinates[i];
+  }
+  for(;i<length;i++){
+    padded_vector->coordinates[i] = specialchar;
+  }
+  return padded_vector;
 }

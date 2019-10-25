@@ -5,7 +5,6 @@
 
 #include "random_projection.hpp"
 #include "util.hpp"
-#include "lsh.hpp"//FIXME den prepi na ine edo to ebala gia tin gridify_and_padd
 
 #define DEBUG 0
 
@@ -118,29 +117,32 @@ pair<my_vector*, double> random_projection_vector::find_NN(my_vector &query,
 list<my_vector*>* random_projection_vector::find_rNN(my_vector &query, double r,
                     double(*distance_metric)(my_vector&, my_vector&),
                     unsigned int max_points, unsigned int prodes){
-  list<my_vector*> *ans=new list<my_vector*>;
+  set<my_vector*> tmpset;
   unsigned long int* search_hash_numbers=get_search_buckets(hash_function(query),prodes,new_d);
   for(unsigned int j=0;j<prodes;j++){//serch all search_hash_numbers
     auto range = hash_table->equal_range(search_hash_numbers[j]);//returns all possible NNs
     for(auto it = range.first; it != range.second; ++it){
       double tmp=distance_metric(query, *it->second);
       if(tmp<=r)//if point has <=r distance
-        ans->push_back(it->second);
+        tmpset.insert(it->second);
       max_points--;
       if(max_points==0){//if max_points reached
         delete[] search_hash_numbers;
-        ans->unique();
+        list<my_vector*> *ans=new list<my_vector*>;
+        for(auto kk=tmpset.begin();kk!=tmpset.end();++kk)
+          ans->push_back(*kk);
         return ans;
       }
     }
   }
   delete[] search_hash_numbers;
-  ans->unique();
+  list<my_vector*> *ans=new list<my_vector*>;
+  for(auto kk=tmpset.begin();kk!=tmpset.end();++kk)
+    ans->push_back(*kk);
   return ans;
 }
 
 //--------------------------------------------------- random_projection_curve
-// double GridHash::delta = 0.09;//TODO from function parameter
 random_projection_curve::random_projection_curve(unsigned int _max_curve_sz, const float _w, const unsigned int _k, const unsigned int _new_d,
           const size_t _container_sz, const size_t _f_container_sz,
           const unsigned int _m):random_projection(_w,_k,_new_d,_container_sz,_f_container_sz,_m),
@@ -217,8 +219,6 @@ void random_projection_curve::train(list<pair<my_curve*, my_vector*>> *train_dat
       hash_table->insert({hash_function(*it->second),*it});
 }
 
-//FIXME unique ALL OF THEM ans->unique();
-
 pair<my_curve*, double> random_projection_curve::find_NN(pair<my_curve*,my_vector*> &query,
                   double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
                   double(*distance_metric_vector)(my_vector&, my_vector&)){
@@ -263,16 +263,18 @@ pair<my_curve*, double> random_projection_curve::find_NN(my_curve &query,
 list<my_curve*>* random_projection_curve::find_rNN(my_curve &query, double r,
                         double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
                         double(*distance_metric_vector)(my_vector&, my_vector&)){
-  list<my_curve*> *ans=new list<my_curve*>;
+  set<my_curve*> tmpset;
   my_vector *vector_query=gridify_and_padd(query);
   auto range = hash_table->equal_range(hash_function(*vector_query));//returns all possible NNs
   for(auto it = range.first; it != range.second; ++it){
     double tmp=distance_metric_curve(query, *it->second.first,distance_metric_vector);
     if(tmp<=r)//if point has <=r distance
-      ans->push_back(it->second.first);
+      tmpset.insert(it->second.first);
   }
 
-  ans->unique();
+  list<my_curve*> *ans=new list<my_curve*>;
+  for(auto kk=tmpset.begin();kk!=tmpset.end();++kk)
+    ans->push_back(*kk);
   return ans;
 }
 
@@ -282,22 +284,6 @@ my_vector* random_projection_curve::gridify_and_padd(my_curve& curve){
   delete tmp;
   return final_vector;
 }
-
-// my_vector* padd(my_vector &c, unsigned int length, double specialchar){//FIXEME iparxi ke sto lsh.cpp antigrafi epikolisi. na ton baloume se kino arxio i kati tetio
-//   if(length<=c.dim){
-//       cout<<"\n\n!!ERROR pad not big enought!!\n\n";
-//       exit(1);
-//   }
-//   my_vector* padded_vector = new my_vector(length);
-//   unsigned int i = 0;
-//   for (i = 0; i < c.dim; i++) {
-//     padded_vector->coordinates[i] = c.coordinates[i];
-//   }
-//   for(;i<length;i++){
-//     padded_vector->coordinates[i] = specialchar;
-//   }
-//   return padded_vector;
-// }
 
 //--------------------------------------------------- OTHER
 

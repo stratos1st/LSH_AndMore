@@ -125,7 +125,6 @@ void traversal_projection<lsh_curve>::train_lsh(list<my_curve> *train_data_set,
     for(unsigned int j=0;j<max_sz;j++)
       for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
         lsh_table[i][j].push_back(new lsh_curve(data->begin()->vectordimentions,2+i+j-1,_l,_w,_k,_container_sz,_m));
-        //TODO parameters from outside
   }
 
   //search all data fo curves mikous i+1 and push them into same_curves
@@ -172,7 +171,6 @@ void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *
     for(unsigned int j=0;j<max_sz;j++)
       for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
         lsh_table[i][j].push_back(new random_projection_curve(2+i+j-1,_w,_k,_new_d,_container_sz,_f_container_sz,_m));
-        //TODO parameters from outside
   }
 
   //search all data fo curves mikous i+1 and push them into same_curves
@@ -204,7 +202,7 @@ void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *
 template<class T>
 std::pair<my_curve*, double> traversal_projection<T>::find_NN(my_curve &query,
                 double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
-                double(*distance_metric_vector)(my_vector&, my_vector&)){//TODO pass distance_metric_curve to findNN
+                double(*distance_metric_vector)(my_vector&, my_vector&)){
   #if DEBUG
   cout<<"entering traversal_projection::find_NN\n";
   #endif

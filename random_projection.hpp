@@ -11,6 +11,9 @@
 #include "f_i.hpp"
 #include "util.hpp"
 
+extern int next_mask(int prev_mask);
+extern unsigned long int* get_search_buckets(unsigned int x, unsigned int prodes, unsigned int new_d);
+
 class random_projection{
   protected:
     const float w;
@@ -71,6 +74,5 @@ class random_projection_curve:random_projection{
                     double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
                     double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
 };
-
 
 #endif

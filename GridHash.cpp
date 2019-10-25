@@ -59,8 +59,9 @@ GridHash::GridHash(unsigned int dimentions){
   //randomly generate t vector
   // Initializing of uniform_real_distribution class
   t=new my_vector(dimentions);
-  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-  default_random_engine generator (seed);
+  auto seed_t=chrono::system_clock::now().time_since_epoch();
+  auto seed_m=chrono::duration_cast<chrono::nanoseconds>(seed_t);
+  default_random_engine generator (seed_m.count());
   uniform_real_distribution<double> distribution(0, delta);
   for (unsigned int i = 0; i < dimentions; i++) {
     double shift = distribution(generator);

@@ -34,8 +34,9 @@ my_vector* multiply(my_curve& G,my_vector& U){//my curve is an array of its poin
 }
 
 my_curve* random_array(unsigned int k,unsigned int d){
-  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();//FIXME seed ALL
-  std::default_random_engine generator (seed);
+  auto seed_t=chrono::system_clock::now().time_since_epoch();
+  auto seed_m=chrono::duration_cast<chrono::nanoseconds>(seed_t);
+  std::default_random_engine generator (seed_m.count());
   std::normal_distribution<double> distribution (0.0,1.0);
   my_curve* new_array = new my_curve(k,d);
   new_array->id=99999;// for debug

@@ -14,9 +14,8 @@ f_i::f_i(unsigned int dimentions, const float _w,
   cout<<"Constructing f_i"<<'\n';
   #endif
   //seeding generator
-  using namespace std::chrono;
-  auto seed_t=system_clock::now().time_since_epoch();
-  auto seed_m=duration_cast<nanoseconds>(seed_t);
+  auto seed_t=chrono::system_clock::now().time_since_epoch();
+  auto seed_m=chrono::duration_cast<chrono::nanoseconds>(seed_t);
   generator.seed(seed_m.count());
 
   dictionary.reserve(container_sz);
