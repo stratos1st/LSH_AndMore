@@ -128,28 +128,42 @@ lsh_curve::lsh_curve(unsigned int vector_dimentions, unsigned int _max_curve_sz,
 
   gridhashfunctions=NULL;
   data=NULL;
+  trained=false;
 }
 
 lsh_curve::~lsh_curve(){
   #if DEBUG
   cout<<"Destructing lsh_curve"<<'\n';
   #endif
-  for(unsigned int i=0;i<l;i++){
-    if(data!=NULL)
-      for(auto it=hash_table[i]->begin();it!=hash_table[i]->end();++it)
+  if(trained){
+    if(data==NULL){
+      for(auto it=hash_table[0]->begin();it!=hash_table[0]->end();++it)
         delete it->second.second;
-    hash_table[i]->clear();
-    delete hash_table[i];
+    }
+    else
+      for(unsigned int i=0;i<l;i++)
+        for(auto it=hash_table[i]->begin();it!=hash_table[i]->end();++it)
+          delete it->second.second;
+    for(unsigned int i=0;i<l;i++){
+      hash_table[i]->clear();
+      delete hash_table[i];
+    }
+    delete[] hash_table;
+    if(gridhashfunctions!=NULL){
+      for(unsigned int i=0;i<l;i++)
+        delete gridhashfunctions[i];
+      delete[] gridhashfunctions;
+    }
+    if(data!=NULL){
+      data->clear();
+      delete data;
+    }
   }
-  delete[] hash_table;
-  if(gridhashfunctions!=NULL){
-    for(unsigned int i=0;i<l;i++)
-      delete gridhashfunctions[i];
-    delete[] gridhashfunctions;
-  }
-  if(data!=NULL){
-    data->clear();
-    delete data;
+  else{
+    for(unsigned int i=0;i<l;i++){
+      hash_table[i]->clear();
+      delete hash_table[i];
+    }
   }
 }
 
@@ -157,6 +171,10 @@ void lsh_curve::train(list<my_curve> *train_data_set){
   #if DEBUG
   cout<<"Training lsh_curve"<<'\n';
   #endif
+  if(train_data_set->size()!=0)
+    trained=true;
+  else
+    return;
   gridhashfunctions = new GridHash*[l];
   for(unsigned int i=0;i<l;i++)
     gridhashfunctions[i]=new GridHash(train_data_set->begin()->vectordimentions);
@@ -175,7 +193,12 @@ void lsh_curve::train(list<pair<my_curve*, my_vector*>> *train_data_set){
   #if DEBUG
   cout<<"Training lsh_curve"<<'\n';
   #endif
+  if(train_data_set->size()!=0)
+    trained=true;
+  else
+    return;
   data=NULL;
+  gridhashfunctions=NULL;
 
   for(auto it=train_data_set->begin();it!=train_data_set->end();++it)
     for(unsigned int i=0;i<l;i++)

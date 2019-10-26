@@ -11,18 +11,13 @@
 
 #define DEBUG 0
 
-
-//TODO MAX_CURVE_POINTS from command lsh_container_size
-//TODO container sz experiments
-//TODO chagne DBL_MAX to inf maybe
-
 using namespace std;
 
 int main(int argc, char *argv[]){
   //k is the k from g(x)
   //new_d is the d' from random projection aka k in arguments
   //w is the window in h
-  int k=4,new_d=-1,max_curve_points=50,prodes=20,m=150;
+  int k=4,new_d=-1,max_curve_points=0,prodes=20,m=150;
   float w=0.001;
   //w not needed by projectas argument. w should be float
   //double r=0.0001;

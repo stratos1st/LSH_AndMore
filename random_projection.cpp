@@ -154,6 +154,7 @@ random_projection_curve::random_projection_curve(unsigned int _max_curve_sz, con
   hash_table=new unordered_multimap<long int, pair<my_curve*,my_vector*>>;
   hash_table->reserve(_container_sz);
 
+  trained=false;
   gridhashfunctions=NULL;
   data=NULL;
 }
@@ -162,19 +163,22 @@ random_projection_curve::~random_projection_curve(){
   #if DEBUG
   cout<<"Destructing random_projection_curve"<<'\n';
   #endif
-
-  //!!! if training is not done then SEGGMENTATION
-  for(auto it=hash_table->begin();it!=hash_table->end();++it)
-    delete it->second.second;
-
-  hash_table->clear();
-  delete hash_table;
-  if(data!=NULL){
-    data->clear();
-    delete data;
+  if(trained){
+    for(auto it=hash_table->begin();it!=hash_table->end();++it)
+      delete it->second.second;
+    hash_table->clear();
+    delete hash_table;
+    if(data!=NULL){
+      data->clear();
+      delete data;
+    }
+    if(gridhashfunctions!=NULL)
+      delete gridhashfunctions;
   }
-  if(gridhashfunctions!=NULL)
-    delete gridhashfunctions;
+  else{
+    hash_table->clear();
+    delete hash_table;
+  }
 
 }
 
@@ -182,6 +186,10 @@ void random_projection_curve::train(list<my_curve> *train_data_set){
   #if DEBUG
   cout<<"Training random_projection_curve"<<'\n';
   #endif
+  if(train_data_set->size()!=0)
+    trained=true;
+  else
+    return;
 
   data=new list<my_curve>(*train_data_set);
 
@@ -203,7 +211,12 @@ void random_projection_curve::train(list<pair<my_curve*, my_vector*>> *train_dat
   #if DEBUG
   cout<<"Training random_projection_curve"<<'\n';
   #endif
+  if(train_data_set->size()!=0)
+    trained=true;
+  else
+    return;
   data=NULL;
+  gridhashfunctions=NULL;
 
   //create f_i table
   table_f_i=new f_i*[new_d];

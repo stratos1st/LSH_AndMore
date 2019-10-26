@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
   int k=4, l=5,m=3;//w not needed by project as argument. w should be float
   size_t lsh_container_size=9000;//not needed by project
 
-    char input_file_data[100]("");//./.atomignore/input_small_id
+  char input_file_data[100]("");//./.atomignore/input_small_id
   char input_file_queries[100]("");//./.atomignore/query_small_id
   char out_file[100]("lsh_out");
   float r=1000;

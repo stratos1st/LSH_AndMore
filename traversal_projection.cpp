@@ -155,8 +155,7 @@ void traversal_projection<lsh_curve>::train_lsh(list<my_curve> *train_data_set,
 }
 
 template<>
-void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *train_data_set,
-                        unsigned int _max_curve_sz, const float _w,
+void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *train_data_set, const float _w,
                         const unsigned int _k, const unsigned int _new_d, const double _pad_number,
                         const size_t _container_sz, const size_t _f_container_sz, const unsigned int _m){
   #if DEBUG
@@ -172,7 +171,7 @@ void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *
     lsh_table[i]=new list<random_projection_curve*>[max_sz];
     for(unsigned int j=0;j<max_sz;j++)
       for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
-        lsh_table[i][j].push_back(new random_projection_curve(2+i+j-1,_w,_k,_new_d,_container_sz,_f_container_sz,_m));
+        lsh_table[i][j].push_back(new random_projection_curve(2+i+j-1,_w,_k,_new_d,9999.999,_container_sz,_f_container_sz,_m));
   }
 
   //search all data fo curves mikous i+1 and push them into same_curves
@@ -202,21 +201,21 @@ void traversal_projection<random_projection_curve>::train_cube(list <my_curve> *
 }
 
 template<class T>
-std::pair<my_curve*, double> traversal_projection<T>::find_NN(my_curve &query,
+std::pair<my_curve*, double> traversal_projection<T>::find_NN(my_curve &query, unsigned int window,
                 double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
                 double(*distance_metric_vector)(my_vector&, my_vector&)){
   #if DEBUG
   cout<<"entering traversal_projection::find_NN\n";
   #endif
 
-  int i=query.numofvectors-1,j=i;
+  long int i,j=query.numofvectors-1;
 
   my_curve* ans;
   double minn=DBL_MAX;
 
-  for(int k=-1;k<=1;k++){
+  for(long int k=-1*(signed long int)window;k<=(signed long int)window;k++){//
     i=query.numofvectors-1+k;
-    if(i==-1 || i==max_sz)
+    if(i<0 || i>=(signed long int)max_sz)
       continue;
     auto ij=lsh_table[i][j].begin();
     for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it){
@@ -289,7 +288,7 @@ my_unordered_set *get_diagonal(unsigned int x_sz, unsigned int y_sz){
 }
 
 //reteurns a unordered_set containing the squares of the diagonal and y+-1
-my_unordered_set *get_diagonal_plus(my_unordered_set *traversals_diagonal,unsigned int y_sz, unsigned int how_manny_plus=2){
+my_unordered_set *get_diagonal_plus(my_unordered_set *traversals_diagonal,unsigned int y_sz, unsigned int how_manny_plus=1){
   my_unordered_set plus1;
   my_unordered_set minus1;
 

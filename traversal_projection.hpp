@@ -26,13 +26,12 @@ class traversal_projection{
                             const double _pad_number=9999.9999,
                             const unsigned int _m=pow(2,32)-5);
 
-    void train_cube(std::list <my_curve> *train_data_set,
-                            unsigned int _max_curve_sz, const float _w=0.001,
+    void train_cube(std::list <my_curve> *train_data_set, const float _w=0.001,
                             const unsigned int _k=4, const unsigned int _new_d=3,
                             const double _pad_number=9999.9999,const size_t _container_sz=100,
                             const size_t _f_container_sz=100,
                             const unsigned int _m=pow(2,32)-5);
-    std::pair<my_curve*, double> find_NN(my_curve &query,
+    std::pair<my_curve*, double> find_NN(my_curve &query, unsigned int window=1,
                     double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
                     double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
     void print_big_table();

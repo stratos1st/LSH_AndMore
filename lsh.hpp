@@ -42,6 +42,7 @@ class lsh_curve:lsh{
   private:
     const double pad_number;
     const unsigned int max_curve_sz;
+    bool trained;
     GridHash** gridhashfunctions;
     std::unordered_multimap<long int,std::pair<my_curve*,my_vector*>> **hash_table;
     std::list<my_curve> *data;

@@ -13,23 +13,21 @@
 
 #define MAX_CURVE_POINTS 5
 //TODO MAX_CURVE_POINTS from command lsh_container_size
-//TODO container sz experiments
 
 using namespace std;
 
 int main(int argc, char *argv[]){
   //w is the window in h
-  int k=4, l=5,w=4000,m=3;//w not needed by project as argument. w should be float
+  int k=4, l=5,w=4000,m=99999;//w not needed by project as argument. w should be float
   size_t lsh_container_size=9000;//not needed by project
 
   char input_file_data[100]("./.atomignore/trajectories_dataset_cut");
   char input_file_queries[100]("./.atomignore/queriecurve");
   char out_file[100]("curve_projection_lsh_out");
-  double r=0.0001;
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:r:m:c:"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:L:o:w:m:c:"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -50,9 +48,6 @@ int main(int argc, char *argv[]){
       case 'w':
         w=atoi(optarg);
         break;
-      case 'r':
-        r=atoi(optarg);
-        break;
       case 'm':
         m=atoi(optarg);
         break;
@@ -66,7 +61,7 @@ int main(int argc, char *argv[]){
   }
   cout<<"program running with:\n\tdata_file= "<<input_file_data<<
     "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file<<
-    "\n\tk= "<<k<<"\n\tl= "<<l<<"\n\tw= "<<w<<"\n\tm= "<<m<<"\n\tr= "<<r
+    "\n\tk= "<<k<<"\n\tl= "<<l<<"\n\tw= "<<w<<"\n\tm= "<<m
     <<"\n\tf_container_sz= "<<lsh_container_size<<endl<<endl;
 
   //------------------------------------create out file
@@ -89,7 +84,7 @@ int main(int argc, char *argv[]){
   cout<<"read files done\n";
   //------------------------------------create and train model
   traversal_projection<random_projection_curve> lsh_model(MAX_CURVE_POINTS);
-  lsh_model.train_cube(data,MAX_CURVE_POINTS,0.001,4,new_d,99999.9999,100,100,250);
+  lsh_model.train_cube(data,4000,4,new_d,99999.9999,100,100,m);
   cout<<"traversal_projection<random_projection_curve> training done!!\n";
 
   // cout.clear();
@@ -105,7 +100,7 @@ int main(int argc, char *argv[]){
     auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
     start = high_resolution_clock::now();
-    pair<my_curve*,double> nn_lsh=lsh_model.find_NN(*it,Dtw,manhattan_distance);
+    pair<my_curve*,double> nn_lsh=lsh_model.find_NN(*it,1,Dtw,manhattan_distance);
     stop = high_resolution_clock::now();
     auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 
@@ -128,20 +123,17 @@ int main(int argc, char *argv[]){
     ofile<<"distanceTrue: "<<nn_brute.second<<endl;
     ofile<<"tLSH: "<<duration_lsh.count()<<endl;
     ofile<<"tTrue: "<<duration_brute.count()<<endl;
-    // ofile<<"R-near neighbors: "<<endl;
-
-    // list<my_curve*>* rNNs=lsh_model.find_rNN(*it,r,Dtw);
-    // for(list <my_curve*>::iterator it = rNNs->begin(); it != rNNs->end(); ++it)
-    //   ofile<<(*it)->id<<endl;
-    // rNNs->clear();
-    // delete rNNs;
 
     total++;
   }
 
-  AF_avg/=total;
-  average_time/=total;
-  cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
+  if(total!=0){
+    AF_avg/=total;
+    average_time/=total;
+    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\taverage_time= "<<average_time<<" nanoseconds\n";
+  }
+  else
+    cout<<"Found no ANN! plz change parameters\n";
 
   //------------------------------------clearing memmory
   ofile.close();
