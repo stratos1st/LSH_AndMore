@@ -12,7 +12,6 @@
 #define DEBUG 0
 
 #define MAX_CURVE_POINTS 6
-//TODO MAX_CURVE_POINTS from command lsh_container_size
 
 using namespace std;
 
@@ -20,7 +19,7 @@ int main(int argc, char *argv[]){
   //w is the window in h
   int k=4,l=5,m=999999;
   size_t lsh_container_size=100;//not needed by project
-  float w=0.01;
+  float w=0.00009;
 
   char input_file_data[100]("./.atomignore/trajectories_dataset_cut");
   char input_file_queries[100]("./.atomignore/queriecurve");
@@ -80,8 +79,8 @@ int main(int argc, char *argv[]){
   cout<<"read files done\n";
 
   //------------------------------------create and train model
-  traversal_projection<lsh_curve> lsh_model(MAX_CURVE_POINTS);
-  lsh_model.train_lsh(data,l,w,k,lsh_container_size,99999.99999,m);
+  traversal_projection_lsh lsh_model(MAX_CURVE_POINTS);
+  lsh_model.train(data,0.5,l,w,k,lsh_container_size,99999.99999,m);//pad erelevant
   cout<<"traversal_projection<lsh_curve> training done!!\n";
 
   // cout.clear();

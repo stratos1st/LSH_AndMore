@@ -103,7 +103,7 @@ int main(int argc, char *argv[]){
   cout<<"reading files done!!\n";
 
   //------------------------------------create and train model
-  random_projection_curve cube_model(max_curve_points,w,k,new_d,99999.99999,cube_container_size,f_container_sz,m);
+  random_projection_curve cube_model((double)max_curve_points,w,k,new_d,99999.99999,cube_container_size,f_container_sz,m);
   cube_model.train(data);
   cout<<"random_projection_curve training done!!\n";
   //------------------------------------loop
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]){
       auto duration_brute = duration_cast<nanoseconds>(stop - start);
 
       start = high_resolution_clock::now();
-      pair<my_curve*,double> nn_cube_gridcurves=cube_model.find_NN(*it,Dtw,manhattan_distance);
+      pair<my_curve*,double> nn_cube_gridcurves=cube_model.find_NN(*it,99999,prodes,Dtw,manhattan_distance);
       stop = high_resolution_clock::now();
       auto duration_lsh = duration_cast<nanoseconds>(stop - start);
 

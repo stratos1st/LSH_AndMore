@@ -51,27 +51,24 @@ class random_projection_curve:random_projection{
   private:
     bool trained;
     const double pad_number;
-    const unsigned int max_curve_sz;
+    const double max_curve_sz;
     GridHash* gridhashfunctions;
     std::unordered_multimap<long int,std::pair<my_curve*,my_vector*>> *hash_table;
     std::list<my_curve> *data;
 
     my_vector* gridify_and_padd(my_curve& curve, double pad_value=99999.99999);
   public:
-    random_projection_curve(unsigned int _max_curve_sz, const float _w=0.001,
+    random_projection_curve(double _max_curve_sz, const float _w=0.001,
               const unsigned int _k=4, const unsigned int _new_d=4, double _pad_number=9999.9999,
               const size_t _container_sz=9000, const size_t _f_container_sz=200,
               const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
     ~random_projection_curve();
     void train(std::list <my_curve> *train_data_set);
     void train(std::list <std::pair<my_curve*,my_vector*>> *train_data_set);
-    std::pair<my_curve*, double> find_NN(my_curve &query,
+    std::pair<my_curve*, double> find_NN(my_curve &query, unsigned int max_points, unsigned int prodes,
                     double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
                     double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
-    std::pair<my_curve*, double> find_NN(std::pair<my_curve*,my_vector*> &query,
-                    double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
-                    double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
-    std::list<my_curve*>* find_rNN(my_curve &query,  double r,
+    std::pair<my_curve*, double> find_NN(std::pair<my_curve*,my_vector*> &query, unsigned int max_points, unsigned int prodes,
                     double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&))=Dtw,
                     double(*distance_metric_vector)(my_vector&, my_vector&)=manhattan_distance);
 };

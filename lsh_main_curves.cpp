@@ -101,7 +101,7 @@ int main(int argc, char *argv[]){
   cout<<"reading files done!!\n";
 
   //------------------------------------create and train model
-  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),max_curve_points+1,l,w,k,9999.9999,lsh_container_size,m);
+  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),(double)max_curve_points+1,l,w,k,9999.9999,lsh_container_size,m);
   lsh_model.train(data);
   cout<<"lsh_curve training done!!\n";
   //------------------------------------loop

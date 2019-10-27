@@ -22,5 +22,7 @@ extern std::pair<my_curve*,double> brute_NN_curve(std::list <my_curve> *data, my
 extern std::list <my_curve>* read_curve_file(std::string name, unsigned int max_curve_points=5);
 //read all curves with <=max_curve_points. if max_curve_points==0 read all curves
 extern my_vector* padd(my_vector &c, unsigned int length, double specialchar);
+extern my_curve* random_array(unsigned int k, unsigned int d);
+extern my_vector* multiply(my_curve& G, my_vector& U);
 
 #endif

@@ -143,7 +143,7 @@ list<my_vector*>* random_projection_vector::find_rNN(my_vector &query, double r,
 }
 
 //--------------------------------------------------- random_projection_curve
-random_projection_curve::random_projection_curve(unsigned int _max_curve_sz, const float _w,
+random_projection_curve::random_projection_curve(double _max_curve_sz, const float _w,
           const unsigned int _k, const unsigned int _new_d, double _pad_number,
           const size_t _container_sz, const size_t _f_container_sz,
           const unsigned int _m):random_projection(_w,_k,_new_d,_container_sz,_f_container_sz,_m),
@@ -227,63 +227,57 @@ void random_projection_curve::train(list<pair<my_curve*, my_vector*>> *train_dat
       hash_table->insert({hash_function(*it->second),*it});
 }
 
-pair<my_curve*, double> random_projection_curve::find_NN(pair<my_curve*,my_vector*> &query,
-                  double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
-                  double(*distance_metric_vector)(my_vector&, my_vector&)){
-  #if DEBUG
-  cout<<"entering random_projection_curve::find_NN\n";
-  #endif
-  my_curve *ans;
-  double minn=DBL_MAX;
-  auto range = hash_table->equal_range(hash_function(*query.second));//returns all possible NNs
-  for(auto it = range.first; it != range.second; ++it){
-    double tmp=distance_metric_curve(*query.first,*it->second.first,distance_metric_vector);
-    if(minn>tmp){//if this is a better neighbor
-      minn=tmp;
-      ans=it->second.first;
-    }
-    //TODO 3L early abandonment
-  }
-
-  return make_pair(ans,minn);
-}
-
-pair<my_curve*, double> random_projection_curve::find_NN(my_curve &query,
+pair<my_curve*, double> random_projection_curve::find_NN(pair<my_curve*,my_vector*> &query, unsigned int max_points, unsigned int prodes,
                   double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
                   double(*distance_metric_vector)(my_vector&, my_vector&)){
   my_curve *ans;
   double minn=DBL_MAX;
-  my_vector *vector_query=gridify_and_padd(query);
-  auto range = hash_table->equal_range(hash_function(*vector_query));//returns all possible NNs
-  delete vector_query;
-  for(auto it = range.first; it != range.second; ++it){
-    double tmp=distance_metric_curve(query,*it->second.first,distance_metric_vector);
-    if(minn>tmp){//if this is a better neighbor
-      minn=tmp;
-      ans=it->second.first;
+  unsigned long int* search_hash_numbers=get_search_buckets(hash_function(*query.second),prodes,new_d);
+  for(unsigned int j=0;j<prodes;j++){//serch all search_hash_numbers
+    auto range = hash_table->equal_range(search_hash_numbers[j]);//returns all possible NNs
+    for(auto it = range.first; it != range.second; ++it){
+      double tmp=distance_metric_curve(*query.first, *it->second.first,distance_metric_vector);
+      if(minn>tmp){//if this is a better neighbor
+        minn=tmp;
+        ans=it->second.first;
+      }
+      max_points--;
+      if(max_points==0){//if max_points reached
+        delete[] search_hash_numbers;
+        return make_pair(ans,minn);
+      }
     }
-    //TODO 3L early abandonment
   }
-
+  delete[] search_hash_numbers;
   return make_pair(ans,minn);
+
 }
 
-list<my_curve*>* random_projection_curve::find_rNN(my_curve &query, double r,
-                        double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
-                        double(*distance_metric_vector)(my_vector&, my_vector&)){
-  set<my_curve*> tmpset;
-  my_vector *vector_query=gridify_and_padd(query);
-  auto range = hash_table->equal_range(hash_function(*vector_query));//returns all possible NNs
-  for(auto it = range.first; it != range.second; ++it){
-    double tmp=distance_metric_curve(query, *it->second.first,distance_metric_vector);
-    if(tmp<=r)//if point has <=r distance
-      tmpset.insert(it->second.first);
+pair<my_curve*, double> random_projection_curve::find_NN(my_curve &query, unsigned int max_points, unsigned int prodes,
+                  double (*distance_metric_curve)(my_curve&, my_curve&, double(*distance_metric_vector)(my_vector&, my_vector&)),
+                  double(*distance_metric_vector)(my_vector&, my_vector&)){
+  my_curve *ans;
+  double minn=DBL_MAX;
+  my_vector* final_vector=gridify_and_padd(query);
+  unsigned long int* search_hash_numbers=get_search_buckets(hash_function(*final_vector),prodes,new_d);
+  delete final_vector;
+  for(unsigned int j=0;j<prodes;j++){//serch all search_hash_numbers
+    auto range = hash_table->equal_range(search_hash_numbers[j]);//returns all possible NNs
+    for(auto it = range.first; it != range.second; ++it){
+      double tmp=distance_metric_curve(query, *it->second.first,distance_metric_vector);
+      if(minn>tmp){//if this is a better neighbor
+        minn=tmp;
+        ans=it->second.first;
+      }
+      max_points--;
+      if(max_points==0){//if max_points reached
+        delete[] search_hash_numbers;
+        return make_pair(ans,minn);
+      }
+    }
   }
-
-  list<my_curve*> *ans=new list<my_curve*>;
-  for(auto kk=tmpset.begin();kk!=tmpset.end();++kk)
-    ans->push_back(*kk);
-  return ans;
+  delete[] search_hash_numbers;
+  return make_pair(ans,minn);
 }
 
 my_vector* random_projection_curve::gridify_and_padd(my_curve& curve, double pad_value){
