@@ -18,10 +18,12 @@ int main(int argc, char *argv[]){
   //k is the k from g(x)
   //new_d is the d' from random projection aka k in arguments
   //w is the window in h
-  int k=4,prodes=25,m=99999999,l=5;
+  int k=4,m=99999999,l=5;
   unsigned int max_curve_points=0;
   float w=0.001;
   GridHash::delta=0.002;//defaultvalue
+  double pad_num = 9999.9999;
+  unsigned int pad_length = 500;
 
   //double r=0.0001;//used for bonus not required by project
   size_t lsh_container_size=100;//not needed by project
@@ -32,7 +34,7 @@ int main(int argc, char *argv[]){
 
   //------------------------------------parse arguments
   int opt;
-  while((opt = getopt(argc, argv, "d:q:k:L:o:w:M:p:r:m:c:D:"))!=-1){
+  while((opt = getopt(argc, argv, "d:q:k:L:o:w:p:r:m:c:D:s:n:l:"))!=-1){
     switch(opt){
       case 'd':
         cout<<optarg<<endl;
@@ -53,11 +55,11 @@ int main(int argc, char *argv[]){
       case 'w':
         w=atof(optarg);
         break;
-      case 'M':
+      case 's'://max points to read
         max_curve_points=atoi(optarg);
         break;
-      case 'p':
-        prodes=atoi(optarg);
+      case 'l':
+        pad_length=atoi(optarg);
         break;
       // case 'r':
       //   r=atoi(optarg);
@@ -70,6 +72,9 @@ int main(int argc, char *argv[]){
         break;
       case 'D':
         GridHash::delta=atof(optarg);
+        break;
+      case 'n':
+        pad_num=atof(optarg);
         break;
       default:
         cout<<"!! WRONG ARGUMENTS !!\n";
@@ -101,7 +106,7 @@ int main(int argc, char *argv[]){
   cout<<"reading files done!!\n";
 
   //------------------------------------create and train model
-  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),(double)max_curve_points+1,l,w,k,9999.9999,lsh_container_size,m);
+  lsh_curve lsh_model(data->front().vectors[0]->get_dimentions(),pad_length,l,w,k,pad_num,lsh_container_size,m);
   lsh_model.train(data);
   cout<<"lsh_curve training done!!\n";
   //------------------------------------loop
@@ -111,9 +116,16 @@ int main(int argc, char *argv[]){
     //------------------------------------info passed
     cout<<"program running with:\n\tdata_file= "<<input_file_data<<
       "\n\tquery_file= "<<input_file_queries<<"\n\tout_file= "<<out_file
-      <<"\n\tm= "<<m<<"\n\tM= "<<max_curve_points<<"\n\tprodes= "<<prodes
-      <<"\n\tw= "<<w<<"\n\tk= "<<k/*<<"\n\tr= "<<r*/<<"\n\tlsh_container_size= "<<
-      lsh_container_size<<"\n\tdelta= "<<GridHash::delta<<endl;
+      <<"\n\tm= "<<m
+      <<"\n\tL= "<<l
+      <<"\n\ts= "<<max_curve_points
+      <<"\n\tw= "<<w
+      <<"\n\tk= "<<k/*<<"\n\tr= "<<r*/
+      <<"\n\tlsh_container_size= "<<lsh_container_size
+      <<"\n\tdelta= "<<GridHash::delta
+      <<"\n\tpad_num="<<pad_num
+      <<"\n\tpad_length="<<pad_length
+      <<endl;
 
     //------------------------------------fill out file, running bruteNN and cubeNN
     double AF_max=0.0,AF_avg=0.0,AF;
@@ -163,10 +175,14 @@ int main(int argc, char *argv[]){
       total++;
     }
 
-    AF_avg/=total;
-    average_time/=total;
-    average_time_true/=total;
-    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\naverage_time=\t\t"<<average_time<<" nanoseconds\naverage_time_true=\t"<<average_time_true<<" nanoseconds\n";
+    if(total!=0){
+      AF_avg/=total;
+      average_time/=total;
+      average_time_true/=total;
+      cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\naverage_time=\t\t"<<average_time<<" nanoseconds\naverage_time_true=\t"<<average_time_true<<" nanoseconds\n";
+    }
+    else
+      cout<<"Found no ANN! plz change parameters\n";
     //------------------------------------change input
 
     std::cout << "Would you like to run LSH_CURVES for another queryset (y/n)" << '\n';

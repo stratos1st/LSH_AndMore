@@ -121,8 +121,7 @@ void traversal_projection_lsh::train(list<my_curve> *train_data_set, double e,
     lsh_table[i]=new list<lsh_curve*>[max_sz];
     for(unsigned int j=0;j<max_sz;j++)
       for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
-        lsh_table[i][j].push_back(new lsh_curve(data->begin()->vectordimentions,
-                                    ((double)G->numofvectors/(double)data->begin()->vectordimentions)*(double)(2+i+j-1)
+        lsh_table[i][j].push_back(new lsh_curve(data->begin()->vectordimentions, 2+i+j-1
                                     ,_l,_w,_k,9999.999,_container_sz,_m));
   }
 
@@ -226,7 +225,7 @@ void traversal_projection_cube::train(list <my_curve> *train_data_set, double e,
     cube_table[i]=new list<random_projection_curve*>[max_sz];
     for(unsigned int j=0;j<max_sz;j++)
       for(auto it=big_table[i][j]->begin();it!=big_table[i][j]->end();++it)
-        cube_table[i][j].push_back(new random_projection_curve(((double)G->numofvectors/(double)data->begin()->vectordimentions)*(double)(2+i+j-1)
+        cube_table[i][j].push_back(new random_projection_curve(2+i+j-1
                                             ,_w,_k,_new_d,9999.999,_container_sz,_f_container_sz,_m));
   }
 
@@ -291,6 +290,33 @@ pair<my_curve*, double> traversal_projection_cube::find_NN(my_curve &query,
 
 //----------------------------------------------- OTHER
 
+// pair<my_curve*,my_vector*> traversal_projection::project_traversal_to_vector(my_curve* curve,
+//                   list<pair<unsigned int,unsigned int>*>* traversal, bool is_query){
+//   #if DEBUG
+//   cout<<"entering project_traversal_to_vector for"<<curve->vectordimentions<<"d curve with "
+//   <<curve->numofvectors<<" points and traversal: \n";
+//   for(auto it=traversal->begin();it!=traversal->end();++it)
+//     cout<<(*it)->first<<","<<(*it)->second<<" ";
+//   cout<<endl;
+//   #endif
+//   my_vector *concat_vector=new my_vector(traversal->size()*G->numofvectors);
+//   concat_vector->id=curve->id;
+//
+//   unsigned int indx=0;
+//   my_vector *product;
+//   for(auto it=traversal->begin();it!=traversal->end();++it){
+//     if(!is_query)
+//       product=multiply(*G,*curve->vectors[(*it)->first]);
+//     else
+//       product=multiply(*G,*curve->vectors[(*it)->second]);
+//     for(unsigned int j=0;j<G->numofvectors;j++)
+//         concat_vector->coordinates[indx++]=product->coordinates[j];
+//     delete product;
+//   }
+//
+//   return make_pair(curve,concat_vector);
+// }
+
 pair<my_curve*,my_vector*> traversal_projection::project_traversal_to_vector(my_curve* curve,
                   list<pair<unsigned int,unsigned int>*>* traversal, bool is_query){
   #if DEBUG
@@ -300,21 +326,15 @@ pair<my_curve*,my_vector*> traversal_projection::project_traversal_to_vector(my_
     cout<<(*it)->first<<","<<(*it)->second<<" ";
   cout<<endl;
   #endif
-  my_vector *concat_vector=new my_vector(traversal->size()*G->numofvectors);
+  my_vector *concat_vector=new my_vector(traversal->size()*curve->vectordimentions);
   concat_vector->id=curve->id;
-
   unsigned int indx=0;
-  my_vector *product;
-  for(auto it=traversal->begin();it!=traversal->end();++it){
-    if(!is_query)
-      product=multiply(*G,*curve->vectors[(*it)->first]);
-    else
-      product=multiply(*G,*curve->vectors[(*it)->second]);
+  for(auto it=traversal->begin();it!=traversal->end();++it)
     for(unsigned int j=0;j<curve->vectordimentions;j++)
-        concat_vector->coordinates[indx++]=product->coordinates[j];
-    delete product;
-  }
-
+      if(!is_query)
+        concat_vector->coordinates[indx++]=curve->vectors[(*it)->first]->coordinates[j];//TODO *D
+      else
+        concat_vector->coordinates[indx++]=curve->vectors[(*it)->second]->coordinates[j];//TODO *D
   return make_pair(curve,concat_vector);
 }
 

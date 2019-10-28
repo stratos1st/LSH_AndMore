@@ -138,11 +138,14 @@ int main(int argc, char *argv[]){
       total++;
     }
 
-    AF_avg/=total;
-    average_time/=total;
-    average_time_true/=total;
-
-    cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\naverage_time=\t\t"<<average_time<<" nanoseconds\navarage_time_true=\t"<<average_time_true<<" nanoseconds\n";
+    if(total!=0){
+      AF_avg/=total;
+      average_time/=total;
+      average_time_true/=total;
+      cout<<"AF_max= "<<AF_max<<"\tAF_avg= "<<AF_avg<<"\naverage_time=\t\t"<<average_time<<" nanoseconds\navarage_time_true=\t"<<average_time_true<<" nanoseconds\n";
+    }
+    else
+      cout<<"Found no ANN! plz change parameters\n";
 
     //------------------------------------change input
 

@@ -41,7 +41,7 @@ class lsh_vector:lsh{
 class lsh_curve:lsh{
   private:
     const double pad_number;
-    const double max_curve_sz;
+    const unsigned int max_curve_sz;
     bool trained;
     GridHash** gridhashfunctions;
     std::unordered_multimap<long int,std::pair<my_curve*,my_vector*>> **hash_table;
@@ -49,7 +49,7 @@ class lsh_curve:lsh{
 
     my_vector* gridify_and_padd(my_curve& curve, unsigned int iteration, double pad_value=999999.999999);
   public:
-    lsh_curve(unsigned int vector_dimentions, double _max_curve_sz, const unsigned int _l=10, const float _w=4000,
+    lsh_curve(unsigned int vector_dimentions, unsigned int _max_curve_sz, const unsigned int _l=10, const float _w=4000,
               const unsigned int _k=4, const double _pad_number=9999.9999, const size_t _container_sz=90,
               const unsigned int _m=pow(2,32)-5);//_container_sz is the unordered_multimap initial sz
     ~lsh_curve();

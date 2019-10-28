@@ -113,7 +113,7 @@ list<my_vector*>* lsh_vector::find_rNN(my_vector &query, double r, double (*dist
 }
 
 //----------------------------------------------lsh_curve
-lsh_curve::lsh_curve(unsigned int vector_dimentions, double _max_curve_sz, const unsigned int _l, const float _w,
+lsh_curve::lsh_curve(unsigned int vector_dimentions, unsigned int _max_curve_sz, const unsigned int _l, const float _w,
           const unsigned int _k, const double _pad_number, const size_t _container_sz,
           const unsigned int _m):lsh(vector_dimentions*_max_curve_sz,_l,_w,_k,_m), pad_number(_pad_number),
           max_curve_sz(_max_curve_sz){

@@ -143,8 +143,8 @@ list<my_vector*>* random_projection_vector::find_rNN(my_vector &query, double r,
 }
 
 //--------------------------------------------------- random_projection_curve
-random_projection_curve::random_projection_curve(double _max_curve_sz, const float _w,
-          const unsigned int _k, const unsigned int _new_d, double _pad_number,
+random_projection_curve::random_projection_curve(double _max_curve_sz/*not used anywhere*/, const float _w,
+          const unsigned int _k, const unsigned int _new_d, double _pad_number/*not used anywhere*/,
           const size_t _container_sz, const size_t _f_container_sz,
           const unsigned int _m):random_projection(_w,_k,_new_d,_container_sz,_f_container_sz,_m),
           pad_number(_pad_number),max_curve_sz(_max_curve_sz){
@@ -198,7 +198,7 @@ void random_projection_curve::train(list<my_curve> *train_data_set){
   //create f_i table
   table_f_i=new f_i*[new_d];
   for(unsigned int j=0;j<new_d;j++)
-    table_f_i[j]=new f_i(max_curve_sz*data->front().vectordimentions,w,k,f_container_sz,m);
+    table_f_i[j]=new f_i(max_curve_sz*(double)data->front().vectordimentions,w,k,f_container_sz,m);
 
   for(auto it=data->begin();it!=data->end();++it){
       my_vector* final_vector=gridify_and_padd(*it);
